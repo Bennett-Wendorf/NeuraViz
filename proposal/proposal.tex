@@ -1,0 +1,93 @@
+\documentclass[letterpaper, 12pt]{report}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{fancyhdr,tocloft,natbib,url,graphicx,float,listings,sidecap,wrapfig}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{qtree,algorithm,algorithmic}
+\usepackage{array}
+\pagestyle{plain}
+\fancyhf{}
+\lhead{}
+\chead{}
+\rhead{}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		\vspace*{2in}
+		\begin{doublespace}
+			\LARGE \textbf{Proposal for MSE Capstone Project} \\
+            \vspace*{0.5in}
+			\large
+            \textbf{Project Title: A Generalized Web-Based Application for Neural Network Visualization} \\
+			\vspace*{0.5in}
+			\textbf{Student Name: Bennett Wendorf} \\
+            \textbf{Faculty Advisor: Dr. Jason Sauppe} \\
+            \textbf{Date of Submission: April 16, 2023} \\
+		\end{doublespace}
+	\end{center}
+\end{titlepage}
+
+\section*{A Generalized Web-Based Application for Neural Network Visualization}
+
+\subsection*{Objective}
+The primary goal of this project is to develop a web-based tool that will allow users to visualize neural networks. The tool will be designed to be as general as possible, users to visualize networks from multiple different machine learning frameworks, including TensorFlow, Keras, and PyTorch. 
+
+\subsection*{Background}
+Neural networks are notoriously difficult to visualize for students and experienced engineers alike due to their scale and complexity. There are a handful of existing tools for visualizing neural networks, but they are often limited in their scope. For example, TensorBoard is a tool developed by Google for visualizing TensorFlow models. However, TensorBoard is not compatible with Keras or PyTorch models. In addition, many existing solutions are only able to visualize the structure of specific kind of networks, and there is a lack of tools that can visualize the structure of many different types of networks, including simple feed-forward networks, convolutional neural networks, and recurrent neural networks. Finally, while existing solutions can visualize networks in a variety of ways, none of the tools researched were able to animate the visualizations in a way that would allow users to see how the network changes over time, as it would during the training process.
+
+\subsection*{Current Project}
+The current project focuses on developing an application that will allow users to visualize multiple different types of neural networks created using multiple popular machine learning frameworks. The final product must meet the following requirements:
+\begin{itemize}
+    \item Users must be able to upload models created using the specified frameworks.
+    \item The application must be able to visualize neural networks created using TensorFlow, Keras, and PyTorch, through the models uploaded by users.
+    \item At a minimum, the application must be able to visualize the structure of simple feed-forward networks.
+    \item The application must be able to visualize the structure of the network, as well as the weights and biases in the network.
+\end{itemize}
+Time permitting, the following features will be added to the application:
+\begin{itemize}
+    \item The application will be able to visualize the structure of convolutional neural networks.
+    \item The application will be able to animate the visualization of the network, allowing users to see how the network changes over time.
+    \item Add input sliders and text boxes to allow users to change the values of the inputs to the network and update the visualization in real time.
+    \item Export the configuration of the network to code to generate the network in the specified frameworks.
+    \item Export the network visualization or animation to a series of tikz graphs for use in LaTeX documents like class slides.
+    \item The application will be able to visualize the structure of recurrent neural networks.
+\end{itemize}
+
+\subsection*{Challenges}
+The following are primary challenges that are expected to be encountered during the development of the application:
+\begin{itemize}
+    \item Supporting multiple different model formats will require will require a complex model parser and a large amount of research into each of the frameworks.
+    \item Visualization of arbitrary networks is a complex graphical problem that will require either finding or building a complex graph building library.
+    \item Visualizing simple feed-forward networks is a relatively simple problem, but to be competitive, more complex network types must be supported.
+    \item Adding inputs and export of code will require a large amount of research into the frameworks and their APIs as well as well-standardized model representation in the application.
+\end{itemize}
+
+\subsection*{Project Schedule}
+\begin{center}
+    \begin{tabular}{ |m{16em}|m{7em}|m{7em}|m{4em}| }
+        \hline
+        \textbf{Phase} & \textbf{From} & \textbf{To} & \textbf{Credits} \\  
+        \hline
+        Develop requirements document and problem analysis & Sept 1, 2023 & Sept 31, 2023 & 1 \\
+        \hline
+        Learn PyTorch and produce MVP & Oct 1, 2023 & Dec 31, 2023 & 5 \\
+        \hline
+        Add stretch features & Jan 1, 2024 & Feb 31, 2024 & 3 \\
+        \hline
+        Refine and test & Mar 1, 2024 & Mar 31, 2024 & 2 \\
+        \hline
+        Demonstration and project report & Apr 1, 2024 & May 10, 2024 & 1 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\subsection*{Resources}
+The student will use his personal computer for development of the application. Application hosting will be determined as needed. Testing data will come from popular demo datasets, such as MNIST and Iris. 
+
+\end{document}
