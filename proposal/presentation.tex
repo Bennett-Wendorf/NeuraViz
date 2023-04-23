@@ -1,0 +1,80 @@
+\documentclass{beamer}
+\usetheme{Darmstadt}
+\usepackage{latexsym,fancyhdr,amsmath,amsfonts,amsthm,dsfont}
+\usepackage{tabularx}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{ {./res/} }
+\usepackage{color,latexsym,fancyhdr,amsmath,amsfonts,dsfont,amssymb, amsthm}
+%Information to be included in the title page:
+\title{A Generalized Web-Based Application for Neural Network Visualization}
+\author{Bennett Wendorf}
+\institute{University of Wisconsin - La Crosse}
+\date{April 16, 2023}
+ 
+\begin{document}
+ 
+\frame{\titlepage}
+ 
+\begin{frame}
+    \frametitle{1. Objective}
+    \begin{itemize}
+        \item Develop a web-based tool that will allow users to visualize neural networks
+        \item Generalized to allow models from frameworks like TensorFlow, Keras, and PyTorch
+    \end{itemize}
+    \vspace{1cm}
+    \centering
+    \includegraphics[scale=.25, width=.2\textwidth]{TF_FullColor_Icon.png}\hfill
+    \includegraphics[scale=.05, width=.2\textwidth]{768px-Keras_logo.png}\hfill
+    \includegraphics[scale=.25, width=.2\textwidth]{pytorch-logo-dark.png}
+\end{frame}
+    
+\begin{frame}
+    \frametitle{2. Background}
+    Existing Tools:
+    \begin{itemize}
+        \item TensorBoard
+        \item Netron
+        \item ENNUI
+    \end{itemize}
+    These tools lack support for multiple frameworks, different types of networks, and animation capabilities.
+\end{frame}
+ 
+\begin{frame}
+    \frametitle{3. Primary Goals} 
+    \begin{itemize}
+        \item Visualize networks from TensorFlow, Keras, and PyTorch models
+        \item Visualize simple feed-forward and convolutional neural networks
+        \item Visualize the overall structure, plus details like weights and biases 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{4. Stretch Goals} 
+    \begin{itemize}
+        \item Animations of the network's training
+        \item Inputs to generate custom networks and code for them
+        \item Export visualizations and animations to tikz graphs for \LaTeX 
+        \item Support for recurrent neural networks
+        \item Support for ML.NET and scikit-learn models
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{5. Challenges}
+    \begin{itemize}
+        \item Model parser complexity
+        \item Graph generation and visualization complexity
+        \item Complex network types (convolutional, etc.) are needed to be competitive
+        \item Code export requires a deep understanding of the framework APIs
+        \item Animations are challenging, especially when generating programmatically
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Thank you}
+    Questions
+    \centering
+\end{frame}
+
+\end{document}
