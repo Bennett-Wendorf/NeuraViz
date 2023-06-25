@@ -6,10 +6,10 @@ poetry.lock
 .vscode/
 
 # Node modules
-/node_modules/
+node_modules/
 
 # Svelte build files
-/public/build/
+src/frontend/public/build/
 .DS_Store
 
 # Latex build files
