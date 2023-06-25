@@ -1,3 +1,17 @@
+# Lock files
+package-lock.json
+poetry.lock
+
+# VSCode config
+.vscode/
+
+# Node modules
+/node_modules/
+
+# Svelte build files
+/public/build/
+.DS_Store
+
 # Latex build files
 *.aux
 *.fdb_latexmk

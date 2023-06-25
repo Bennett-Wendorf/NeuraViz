@@ -14,15 +14,30 @@
 
             - ISC License (Functionally equivalent to MIT)
 
+        ### [Axios](https://axios-http.com)
+
+            - Client-side HTTP library
+            - MIT License
+
         ### Flowbite Svelte OR DaisyUI
             
             #### [Flowbite Svelte](https://flowbite-svelte.com/)
 
                 - MIT License
 
+                ##### [Tailwind CSS](https://tailwindcss.com/)
+
+                    - MIT License
+
+
             #### [DaisyUI](https://daisyui.com/)
 
                 - MIT License
+
+        ### Svelte Heros V2
+
+            - Apache 2.0
+            - Icon library
 
     ## Backend
 
@@ -30,17 +45,7 @@
 
             - Python License
 
-        ### [Django](https://www.djangoproject.com/)
+        ### [Flask](https://flask.palletsprojects.com)
 
             - A web framework for Python
             - BSD-3-clause License
-
-        ### [Django REST Framework](https://www.django-rest-framework.org)
-
-            - A REST API framework for Django
-            - BSD-3-clause License
-
-        ### [Whitenoise](https://whitenoise.readthedocs.io)
-
-            - A python library for serving static web files
-            - MIT License
