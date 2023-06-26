@@ -1,17 +1,17 @@
-from flask import Flask, send_from_directory
+from quart import Quart, send_from_directory
 import random
 
-app = Flask(__name__)
+app = Quart(__name__)
 
 # Main page
 @app.route('/')
-def index():
-    return send_from_directory('../frontend/public', 'index.html')
+async def index():
+    return await send_from_directory('../frontend/public', 'index.html')
 
 # Static files
 @app.route('/<path:path>')
-def home(path):
-    return send_from_directory('../frontend/public', path)
+async def home(path):
+    return await send_from_directory('../frontend/public', path)
 
 @app.route('/api/rand')
 def rand():

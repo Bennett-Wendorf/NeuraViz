@@ -31,10 +31,13 @@
     function redraw(): void {
         // empty vis div
         d3.select(vis).html(null);  // determine width & height of parent element minus the margin
+
         width = d3.select(vis).node().getBoundingClientRect().width - margin.left - margin.right;
         height = d3.select(vis).node().getBoundingClientRect().height - margin.top - margin.bottom;  // init scales according to new width & height
+        
         xScale.range([0, width]);
         yScale.range([height, 0]);  // create svg and group that is translated by the margin
+        
         const svg = d3.select(vis)
             .append('svg')
             .attr('width', width + margin.left + margin.right)

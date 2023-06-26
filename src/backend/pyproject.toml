@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Flask = "^2.3.2"
+quart = "^0.18.4"
 
 
 [build-system]
