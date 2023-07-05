@@ -24,7 +24,6 @@ jobs:
                 ips: '${{ secrets.WIREGUARD_IPS }}'
                 allowed_ips: '${{ secrets.WIREGUARD_ALLOWED_IPS }}'
                 private_key: '${{ secrets.WIREGUARD_PRIVATE_KEY }}'
-                preshared_key: '${{ secrets.WIREGUARD_PRESHARED_KEY }}'
 
             - name: Set up SSH
               id: ssh
@@ -35,6 +34,6 @@ jobs:
                 SSH_USER: ${{ secrets.SSH_USER }}
                 SSH_KEY: ${{ secrets.SSH_KEY }}
 
-            - name: Run Commands Over SSH
+            - name: Run Build Script Over SSH
               run: ssh ${{ steps.ssh.outputs.SERVER }} "/home/${{ secrets.SSH_USER }}/${{ github.event.repository.name }}/src/build.sh"
 
