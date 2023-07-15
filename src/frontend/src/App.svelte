@@ -2,6 +2,7 @@
     import api from './utils/api'
     import {onMount} from 'svelte'
     import Graph from './components/Graph.svelte'
+    import { Spinner } from 'flowbite-svelte'
     
     let nodes: any[]
     let links: any[]
@@ -23,11 +24,11 @@
 </script>
 
 <main>
-    {#if nodes && links}
-        <Graph nodes={nodes} links={links} />
-    {:else}
-        <h1>Loading...</h1>
-    {/if}
+    <!-- {#if nodes && links} -->
+        <!-- <Graph nodes={nodes} links={links} /> -->
+    <!-- {:else} -->
+        <Spinner size={"14"}/>
+    <!-- {/if} -->
 </main>
 
 <style>

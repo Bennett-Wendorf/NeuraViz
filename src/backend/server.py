@@ -31,12 +31,12 @@ positionless_nodes = [
 # Main page
 @app.route('/')
 async def index():
-    return await send_from_directory('../frontend/public', 'index.html')
+    return await send_from_directory('../frontend/dist', 'index.html')
 
 # Static files
 @app.route('/<path:path>')
 async def home(path):
-    return await send_from_directory('../frontend/public', path)
+    return await send_from_directory('../frontend/dist', path)
 
 
 @app.route(f'{API_PREFIX}/graph')

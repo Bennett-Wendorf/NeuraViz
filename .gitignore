@@ -13,6 +13,7 @@ node_modules/
 
 # Svelte build files
 src/frontend/public/build/
+src/frontend/dist/
 .DS_Store
 
 # Latex build files
