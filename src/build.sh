@@ -6,6 +6,7 @@ git pull
 
 # Cleanup old build files
 rm -rf ./src/frontend/public/build
+rm -rf ./src/frontend/dist
 
 # Ensure frontend dependencies all exist
 cd frontend

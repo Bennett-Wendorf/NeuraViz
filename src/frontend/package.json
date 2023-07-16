@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "autobuild": "vite build --watch",
-    "dev": "vite",
+    "build": "DEV=off vite build",
+    "autobuild": "DEV=on vite build --watch",
+    "dev": "DEV=on vite",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -16,6 +16,7 @@
     "autoprefixer": "*",
     "postcss": "*",
     "postcss-load-config": "*",
+    "rollup-plugin-livereload": "^2.0.5",
     "svelte": "*",
     "svelte-check": "*",
     "tailwindcss": "*",

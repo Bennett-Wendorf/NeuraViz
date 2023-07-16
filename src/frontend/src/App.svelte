@@ -24,22 +24,19 @@
 </script>
 
 <main>
-    <!-- {#if nodes && links} -->
-        <!-- <Graph nodes={nodes} links={links} /> -->
-    <!-- {:else} -->
+    {#if nodes && links}
+        <Graph nodes={nodes} links={links} />
+    {:else}
         <Spinner size={"14"}/>
-    <!-- {/if} -->
+    {/if}
 </main>
 
 <style>
     main {
-        height: 100%;
+        height: 100vh;
+        width: 100vw;
 		display: flex;
-    }
-
-    @media (min-width: 640px) {
-        main {
-            max-width: none;
-        }
+        justify-content: center;
+        align-items: center;
     }
 </style>
