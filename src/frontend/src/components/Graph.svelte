@@ -1,6 +1,8 @@
 <script lang="ts">
     import * as d3 from 'd3';
+    import { Button } from 'flowbite-svelte';
     import { afterUpdate } from 'svelte';
+    import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
 
     export let nodes: any[]
     export let links: any[]
@@ -34,29 +36,36 @@
     let width: number;
     let height: number;
 
+    let svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+
+    let zoom: d3.ZoomBehavior<Element, unknown>;
+
     function redraw(): void {
-
-        console.log('redrawing...')
-        console.log(nodes)
-        console.log(links)
-
         // empty vis div
         d3.select(vis).html(null);  
-        
+
         // determine width & height of parent element minus the margin
         width = d3.select(vis).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
-        height = d3.select(vis).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;  
-        
+        height = d3.select(vis).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+
+        zoom = d3.zoom()
+            .on("zoom", function(event) {
+                group.attr("transform", event.transform);
+            })
+
         // create svg and group that is translated by the margin
-        const svg = d3.select(vis)
+        svg = d3.select(vis)
             .append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .attr("viewBox", [-width / 2, -height / 2, width, height])
-                .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
+                .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+                .call(zoom)
+
+        var group = svg.append("g")
 
         // Links
-        svg.append("g")
+        group.append("g")
             .attr("stroke", LINK_FORMAT.stroke)
             .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
             .attr("stroke-width", LINK_FORMAT.strokeWidth)
@@ -70,7 +79,7 @@
             .attr('y2', (l) => nodes[l.target].y * POSITION_SCALE_FACTOR)
 
         // Nodes
-        svg.append("g")
+        group.append("g")
                 .attr("fill", NODE_FORMAT.fill)
                 .attr("stroke", NODE_FORMAT.stroke)
                 .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
@@ -83,6 +92,18 @@
                 .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
     }
 
+    const panCenter = () => {
+        svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+    }
+
+    const zoomIn = () => {
+        svg.transition().call(zoom.scaleBy, 1.2);
+    }
+
+    const zoomOut = () => {
+        svg.transition().call(zoom.scaleBy, .8);
+    }
+
     afterUpdate(() => {
         redraw();
         window.addEventListener('resize', redraw);
@@ -91,6 +112,24 @@
 
 <div id="vis" class="graph" bind:this={vis} />
 
+<div id="pan-center">
+    <Button pill class="!p-2" size="xl" on:click={panCenter}>
+        <MapPin />
+    </Button>
+</div>
+
+<div id="zoom-in">
+    <Button pill class="!p-2" size="xl" on:click={zoomIn}>
+        <MagnifyingGlassPlus />
+    </Button>
+</div>
+
+<div id="zoom-out">
+    <Button pill class="!p-2" size="xl" on:click={zoomOut}>
+        <MagnifyingGlassMinus />
+    </Button>
+</div>
+
 <style>
     .graph {
         width: 100%;
@@ -98,5 +137,23 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    #pan-center {
+        position: absolute;
+        bottom: 10rem;
+        right: 2rem;
+    }
+
+    #zoom-in {
+        position: absolute;
+        bottom: 6em;
+        right: 2rem;
+    }
+
+    #zoom-out {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
     }
 </style>

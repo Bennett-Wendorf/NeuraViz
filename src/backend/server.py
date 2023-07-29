@@ -53,10 +53,10 @@ def generate_links(nodes: list):
 def position_nodes(nodes: list):
     positioned_nodes = []
 
-    middle_layer_index = len(nodes) / 2
+    middle_layer_index = (len(nodes) - 1) / 2
     for index, layer in enumerate(nodes):
         layer_offset = (index - middle_layer_index) * LAYER_MARGIN
-        middle_node_index = len(layer) / 2
+        middle_node_index = (len(layer) - 1) / 2
         for node_index, node in enumerate(layer):
             node_offset = (node_index - middle_node_index) * NODE_MARGIN
             positioned_nodes.append({"id": node["id"], "x": layer_offset, "y": node_offset})
