@@ -1,8 +1,9 @@
 <script lang="ts">
     import * as d3 from 'd3';
-    import { Button } from 'flowbite-svelte';
+    import { Button, Spinner } from 'flowbite-svelte';
     import { afterUpdate } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
+    import { fade } from 'svelte/transition';
 
     export let nodes: any[]
     export let links: any[]
@@ -31,7 +32,7 @@
         strokeLinecap: 'round'
     }
 
-    let vis: HTMLDivElement;
+    let graph: HTMLDivElement;
 
     let width: number;
     let height: number;
@@ -40,13 +41,16 @@
 
     let zoom: d3.ZoomBehavior<Element, unknown>;
 
-    function redraw(): void {
+    function redraw(nodes: any[], links: any[]): void {
+        if (graph == null)
+            return;
+
         // empty vis div
-        d3.select(vis).html(null);  
+        d3.select(graph).html(null);  
 
         // determine width & height of parent element minus the margin
-        width = d3.select(vis).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
-        height = d3.select(vis).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+        width = d3.select(graph).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
+        height = d3.select(graph).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
 
         zoom = d3.zoom()
             .on("zoom", function(event) {
@@ -54,7 +58,7 @@
             })
 
         // create svg and group that is translated by the margin
-        svg = d3.select(vis)
+        svg = d3.select(graph)
             .append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -105,12 +109,35 @@
     }
 
     afterUpdate(() => {
-        redraw();
-        window.addEventListener('resize', redraw);
+        redraw(nodes, links);
+        window.addEventListener('resize', () => redraw(nodes, links));
     })
+
+    $: redraw(nodes, links);
 </script>
 
-<div id="vis" class="graph" bind:this={vis} />
+<!--
+@component
+This component will render the provided nodes and 
+links as a pannable and zoomable graph.
+
+*nodes* - The nodes to render.
+
+*links* - The links to render.
+
+## Usage:
+    ```tsx
+        <Graph nodes={<nodeList>} links={<linkList>} />
+    ```
+-->
+
+{#if nodes && links}
+    <div id="graph" class="graph" bind:this={graph} in:fade />
+{:else}
+    <div id='spinner' out:fade>
+        <Spinner size='14' />   
+    </div>
+{/if}
 
 <div id="pan-center">
     <Button pill class="!p-2" size="xl" on:click={panCenter}>
@@ -137,6 +164,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    #graph, #spinner {
+        position: absolute;
     }
 
     #pan-center {

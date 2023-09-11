@@ -38,7 +38,6 @@ async def index():
 async def home(path):
     return await send_from_directory('../frontend/dist', path)
 
-
 @app.route(f'{API_PREFIX}/graph')
 def get_graph():
     return {"nodes": position_nodes(positionless_nodes), "links": generate_links(positionless_nodes)}
@@ -62,7 +61,6 @@ def position_nodes(nodes: list):
             positioned_nodes.append({"id": node["id"], "x": layer_offset, "y": node_offset})
 
     return positioned_nodes
-
 
 if __name__ == "__main__":
     app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # This prevents caching so that changes to the frontend are reflected immediately
