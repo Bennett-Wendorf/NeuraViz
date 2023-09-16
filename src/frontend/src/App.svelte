@@ -2,6 +2,7 @@
     import api from './utils/api'
     import {onMount} from 'svelte'
     import Graph from './components/Graph.svelte'
+    import Sidebar from './components/Sidebar.svelte'
     
     let nodes: any[]
     let links: any[]
@@ -23,7 +24,10 @@
 </script>
 
 <main>
-    <Graph nodes={nodes} links={links} />
+    <Sidebar />
+    <div id="graph_container">
+        <Graph nodes={nodes} links={links} />
+    </div>
 </main>
 
 <style>
@@ -33,5 +37,13 @@
 		display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    #graph_container {
+        width: 80vw;
+        height: 100vh;
+        flex-grow: 1;
+        flex-shrink: 1;
+        position: relative;
     }
 </style>

@@ -127,7 +127,7 @@ links as a pannable and zoomable graph.
 
 ## Usage:
     ```tsx
-        <Graph nodes={<nodeList>} links={<linkList>} />
+        <Graph nodes={nodeList} links={linkList} />
     ```
 -->
 
