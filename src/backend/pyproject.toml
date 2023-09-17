@@ -1,15 +1,18 @@
 [tool.poetry]
-name = "backend"
+name = "src"
 version = "0.1.0"
 description = ""
 authors = ["Bennett-Wendorf <bennettwendorf@gmail.com>"]
 license = "MIT"
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 quart = "^0.18.4"
+quart-schema = "^0.17.1"
 
+[tool.poetry.scripts]
+start = "src.api:run"
+dev = "src.api:run_dev"
 
 [build-system]
 requires = ["poetry-core"]
