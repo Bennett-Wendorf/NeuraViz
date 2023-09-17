@@ -3,12 +3,15 @@
     import { CheckCircle, XCircle } from 'svelte-heros-v2';
 
     let modelValid: boolean = true;
+    let validationClass: string;
+
+    $: validationClass = modelValid ? "text-success" : "text-error";
 </script>
 
 <div id="sidebar" color="secondary-background">
     <div class='sidebar-row'>
-        <Button color="primary">Select Model</Button>
-        <div id="model-validation" class="text-{modelValid ? 'success' : 'error' }">
+        <Button color="primary" on:click={() => modelValid = !modelValid}>Select Model</Button>
+        <div id="model-validation" class="{validationClass}">
             {#if modelValid}
                 <CheckCircle style="margin-right: 5px;"/>
             {:else}

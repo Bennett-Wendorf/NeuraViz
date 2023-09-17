@@ -45,5 +45,8 @@
         flex-grow: 1;
         flex-shrink: 1;
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
