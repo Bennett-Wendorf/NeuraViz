@@ -4,3 +4,4 @@ from dataclasses import dataclass
 class Link:
     source: int
     target: int
+    weight: float
