@@ -49,7 +49,7 @@ def generate_links(nodes: List[List[Node]]) -> List[Link]:
     links = []
     for layer in range(len(nodes) - 1):
         for node in range(len(nodes[layer])):
-            links.extend([Link(source = nodes[layer][node].id, target = nodes[layer + 1][i].id) for i in range(len(nodes[layer + 1]), weight = 1)])
+            links.extend([Link(source = nodes[layer][node].id, target = nodes[layer + 1][i].id, weight = 1) for i in range(len(nodes[layer + 1]))])
     return links
 
 def position_nodes(nodes: List[List[Node]]) -> List[Node]:
