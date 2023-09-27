@@ -4,14 +4,12 @@ import os
 
 # Quart
 from quart import Quart, send_from_directory
-from quart_schema import QuartSchema
 
 #Controllers
 from src.controllers.graph_controller import graph_controller_blueprint as graph_controller
 #endregion
 
 app = Quart(__name__)
-QuartSchema(app)
 
 DEBUG = False
 PORT = 5000

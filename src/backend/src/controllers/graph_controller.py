@@ -1,10 +1,12 @@
 #region Imports
 # System
 from typing import List
+import os
 
 # Quart
+import quart
 from quart import Blueprint
-from quart_schema import validate_request, validate_response
+from quart import request, abort
 
 # Models
 from src.models.graph.Node import Node
@@ -16,6 +18,12 @@ graph_controller_blueprint = Blueprint('graph_controller', __name__)
 
 LAYER_MARGIN = 2
 NODE_MARGIN = 1
+
+# TODO: Deal with project root path
+MODEL_UPLOAD_PATH = "model_uploads/"
+
+# TODO: Disallow md
+ALLOWED_EXTENSIONS = ['pth', 'md']
 
 positionless_nodes = [
     [
@@ -40,10 +48,32 @@ positionless_nodes = [
 ]
 
 
-@graph_controller_blueprint.get('/')
-@validate_response(Graph)
+@graph_controller_blueprint.post('/')
 async def get_graph():
-    return Graph(nodes = position_nodes(positionless_nodes), links = generate_links(positionless_nodes))
+    files = await request.files
+    if files:
+        file = files['files[]']
+
+        file_extension = file.filename.split('.')[-1]
+        if file_extension not in ALLOWED_EXTENSIONS:
+            print("Invalid file extension")
+            abort(400, "Invalid file extension")
+
+        match file_extension:
+            case 'pth':
+                await file.save(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
+                graph = Graph.from_pytorch(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
+                os.remove(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
+                if graph is None:
+                    print("Invalid file")
+                    abort(400, "Invalid file")
+                else:
+                    return {'graph': graph}, 200
+            case _:
+                return {'graph': Graph(nodes = position_nodes(positionless_nodes), links = generate_links(positionless_nodes))}, 200
+    else:
+        print("No file uploaded") # TODO: Log this
+        abort(400, "No file uploaded")
 
 def generate_links(nodes: List[List[Node]]) -> List[Link]:
     links = []

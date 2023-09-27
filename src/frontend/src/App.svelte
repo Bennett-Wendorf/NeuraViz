@@ -1,32 +1,13 @@
 <script lang="ts">
-    import api from './utils/api'
-    import {onMount} from 'svelte'
     import Graph from './components/Graph.svelte'
-    import Sidebar from './components/Sidebar.svelte'
-    
-    let nodes: any[]
-    let links: any[]
+    import Sidebar from './components/Sidebar/Sidebar.svelte'
 
-    function getGraph() {
-        api.get('/graph')
-            .then((res: any) => {
-                nodes = res.data.nodes
-                links = res.data.links
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
-    }
-
-    onMount(() => {
-        getGraph()
-    })
 </script>
 
 <main>
     <Sidebar />
     <div id="graph_container">
-        <Graph nodes={nodes} links={links} />
+        <Graph />
     </div>
 </main>
 

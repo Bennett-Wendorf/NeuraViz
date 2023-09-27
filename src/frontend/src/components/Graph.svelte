@@ -4,9 +4,11 @@
     import { afterUpdate } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
+    import { graph, uploading } from '../utils/stores';
 
-    export let nodes: any[]
-    export let links: any[]
+    let modelUploaded: boolean = false;
+
+    $: modelUploaded = $graph.nodes.length > 0 && $graph.links.length > 0;
 
     const POSITION_SCALE_FACTOR: number = 50
 
@@ -32,7 +34,7 @@
         strokeLinecap: 'round'
     }
 
-    let graph: HTMLDivElement;
+    let graph_div: HTMLDivElement;
 
     let width: number;
     let height: number;
@@ -42,15 +44,15 @@
     let zoom: d3.ZoomBehavior<Element, unknown>;
 
     function redraw(nodes: any[], links: any[]): void {
-        if (graph == null)
+        if (graph_div == null)
             return;
 
         // empty vis div
-        d3.select(graph).html(null);  
+        d3.select(graph_div).html(null);  
 
         // determine width & height of parent element minus the margin
-        width = d3.select(graph).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
-        height = d3.select(graph).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
+        width = d3.select(graph_div).node().getBoundingClientRect().width - MARGIN.left - MARGIN.right;
+        height = d3.select(graph_div).node().getBoundingClientRect().height - MARGIN.top - MARGIN.bottom;
 
         zoom = d3.zoom()
             .on("zoom", function(event) {
@@ -58,7 +60,7 @@
             })
 
         // create svg and group that is translated by the margin
-        svg = d3.select(graph)
+        svg = d3.select(graph_div)
             .append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -109,11 +111,11 @@
     }
 
     afterUpdate(() => {
-        redraw(nodes, links);
-        window.addEventListener('resize', () => redraw(nodes, links));
+        redraw($graph.nodes, $graph.links);
+        window.addEventListener('resize', () => redraw($graph.nodes, $graph.links));
     })
 
-    $: redraw(nodes, links);
+    $: redraw($graph.nodes, $graph.links);
 </script>
 
 <!--
@@ -131,28 +133,32 @@ links as a pannable and zoomable graph.
     ```
 -->
 
-{#if nodes && links}
-    <div id="graph" class="graph" bind:this={graph} in:fade />
-{:else}
+{#if $uploading}
     <div id='spinner' out:fade>
         <Spinner size='14' />   
+    </div>
+{:else if modelUploaded}
+    <div id="graph" class="graph" bind:this={graph_div} in:fade />
+{:else}
+    <div id='upload_text' out:fade>
+        <p class="text-xl">Please upload a model to continue...</p> 
     </div>
 {/if}
 
 <div id="pan-center">
-    <Button pill class="!p-2" size="xl" on:click={panCenter}>
+    <Button pill class="!p-2" size="xl" on:click={panCenter} disabled={!modelUploaded}>
         <MapPin />
     </Button>
 </div>
 
 <div id="zoom-in">
-    <Button pill class="!p-2" size="xl" on:click={zoomIn}>
+    <Button pill class="!p-2" size="xl" on:click={zoomIn} disabled={!modelUploaded}>
         <MagnifyingGlassPlus />
     </Button>
 </div>
 
 <div id="zoom-out">
-    <Button pill class="!p-2" size="xl" on:click={zoomOut}>
+    <Button pill class="!p-2" size="xl" on:click={zoomOut} disabled={!modelUploaded}>
         <MagnifyingGlassMinus />
     </Button>
 </div>

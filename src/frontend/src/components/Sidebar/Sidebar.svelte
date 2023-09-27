@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button } from 'flowbite-svelte';
-    import { CheckCircle, XCircle } from 'svelte-heros-v2';
+    import { DarkMode, Label } from 'flowbite-svelte';
+    import ModelUpload from './ModelUpload.svelte';
 
     let modelValid: boolean = true;
     let validationClass: string;
@@ -9,22 +9,18 @@
 </script>
 
 <div id="sidebar" color="secondary-background">
-    <div class='sidebar-row'>
-        <Button color="primary" on:click={() => modelValid = !modelValid}>Select Model</Button>
-        <div id="model-validation" class="{validationClass}">
-            {#if modelValid}
-                <CheckCircle style="margin-right: 5px;"/>
-            {:else}
-                <XCircle style="margin-right: 5px;"/>
-            {/if}
-            Model is {modelValid ? "" : "not "}valid
-        </div>
+    <div class='sidebar-row' style="flex-direction: column">
+        <ModelUpload/>
     </div>
-    <div>
+    <div class="mb-4">
         <p id="settings-label" class="leading-relaxed font-semibold text-3xl text-center dark:text-gray-400">
             Settings
         </p>
         <hr class="sidebar-divider"/>
+    </div>
+    <div class='sidebar-row'>
+        <DarkMode />
+        <Label for="dark-mode" class="m-auto ml-2 mr-2 text-white dark:text-gray-400">Dark Mode</Label>
     </div>
 </div>
 
@@ -42,14 +38,6 @@
         width: 100%;
         display: flex;
         justify-content: center;
-    }
-
-    #model-validation {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-        min-width: 190px;
     }
 
     #settings-label {
