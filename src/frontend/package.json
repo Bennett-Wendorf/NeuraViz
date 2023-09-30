@@ -11,9 +11,12 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@playwright/test": "^1.38.1",
     "@sveltejs/vite-plugin-svelte": "*",
     "@tsconfig/svelte": "*",
+    "@types/node": "^20.8.0",
     "autoprefixer": "*",
+    "playwright": "^1.38.1",
     "postcss": "*",
     "postcss-load-config": "*",
     "rollup-plugin-livereload": "^2.0.5",
