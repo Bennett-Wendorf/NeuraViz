@@ -2,6 +2,7 @@
 # System
 from typing import List
 import os
+from pathlib import Path
 
 # Quart
 import quart
@@ -19,8 +20,7 @@ graph_controller_blueprint = Blueprint('graph_controller', __name__)
 LAYER_MARGIN = 2
 NODE_MARGIN = 1
 
-# TODO: Deal with project root path
-MODEL_UPLOAD_PATH = "model_uploads/"
+MODEL_UPLOAD_PATH = (Path(__file__).parent.parent / "model_uploads/").resolve()
 
 # TODO: Disallow md
 ALLOWED_EXTENSIONS = ['pth', 'md']
