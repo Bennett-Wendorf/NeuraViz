@@ -79,10 +79,10 @@
         .selectAll("line")
         .data(links)
             .join("line")
-            .attr('x1', (l) => nodes[l.source].x * POSITION_SCALE_FACTOR)
-            .attr('y1', (l) => nodes[l.source].y * POSITION_SCALE_FACTOR)
-            .attr('x2', (l) => nodes[l.target].x * POSITION_SCALE_FACTOR)
-            .attr('y2', (l) => nodes[l.target].y * POSITION_SCALE_FACTOR)
+            .attr('x1', (l) => l.source.x * POSITION_SCALE_FACTOR)
+            .attr('y1', (l) => l.source.y * POSITION_SCALE_FACTOR)
+            .attr('x2', (l) => l.target.x * POSITION_SCALE_FACTOR)
+            .attr('y2', (l) => l.target.y * POSITION_SCALE_FACTOR)
 
         // Nodes
         group.append("g")

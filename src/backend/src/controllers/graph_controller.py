@@ -27,26 +27,25 @@ ALLOWED_EXTENSIONS = ['pth', 'md']
 
 positionless_nodes = [
     [
-        Node(id = 0, bias = 1),
-        Node(id = 1, bias = 1),
-        Node(id = 2, bias = 1),
-        Node(id = 3, bias = 1),
-        Node(id = 4, bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
     ], [
-        Node(id = 5, bias = 1),
-        Node(id = 6, bias = 1),
-        Node(id = 7, bias = 1),
-        Node(id = 8, bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
     ], [
-        Node(id = 9, bias = 1),
-        Node(id = 10, bias = 1),
-        Node(id = 11, bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
     ], [
-        Node(id = 12, bias = 1),
-        Node(id = 13, bias = 1),
+        Node(bias = 1),
+        Node(bias = 1),
     ]
 ]
-
 
 @graph_controller_blueprint.post('/')
 async def get_graph():
@@ -70,17 +69,20 @@ async def get_graph():
                 else:
                     return {'graph': graph}, 200
             case _:
-                return {'graph': Graph(nodes = position_nodes(positionless_nodes), links = generate_links(positionless_nodes))}, 200
+                # return {'graph': Graph(nodes = position_nodes(positionless_nodes), links = generate_links(positionless_nodes))}, 200
+                nodes = position_nodes(positionless_nodes)
+                return {'graph': Graph(nodes = nodes, links = [Link(source = nodes[0], target = nodes[1], weight = 1)])}, 200
+                # abort(501)
     else:
         print("No file uploaded") # TODO: Log this
         abort(400, "No file uploaded")
 
-def generate_links(nodes: List[List[Node]]) -> List[Link]:
-    links = []
-    for layer in range(len(nodes) - 1):
-        for node in range(len(nodes[layer])):
-            links.extend([Link(source = nodes[layer][node].id, target = nodes[layer + 1][i].id, weight = 1) for i in range(len(nodes[layer + 1]))])
-    return links
+# def generate_links(nodes: List[List[Node]]) -> List[Link]:
+#     links = []
+#     for layer in range(len(nodes) - 1):
+#         for node in range(len(nodes[layer])):
+#             links.extend([Link(source = nodes[layer][node].id, target = nodes[layer + 1][i].id, weight = 1) for i in range(len(nodes[layer + 1]))])
+#     return links
 
 def position_nodes(nodes: List[List[Node]]) -> List[Node]:
     positioned_nodes = []
@@ -91,6 +93,6 @@ def position_nodes(nodes: List[List[Node]]) -> List[Node]:
         middle_node_index = (len(layer) - 1) / 2
         for node_index, node in enumerate(layer):
             node_offset = (node_index - middle_node_index) * NODE_MARGIN
-            positioned_nodes.append(Node(id = node.id, bias = node.bias, x = layer_offset, y = node_offset))
+            positioned_nodes.append(Node(bias = node.bias, x = layer_offset, y = node_offset))
 
     return positioned_nodes

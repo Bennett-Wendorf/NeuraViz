@@ -1,8 +1,8 @@
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class Node:
-    id: int
-    bias: float
+    bias: Optional[float] = None
     x: float = None
     y: float = None

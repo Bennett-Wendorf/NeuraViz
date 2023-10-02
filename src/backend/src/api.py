@@ -1,6 +1,7 @@
 #region Imports
 # System
 import os
+from pathlib import Path
 
 # Quart
 from quart import Quart, send_from_directory
@@ -21,12 +22,12 @@ app.register_blueprint(graph_controller, url_prefix = f'{API_PREFIX}/graph')
 # Main page
 @app.route('/')
 async def index():
-    return await send_from_directory('../frontend/dist', 'index.html')
+    return await send_from_directory((Path(__file__).resolve().parent.parent.parent / "frontend/dist").resolve(), 'index.html')
 
 # Static files
 @app.route('/<path:path>')
 async def home(path):
-    return await send_from_directory('../frontend/dist', path)
+    return await send_from_directory((Path(__file__).resolve().parent.parent.parent / "frontend/dist").resolve(), path)
 
 def run(debug = DEBUG, port = PORT) -> None:
     if debug:
