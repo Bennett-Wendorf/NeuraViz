@@ -1,11 +1,12 @@
 <script lang="ts">
+    import Toaster from './components/Toaster/Toaster.svelte';
     import Graph from './components/Graph.svelte'
     import Sidebar from './components/Sidebar/Sidebar.svelte'
-
 </script>
 
 <main>
     <Sidebar />
+    <Toaster/>
     <div id="graph_container">
         <Graph />
     </div>

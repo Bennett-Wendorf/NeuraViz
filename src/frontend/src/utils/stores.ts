@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import type { Bread } from "../components/Toaster/Bread";
 
 interface Graph {
     // TODO: Define these types better
@@ -6,8 +7,10 @@ interface Graph {
     links: any[];
 }
 
-let graph = writable({ nodes: [], links: [] });
+let graph = writable<Graph>({ nodes: [], links: [] });
 
 let uploading = writable(false);
 
-export { graph, uploading };
+let breads = writable<Bread[]>([]);
+
+export { graph, uploading, breads };
