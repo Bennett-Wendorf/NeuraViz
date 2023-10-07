@@ -27,3 +27,9 @@ export function sendToast(
         return currentBreads;
     })
 }
+
+export function getResponseError(err: any): readonly [field: string, message: string] {
+    let field = err.response?.data?.field ?? 'general';
+    let message = err.response?.data?.message ?? err.message ?? err;
+    return [field, message] as const;
+}

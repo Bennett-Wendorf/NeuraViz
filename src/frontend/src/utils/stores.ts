@@ -1,11 +1,6 @@
 import { writable } from "svelte/store";
-import type { Bread } from "../components/Toaster/Bread";
-
-interface Graph {
-    // TODO: Define these types better
-    nodes: any[];
-    links: any[];
-}
+import type { Bread } from "./types";
+import type { Graph } from "./types";
 
 let graph = writable<Graph>({ nodes: [], links: [] });
 

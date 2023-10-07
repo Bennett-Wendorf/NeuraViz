@@ -3,6 +3,7 @@
     import { CheckCircle, XCircle } from 'svelte-heros-v2';
     import api from '../../utils/api';
     import { graph, uploading } from '../../utils/stores';
+    import { sendToast, getResponseError } from '../../utils/utils';
     
     let files: FileList;
 ``
@@ -20,9 +21,10 @@
                 $uploading = false;
             })
             .catch((err: any) => {
-                // TODO: Implement proper error handling
-                console.log(err)
+                let [_, message] = getResponseError(err);
+                sendToast("error", `${message}`);
                 modelValid = false;
+                $uploading = false;
             })
     }
 
@@ -30,7 +32,7 @@
 
 <Label for="model_upload" class="mb-2">Select Model:</Label>
 <Fileupload id="model-upload" bind:files />
-<Helper>PTH, etc.</Helper> <!--TODO: Set valid file types-->
+<Helper>PTH</Helper>
 <div class="flex flex-row mt-4">
     <Button on:click={submitForm}>Upload</Button>
     <div id="model-validation" class="{validationClass} m-auto">
