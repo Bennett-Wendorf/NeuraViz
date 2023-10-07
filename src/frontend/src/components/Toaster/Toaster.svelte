@@ -25,8 +25,7 @@
         z-index: 1000;
         height: auto;
         width: 350px;
-        max-height: 500px;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        max-height: 100vh;
+        overflow: hidden;
     }
 </style>
