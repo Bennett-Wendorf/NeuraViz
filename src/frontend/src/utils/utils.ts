@@ -1,12 +1,16 @@
 import { breads } from "./stores";
 
-let nextToastId = 0;
+let nextToastId: number = 0;
 
 export function sendToast(
-    type?: 'success' | 'error' | 'warning' | 'info',
-    message?: string,
+    type: 'success' | 'error' | 'warning' | 'info' = 'info',
+    message: string = 'Something happened!',
     duration?: number
 ) {
+    if (!duration) {
+        duration = type === 'error' ? Infinity : 8;
+    }
+
     breads.update((currentBreads) => {
         currentBreads.unshift({
             id: nextToastId++,

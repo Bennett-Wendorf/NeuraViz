@@ -6,9 +6,9 @@
     import { createEventDispatcher } from 'svelte';
 
     export let id: number;
-    export let type: 'success' | 'error' | 'warning' | 'info' = 'info';
-    export let duration: number = type == 'error' ? Infinity : 8;
-    export let message: string = "Something happened!";
+    export let type = 'info';
+    export let duration: number;
+    export let message;
 
     const dispatch = createEventDispatcher();
 
@@ -30,6 +30,7 @@
     }
 
     onMount(() => {
+
         if (duration != Infinity) {
             setTimeout(close, duration * 1000);
         }
