@@ -1,6 +1,8 @@
 # Python cache
 __pycache__/
 
+.env*
+
 # Lock files
 package-lock.json
 poetry.lock

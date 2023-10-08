@@ -4,10 +4,14 @@ from src.models.graph.Node import Node
 from src.models.graph.Link import Link
 import torch
 from torch.nn.modules.module import Module
+from src.logger.logger import build_logger
+import os
 
 # Constants TODO: Make these configurable
 LAYER_MARGIN = 2 # The amount of horizontal space between layers
 NODE_MARGIN = 1 # The amount of vertical space between nodes 
+
+logger = build_logger(logger_name = "Graph", debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
 
 @dataclass
 class Graph:
@@ -17,12 +21,14 @@ class Graph:
     # TODO: Try to modularize this
     @classmethod
     def from_pytorch(cls, pytorch_model_file: str):
+        logger.debug("Generating model visualization from Pytorch model")
         try:
             # Generate the graph to later append data to
             new_graph = cls(nodes = [], links = [])
             
             # Load the pytorch model
             pytorch_model = torch.load(pytorch_model_file, map_location = 'cpu')
+            logger.debug(f"Load model from file: {'success' if pytorch_model is not None else 'fail'}")
 
             # Get the network structure and the modules
             modules = list(pytorch_model.modules())
@@ -87,7 +93,7 @@ class Graph:
             
             return new_graph
         except Exception as e:
-            print(e)
+            logger.error(e)
             return None
 
     @classmethod
