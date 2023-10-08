@@ -23,7 +23,6 @@ export function sendToast(
             currentBreads.pop();
         }
 
-        console.log(currentBreads)
         return currentBreads;
     })
 }
