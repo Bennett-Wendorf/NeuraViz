@@ -50,7 +50,7 @@
 <input id="model-upload" type=file style="display: none;" bind:this={fileUploader} bind:files on:change={handleFileUploadChange}/>
 <div class="flex flex-row border border-gray-400 rounded-lg !p-0 bg-gray-600 dark:text-gray-300">
     <Button color="dark" on:click={() => fileUploader.click()}>Browse</Button>
-    <div class="m-auto align-text-middle">{$graphFile ?? "No file selected."}</div>
+    <div id="model-upload-readout" class="m-auto align-text-middle">{$graphFile ?? "No file selected."}</div>
     <Button 
         color="none"
         class="p-0 pr-1 pl-1 mr-1 focus:outline-none text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"

@@ -24,11 +24,13 @@ test('Upload valid model: Sidebar', async ({ page }) => {
     await page.locator('#model-upload').setInputFiles('tests/file_inputs/standard_example.pth');
     await page.getByRole('button', { name: 'Upload' }).click();
     await expect(page.locator('#model-upload')).toHaveValue('C:\\fakepath\\standard_example.pth');
+    await expect(page.locator('#model-upload-readout')).toHaveText('standard_example.pth');
     await expect(page.locator('#model-validation')).toHaveText('Model is valid');
     await expect(page.locator('#model-validation')).toHaveClass(/text-success/);
     let toast = await page.locator('#toast-0');
     await toast.waitFor({ state: "visible" });
     await expect(toast.locator('p')).toHaveText('Model uploaded successfully');
+    await expect(page.getByRole('button', { name: 'Upload' })).toBeDisabled();
 });
 
 test('Upload valid model: Graph', async ({ page }) => {
@@ -68,4 +70,19 @@ test('Graph center', async ({ page }) => {
     await page.locator("#pan-center > button").click();
     await page.waitForTimeout(500);
     await expect(graph.locator('g').first()).toHaveAttribute('transform', 'translate(0,0) scale(1)');
+});
+
+test('Graph persists refresh', async ({ page }) => {
+    await page.goto('/');
+    await uploadNetworkHelper(page);
+    await page.reload();
+    await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
+    await expect(page.locator('#model-upload-readout')).toHaveText('standard_example.pth');
+    await expect(page.locator('#model-validation')).toHaveText('Model is valid');
+    await expect(page.locator('#model-validation')).toHaveClass(/text-success/);
+    await expect(page.getByRole('button', { name: 'Upload' })).toBeDisabled();
+
+    await expect(await page.locator('#pan-center > button')).not.toBeDisabled();
+    await expect(await page.locator('#zoom-in > button')).not.toBeDisabled();
+    await expect(await page.locator('#zoom-out > button')).not.toBeDisabled();
 });
