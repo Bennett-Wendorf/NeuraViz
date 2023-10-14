@@ -4,31 +4,16 @@
     import Sidebar from './components/Sidebar/Sidebar.svelte'
 </script>
 
-<main>
+<main 
+    class="bg-background-200 dark:bg-background-800 h-screen w-screen
+        flex justify-center items-center"
+>
     <Sidebar />
     <Toaster/>
-    <div id="graph_container">
+    <div id="graph_container" 
+        class="h-screen w-[80vw] flex grow
+        shrink relative justify-center items-center"
+    >
         <Graph />
     </div>
 </main>
-
-<style>
-    main {
-        height: 100vh;
-        width: 100vw;
-		display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #graph_container {
-        width: 80vw;
-        height: 100vh;
-        flex-grow: 1;
-        flex-shrink: 1;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>

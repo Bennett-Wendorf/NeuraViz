@@ -37,10 +37,12 @@
     });
 </script>
 
-<div id={`toast-${id}`} class="toast" transition:fly = "{{ x: 400, duration: 200 }}">
+<div id={`toast-${id}`} class="toast float-right mt-4 mr-4" transition:fly = "{{ x: 400, duration: 200 }}">
     <Toast 
         simple={true}
-        color={getTypeColor(type)} 
+        color={getTypeColor(type)}
+        divClass="w-full max-w-xs p-4 text-neutral-800 bg-secondarybackground-200 shadow dark:text-neutral-400 
+            dark:bg-secondarybackground-800 gap-3"
     >
         <svelte:fragment slot="icon">
             {#if type == 'success'}
@@ -57,7 +59,10 @@
             <p>{message}</p>
             <Button
                 color="none"
-                class="focus:outline-none whitespace-normal m-0.5 rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 -mx-1.5 -my-1.5 text-gray-400 hover:text-gray-900 focus:!ring-gray-300 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-700"
+                class="focus:outline-none whitespace-normal m-0.5 rounded-lg focus:ring-2 p-1.5 
+                    focus:ring-neutral-400 -mx-1.5 -my-1.5 text-neutral-800 hover:text-neutral-900 
+                    dark:focus:ring-neutral-500 hover:bg-neutral-200 dark:text-neutral-400 
+                    dark:hover:text-white dark:hover:bg-neutral-700"
                 on:click={close}
             >
                 <XMark />
@@ -65,11 +70,3 @@
         </div>
     </Toast>
 </div>
-
-<style>
-    :global(.toast) {
-        float: right;
-        margin-top: 1rem;
-        margin-right: 1rem;
-    }
-</style>

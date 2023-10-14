@@ -3,7 +3,7 @@
     import { breads } from '../../utils/stores';
 </script>
 
-<div id="toaster">
+<div id="toaster" class="absolute top-0 right-0 z-50 h-auto w-[350px] max-h-screen overflow-hidden pb-4">
     {#each $breads as bread (bread.id)}
         <Toast
             id={bread.id}
@@ -16,16 +16,3 @@
         />
     {/each}
 </div>
-
-<style>
-    #toaster {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        height: auto;
-        width: 350px;
-        max-height: 100vh;
-        overflow: hidden;
-    }
-</style>

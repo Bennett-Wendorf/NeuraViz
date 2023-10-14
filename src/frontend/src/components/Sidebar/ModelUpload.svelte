@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Label, Helper, Tooltip } from 'flowbite-svelte';
+    import { Button, Label, Helper, Tooltip, Fileupload } from 'flowbite-svelte';
     import { CheckCircle, XCircle, XMark } from 'svelte-heros-v2';
     import api from '../../utils/api';
     import { modelValid, graphFile, graph, uploading } from '../../utils/stores';
@@ -10,7 +10,7 @@
     let validationClass: string;
     let uploadButtonDisabled: boolean = false;
 
-    $: validationClass = $modelValid ? "text-success" : "text-error";
+    $: validationClass = $modelValid ? "text-success-800 dark:text-success-200" : "text-error-800 dark:text-error-200";
 
     $: $graphFile = files ? files[0]?.name ?? '' : $graphFile;
 
@@ -47,13 +47,30 @@
 </script>
 
 <Label for="model-upload" class="text-xl mb-2">Select Model:</Label>
-<input id="model-upload" type=file style="display: none;" bind:this={fileUploader} bind:files on:change={handleFileUploadChange}/>
-<div class="flex flex-row border border-gray-400 rounded-lg !p-0 bg-gray-600 dark:text-gray-300">
-    <Button color="dark" on:click={() => fileUploader.click()}>Browse</Button>
-    <div id="model-upload-readout" class="m-auto align-text-middle">{$graphFile ?? "No file selected."}</div>
+<input id="model-upload" type=file class="hidden" bind:this={fileUploader} bind:files on:change={handleFileUploadChange}/>
+<div 
+    class="flex flex-row border border-neutral-500 dark:border-neutral-600 rounded-lg 
+        !p-0 bg-neutral-400 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-300
+        w-full"
+>
+    <Button color="dark" on:click={() => fileUploader.click()}
+        class="text-center font-medium focus:ring-4 focus:outline-none inline-flex items-center justify-center px-5 py-2.5 
+            text-sm text-white bg-neutral-600 hover:bg-neutral-800 dark:bg-neutral-800 dark:hover:bg-neutral-600 focus:ring-neutral-300 
+            dark:focus:ring-neutral-700 rounded-lg"
+    >
+        Browse
+    </Button>
+    <div id="model-upload-readout"
+        class="my-auto text-neutral-600 dark:text-neutral-50 ml-1.5 mr-1.5
+        overflow-x-hidden text-ellipsis grow text-center"
+    >
+        {$graphFile ?? "No file selected."}
+    </div>
+    <Tooltip class="bg-neutral-700 text-white dark:bg-neutral-800">{$graphFile ?? "No file selected."}</Tooltip>
     <Button 
         color="none"
-        class="p-0 pr-1 pl-1 mr-1 focus:outline-none text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+        class="p-0 pr-2 pl-2 focus:outline-none text-neutral-700 dark:text-neutral-50 hover:text-neutral-900 
+            dark:hover:text-white hover:bg-neutral-500 dark:hover:bg-neutral-600"
         on:click={clearModel}
     >
         <XMark />
@@ -63,24 +80,14 @@
 <div class="flex flex-row mt-4">
     <Button on:click={submitForm} disabled={uploadButtonDisabled}>Upload</Button>
     {#if uploadButtonDisabled}
-        <Tooltip>Please select a new file to upload</Tooltip>
+        <Tooltip class="bg-neutral-700 text-white dark:bg-neutral-800">Please select a new file to upload</Tooltip>
     {/if}
-    <div id="model-validation" class="{validationClass} m-auto">
+    <div id="model-validation" class="flex justify-center items-center p-4 min-w-[210px] m-auto {validationClass} ">
         {#if $modelValid}
-        <CheckCircle style="margin-right: 5px;"/>
+        <CheckCircle class="mr-1"/>
         {:else}
-        <XCircle style="margin-right: 5px;"/>
+        <XCircle class="mr-1"/>
         {/if}
         Model is {$modelValid ? "" : "not "}valid
     </div>
 </div>
-
-<style>
-    #model-validation {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-        min-width: 210px;
-    }
-</style>

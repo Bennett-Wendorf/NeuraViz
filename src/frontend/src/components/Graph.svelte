@@ -20,15 +20,12 @@
     };
 
     const NODE_FORMAT = {
-        stroke: '#000',
-        fill: '#fff',
         strokeWidth: 1.5,
         strokeOpacity: 1,
         radius: 15
     }
 
     const LINK_FORMAT = {
-        stroke: '#999',
         strokeWidth: 2,
         strokeOpacity: .6,
         strokeLinecap: 'round'
@@ -65,14 +62,14 @@
                 .attr("width", width)
                 .attr("height", height)
                 .attr("viewBox", [-width / 2, -height / 2, width, height])
-                .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+                .attr("class", "max-w-full h-[intrinsic]")
                 .call(zoom)
 
         var group = svg.append("g")
 
         // Links
         group.append("g")
-            .attr("stroke", LINK_FORMAT.stroke)
+            .attr("class", "stroke-neutral-500 dark:stroke-neutral-400")
             .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
             .attr("stroke-width", LINK_FORMAT.strokeWidth)
             .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
@@ -86,8 +83,7 @@
 
         // Nodes
         group.append("g")
-                .attr("fill", NODE_FORMAT.fill)
-                .attr("stroke", NODE_FORMAT.stroke)
+                .attr("class", "stroke-black fill-secondarybackground-200")
                 .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
                 .attr("stroke-width", NODE_FORMAT.strokeWidth)
             .selectAll("circle")
@@ -134,63 +130,33 @@ links as a pannable and zoomable graph.
 -->
 
 {#if $uploading}
-    <div id='spinner' out:fade>
+    <div id='spinner' out:fade class="absolute">
         <Spinner size='14' />   
     </div>
 {:else if modelUploaded}
-    <div id="graph" class="graph" bind:this={graph_div} in:fade />
+    <div id="graph" bind:this={graph_div} in:fade 
+        class="w-full h-full flex justify-center items-center absolute"
+    />
 {:else}
     <div id='upload_text' out:fade>
         <p class="text-xl">Please upload a model to continue...</p> 
     </div>
 {/if}
 
-<div id="pan-center">
+<div id="pan-center" class="absolute bottom-40 right-8">
     <Button pill class="!p-2" size="xl" on:click={panCenter} disabled={!modelUploaded}>
         <MapPin />
     </Button>
 </div>
 
-<div id="zoom-in">
+<div id="zoom-in" class="absolute bottom-24 right-8">
     <Button pill class="!p-2" size="xl" on:click={zoomIn} disabled={!modelUploaded}>
         <MagnifyingGlassPlus />
     </Button>
 </div>
 
-<div id="zoom-out">
+<div id="zoom-out" class="absolute bottom-8 right-8">
     <Button pill class="!p-2" size="xl" on:click={zoomOut} disabled={!modelUploaded}>
         <MagnifyingGlassMinus />
     </Button>
 </div>
-
-<style>
-    .graph {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #graph, #spinner {
-        position: absolute;
-    }
-
-    #pan-center {
-        position: absolute;
-        bottom: 10rem;
-        right: 2rem;
-    }
-
-    #zoom-in {
-        position: absolute;
-        bottom: 6em;
-        right: 2rem;
-    }
-
-    #zoom-out {
-        position: absolute;
-        bottom: 2rem;
-        right: 2rem;
-    }
-</style>
