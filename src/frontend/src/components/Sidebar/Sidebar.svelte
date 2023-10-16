@@ -1,20 +1,15 @@
 <script lang="ts">
     import { DarkMode, Label, Button } from 'flowbite-svelte';
     import ModelUpload from './ModelUpload.svelte';
+    import Key from '../Graph/Key.svelte';
     import { sendToast } from '../../utils/utils';
-
-    let modelValid: boolean = true;
-    let validationClass: string;
-
-    $: validationClass = modelValid ? "text-success" : "text-error";
-
 </script>
 
 <div id="sidebar" 
     class="bg-secondarybackground-200 
         dark:bg-secondarybackground-800 border-r-[1px] border-solid 
         border-secondarybackground-800 dark:border-black h-screen
-        max-w-[23rem] min-w-[23rem] z-50 p-4"
+        max-w-[23rem] min-w-[23rem] z-50 p-4 flex flex-col"
 >
     <div id="testing-functions" class="hidden">
         <div class='sidebar-row flex-row gap-1'>
@@ -43,14 +38,19 @@
         </p>
         <hr class="w-full border-neutral-800 dark:border-neutral-400"/>
     </div>
+    <div class="grow">
+        <div class="sidebar-row">
+            <DarkMode btnClass="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 
+                dark:hover:bg-neutral-700 focus:outline-none focus:ring-4 
+                focus:ring-neutral-400 dark:focus:ring-neutral-700 rounded-lg text-sm p-2.5" 
+            />
+            <Label for="dark-mode" class="m-auto ml-2 mr-2 text-neutral-800 dark:text-neutral-400">
+                Dark Mode
+            </Label>
+        </div>
+    </div>
     <div class='sidebar-row'>
-        <DarkMode btnClass="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 
-            dark:hover:bg-neutral-700 focus:outline-none focus:ring-4 
-            focus:ring-neutral-400 dark:focus:ring-neutral-700 rounded-lg text-sm p-2.5" 
-        />
-        <Label for="dark-mode" class="m-auto ml-2 mr-2 text-neutral-800 dark:text-neutral-400">
-            Dark Mode
-        </Label>
+        <Key />
     </div>
 </div>
 

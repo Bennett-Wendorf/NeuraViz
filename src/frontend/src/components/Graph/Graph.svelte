@@ -4,7 +4,8 @@
     import { afterUpdate } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
-    import { graph, uploading } from '../utils/stores';
+    import { graph, uploading } from '../../utils/stores';
+    import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
 
     let modelUploaded: boolean = false;
 
@@ -40,9 +41,15 @@
 
     let zoom: d3.ZoomBehavior<Element, unknown>;
 
+    let weightScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
+    let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
+
     function redraw(nodes: any[], links: any[]): void {
         if (graph_div == null)
             return;
+
+        weightScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...links.map(item => Math.abs(item.weight))));
+        biasScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...nodes.map(item => Math.abs(item.bias))));
 
         // empty vis div
         d3.select(graph_div).html(null);  
@@ -69,13 +76,13 @@
 
         // Links
         group.append("g")
-            .attr("class", "stroke-neutral-500 dark:stroke-neutral-400")
-            .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
-            .attr("stroke-width", LINK_FORMAT.strokeWidth)
-            .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
+        .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
+        .attr("stroke-width", LINK_FORMAT.strokeWidth)
+        .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
         .selectAll("line")
         .data(links)
-            .join("line")
+        .join("line")
+            .attr("class", (l) => getLinkColor(l.weight))
             .attr('x1', (l) => l.source.x * POSITION_SCALE_FACTOR)
             .attr('y1', (l) => l.source.y * POSITION_SCALE_FACTOR)
             .attr('x2', (l) => l.target.x * POSITION_SCALE_FACTOR)
@@ -83,15 +90,46 @@
 
         // Nodes
         group.append("g")
-                .attr("class", "stroke-black fill-secondarybackground-200")
+                // .attr("class", "stroke-black fill-secondarybackground-200")
                 .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
                 .attr("stroke-width", NODE_FORMAT.strokeWidth)
             .selectAll("circle")
             .data(nodes)
                 .join("circle")
+                .attr("class", (n) => `stroke-black ${getNodeColor(n.bias)}`)
                 .attr("r", NODE_FORMAT.radius)
                 .attr("cx", (n) => n.x * POSITION_SCALE_FACTOR)
                 .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
+    }
+
+    const getLinkColor = (value: number) => {
+        const enumeratedValues: string[] = ["stroke-linkcolorgradientlight-50 dark:stroke-linkcolorgradientdark-50", 
+                                            "stroke-linkcolorgradientlight-100 dark:stroke-linkcolorgradientdark-100", 
+                                            "stroke-linkcolorgradientlight-200 dark:stroke-linkcolorgradientdark-200", 
+                                            "stroke-linkcolorgradientlight-300 dark:stroke-linkcolorgradientdark-300", 
+                                            "stroke-linkcolorgradientlight-400 dark:stroke-linkcolorgradientdark-400", 
+                                            "stroke-linkcolorgradientlight-500 dark:stroke-linkcolorgradientdark-500", 
+                                            "stroke-linkcolorgradientlight-600 dark:stroke-linkcolorgradientdark-600", 
+                                            "stroke-linkcolorgradientlight-700 dark:stroke-linkcolorgradientdark-700", 
+                                            "stroke-linkcolorgradientlight-800 dark:stroke-linkcolorgradientdark-800", 
+                                            "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900"];
+
+        return enumeratedValues[Math.round(weightScaledAbsoluteTanH(value) * (enumeratedValues.length - 1))];
+    }
+
+    const getNodeColor = (value: number) => {
+        const enumeratedValues: string[] = ["fill-nodecolorgradientlight-50 dark:fill-nodecolorgradientdark-50", 
+                                            "fill-nodecolorgradientlight-100 dark:fill-nodecolorgradientdark-100", 
+                                            "fill-nodecolorgradientlight-200 dark:fill-nodecolorgradientdark-200", 
+                                            "fill-nodecolorgradientlight-300 dark:fill-nodecolorgradientdark-300", 
+                                            "fill-nodecolorgradientlight-400 dark:fill-nodecolorgradientdark-400", 
+                                            "fill-nodecolorgradientlight-500 dark:fill-nodecolorgradientdark-500", 
+                                            "fill-nodecolorgradientlight-600 dark:fill-nodecolorgradientdark-600", 
+                                            "fill-nodecolorgradientlight-700 dark:fill-nodecolorgradientdark-700", 
+                                            "fill-nodecolorgradientlight-800 dark:fill-nodecolorgradientdark-800", 
+                                            "fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900"];
+
+        return enumeratedValues[Math.round(biasScaledAbsoluteTanH(value) * (enumeratedValues.length - 1))];
     }
 
     const panCenter = () => {
