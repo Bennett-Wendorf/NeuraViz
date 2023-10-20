@@ -6,3 +6,4 @@ class Node:
     bias: Optional[float] = None
     x: float = None
     y: float = None
+    isInput: bool = False

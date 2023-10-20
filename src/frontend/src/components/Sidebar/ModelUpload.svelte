@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Button, Label, Helper, Tooltip, Fileupload } from 'flowbite-svelte';
+    import { Button, Label, Helper, Tooltip } from 'flowbite-svelte';
     import { CheckCircle, XCircle, XMark } from 'svelte-heros-v2';
     import api from '../../utils/api';
     import { modelValid, graphFile, graph, uploading } from '../../utils/stores';
@@ -82,7 +82,7 @@
     {#if uploadButtonDisabled}
         <Tooltip class="bg-neutral-700 text-white dark:bg-neutral-800">Please select a new file to upload</Tooltip>
     {/if}
-    <div id="model-validation" class="flex justify-center items-center p-4 min-w-[210px] m-auto {validationClass} ">
+    <div id="model-validation" class="flex justify-center items-center p-4 min-w-[210px] m-auto {validationClass}">
         {#if $modelValid}
         <CheckCircle class="mr-1"/>
         {:else}

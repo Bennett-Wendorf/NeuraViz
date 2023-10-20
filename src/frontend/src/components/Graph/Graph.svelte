@@ -23,7 +23,8 @@
     const NODE_FORMAT = {
         strokeWidth: 1.5,
         strokeOpacity: 1,
-        radius: 15
+        radius: 15,
+        squircleRadius: 8
     }
 
     const LINK_FORMAT = {
@@ -72,6 +73,19 @@
                 .attr("class", "max-w-full h-[intrinsic]")
                 .call(zoom)
 
+        svg.append("defs").append("marker")
+            .attr('id', 'arrow')
+            .attr('viewBox', [0, 0, 40, 40])
+            .attr('refX', 14)
+            .attr('refY', 10)
+            .attr('markerWidth', 10)
+            .attr('markerHeight', 10)
+            .attr('orient', 'auto-start-reverse')
+        .append("path")
+            .attr('d', 'M 0 0 L 20 10 L 0 20 L 0 16 L 13 10 L 0 4 z')
+            .attr("stroke-width", LINK_FORMAT.strokeWidth)
+            .attr("fill", "context-fill")
+
         var group = svg.append("g")
 
         // Links
@@ -82,37 +96,55 @@
         .selectAll("line")
         .data(links)
         .join("line")
-            .attr("class", (l) => getLinkColor(l.weight))
+            .attr("class", (l) => l.hasDirection 
+                ? "stroke-black fill-black" 
+                : getLinkColor(l.weight))
             .attr('x1', (l) => l.source.x * POSITION_SCALE_FACTOR)
             .attr('y1', (l) => l.source.y * POSITION_SCALE_FACTOR)
-            .attr('x2', (l) => l.target.x * POSITION_SCALE_FACTOR)
+            .attr('x2', (l) => l.isInput 
+                ? (l.target.x * POSITION_SCALE_FACTOR) - NODE_FORMAT.radius - (2 * NODE_FORMAT.strokeWidth) 
+                : (l.target.x * POSITION_SCALE_FACTOR))
             .attr('y2', (l) => l.target.y * POSITION_SCALE_FACTOR)
+            .attr("marker-end", (l) => l.hasDirection ? "url(#arrow)" : null)
 
-        // Nodes
+        // Main Nodes
         group.append("g")
-                // .attr("class", "stroke-black fill-secondarybackground-200")
                 .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
                 .attr("stroke-width", NODE_FORMAT.strokeWidth)
             .selectAll("circle")
-            .data(nodes)
+            .data(nodes.filter((n) => !n.isInput))
                 .join("circle")
                 .attr("class", (n) => `stroke-black ${getNodeColor(n.bias)}`)
                 .attr("r", NODE_FORMAT.radius)
                 .attr("cx", (n) => n.x * POSITION_SCALE_FACTOR)
                 .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
+
+        // Input Nodes
+        group.append("g")
+                .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
+                .attr("stroke-width", NODE_FORMAT.strokeWidth)
+            .selectAll("rect")
+            .data(nodes.filter((n) => n.isInput))
+                .join("rect")
+                .attr("class", (n) => `stroke-black fill-secondarybackground-200 dark:fill-secondarybackground-800`)
+                .attr("x", (n) => n.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
+                .attr("y", (n) => n.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
+                .attr("width", NODE_FORMAT.radius * 2)
+                .attr("height", NODE_FORMAT.radius * 2)
+                .attr("rx", NODE_FORMAT.squircleRadius)
     }
 
     const getLinkColor = (value: number) => {
-        const enumeratedValues: string[] = ["stroke-linkcolorgradientlight-50 dark:stroke-linkcolorgradientdark-50", 
-                                            "stroke-linkcolorgradientlight-100 dark:stroke-linkcolorgradientdark-100", 
-                                            "stroke-linkcolorgradientlight-200 dark:stroke-linkcolorgradientdark-200", 
-                                            "stroke-linkcolorgradientlight-300 dark:stroke-linkcolorgradientdark-300", 
-                                            "stroke-linkcolorgradientlight-400 dark:stroke-linkcolorgradientdark-400", 
-                                            "stroke-linkcolorgradientlight-500 dark:stroke-linkcolorgradientdark-500", 
-                                            "stroke-linkcolorgradientlight-600 dark:stroke-linkcolorgradientdark-600", 
-                                            "stroke-linkcolorgradientlight-700 dark:stroke-linkcolorgradientdark-700", 
-                                            "stroke-linkcolorgradientlight-800 dark:stroke-linkcolorgradientdark-800", 
-                                            "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900"];
+        const enumeratedValues: string[] = ["stroke-linkcolorgradientlight-50 dark:stroke-linkcolorgradientdark-50 fill-linkcolorgradientlight-50 dark:fill-linkcolorgradientdark-50", 
+                                            "stroke-linkcolorgradientlight-100 dark:stroke-linkcolorgradientdark-100 fill-linkcolorgradientlight-100 dark:fill-linkcolorgradientdark-100",
+                                            "stroke-linkcolorgradientlight-200 dark:stroke-linkcolorgradientdark-200 fill-linkcolorgradientlight-200 dark:fill-linkcolorgradientdark-200",
+                                            "stroke-linkcolorgradientlight-300 dark:stroke-linkcolorgradientdark-300 fill-linkcolorgradientlight-300 dark:fill-linkcolorgradientdark-300",
+                                            "stroke-linkcolorgradientlight-400 dark:stroke-linkcolorgradientdark-400 fill-linkcolorgradientlight-400 dark:fill-linkcolorgradientdark-400",
+                                            "stroke-linkcolorgradientlight-500 dark:stroke-linkcolorgradientdark-500 fill-linkcolorgradientlight-500 dark:fill-linkcolorgradientdark-500",
+                                            "stroke-linkcolorgradientlight-600 dark:stroke-linkcolorgradientdark-600 fill-linkcolorgradientlight-600 dark:fill-linkcolorgradientdark-600", 
+                                            "stroke-linkcolorgradientlight-700 dark:stroke-linkcolorgradientdark-700 fill-linkcolorgradientlight-700 dark:fill-linkcolorgradientdark-700", 
+                                            "stroke-linkcolorgradientlight-800 dark:stroke-linkcolorgradientdark-800 fill-linkcolorgradientlight-800 dark:fill-linkcolorgradientdark-800", 
+                                            "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900"];
 
         return enumeratedValues[Math.round(weightScaledAbsoluteTanH(value) * (enumeratedValues.length - 1))];
     }

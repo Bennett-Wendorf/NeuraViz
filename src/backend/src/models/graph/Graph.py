@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List
 from src.models.graph.Node import Node
 from src.models.graph.Link import Link
+from src.models.graph.Position import Position
 import torch
 from torch.nn.modules.module import Module
 from src.logger.logger import build_logger
@@ -40,7 +41,6 @@ class Graph:
 
             # Since the input layer is implicit, we need to add it manually
             input_layer_size = modules[0].in_features
-            input_layer_nodes = [Node() for i in range(input_layer_size)]
 
             # Calculate the middle node index for positioning
             input_layer_middle_node_index = (input_layer_size - 1) / 2
@@ -53,14 +53,17 @@ class Graph:
                 node_offset = (node_index - input_layer_middle_node_index) * NODE_MARGIN
 
                 # Create the node and add it to the graph
-                input_layer_nodes.append(Node(x = input_layer_offset, y = node_offset))
+                new_node = Node(x = input_layer_offset, y = node_offset, isInput=True)
+                input_layer_nodes.append(new_node)
+
+                new_graph.links.append(Link(source = Position(x = input_layer_offset - NODE_MARGIN, y = node_offset), target = new_node, weight = 0, hasDirection=True, isInput=True))
             new_graph.nodes.extend(input_layer_nodes)
 
             # TODO: Validate the the network isn't too large to be displayed
 
             layer_index = 1
             previous_layer_nodes = input_layer_nodes
-            for module in modules:
+            for module_index, module in enumerate(modules):
                 if cls._is_activation_layer(module):
                     # TODO: Add activation functions into graph structure for visualization as well
                     continue
@@ -90,6 +93,11 @@ class Graph:
 
                 previous_layer_nodes = layer_nodes
                 layer_index += 1
+
+                # Add output links to the last layer
+                if module_index == len(modules) - 1: # Only do this for the last layer
+                    for node in layer_nodes:
+                        new_graph.links.append(Link(source = node, target = Position(x = node.x + NODE_MARGIN, y = node.y), weight = 0, hasDirection=True))
             
             return new_graph
         except Exception as e:
