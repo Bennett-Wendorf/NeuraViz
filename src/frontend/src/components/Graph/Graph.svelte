@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as d3 from 'd3';
-    import { Button, Spinner } from 'flowbite-svelte';
+    import { Button, Spinner, Tooltip } from 'flowbite-svelte';
     import { afterUpdate } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
@@ -34,6 +34,7 @@
     }
 
     let graph_div: HTMLDivElement;
+    let tooltip;
 
     let width: number;
     let height: number;
@@ -51,6 +52,12 @@
 
         weightScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...links.map(item => Math.abs(item.weight))));
         biasScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...nodes.map(item => Math.abs(item.bias))));
+
+        // The tooltip element for link hovers
+        tooltip = d3.select('body')
+            .append('div')
+            .attr('class', 'absolute bg-neutral-700/70 text-white dark:bg-secondarybackground-800/70 p-[5px] rounded')
+            .style('display', 'none');
 
         // empty vis div
         d3.select(graph_div).html(null);  
@@ -90,15 +97,15 @@
 
         // Links
         group.append("g")
-        .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
-        .attr("stroke-width", LINK_FORMAT.strokeWidth)
-        .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
         .selectAll("line")
         .data(links)
         .join("line")
             .attr("class", (l) => l.hasDirection 
                 ? "stroke-black fill-black" 
                 : getLinkColor(l.weight))
+            .attr("stroke-width", LINK_FORMAT.strokeWidth)
+            .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
+            .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
             .attr('x1', (l) => l.source.x * POSITION_SCALE_FACTOR)
             .attr('y1', (l) => l.source.y * POSITION_SCALE_FACTOR)
             .attr('x2', (l) => l.isInput 
@@ -106,6 +113,40 @@
                 : (l.target.x * POSITION_SCALE_FACTOR))
             .attr('y2', (l) => l.target.y * POSITION_SCALE_FACTOR)
             .attr("marker-end", (l) => l.hasDirection ? "url(#arrow)" : null)
+
+        // Hover areas on links (slightly larger than the links themselves)
+        group.append("g")
+            .selectAll(".linkHoverAreas")
+            .data(links)
+            .join("line")
+            .attr("class", "stroke-transparent fill-transparent")
+            .attr("stroke-width", LINK_FORMAT.strokeWidth * 3)
+            .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
+            .attr('x1', (l) => l.source.x * POSITION_SCALE_FACTOR)
+            .attr('y1', (l) => l.source.y * POSITION_SCALE_FACTOR)
+            .attr('x2', (l) => l.isInput 
+                ? (l.target.x * POSITION_SCALE_FACTOR) - NODE_FORMAT.radius - (2 * NODE_FORMAT.strokeWidth) 
+                : (l.target.x * POSITION_SCALE_FACTOR))
+            .attr('y2', (l) => l.target.y * POSITION_SCALE_FACTOR)
+            .attr("marker-end", (l) => l.hasDirection ? "url(#arrow)" : null)
+            .style("pointer-events", "all")  // Capture hover events
+            .on("mouseover", (event, d) => {
+                d3.select(event.target).attr("class", d.hasDirection 
+                    ? "stroke-black fill-black" 
+                    : getLinkColor(d.weight))
+                tooltip.style('display', 'block')
+                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(5)}`)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY + 10) + 'px');
+            })
+            .on("mousemove", (event) => {
+                tooltip.style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY + 10) + 'px');
+            })
+            .on("mouseout", (event) => {
+                d3.select(event.target).attr("class", "stroke-transparent fill-transparent")
+                tooltip.style('display', 'none');
+            })
 
         // Main Nodes
         group.append("g")
