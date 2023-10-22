@@ -6,8 +6,12 @@
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
     import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
+    import type { Node } from '../../utils/types';
+    import NodeDetails from './NodeDetails.svelte';
 
     let modelUploaded: boolean = false;
+    let detailsOpen: boolean = false;
+    let selectedNode: Node = null;
 
     $: modelUploaded = $graph.nodes.length > 0 && $graph.links.length > 0;
 
@@ -24,6 +28,7 @@
         strokeWidth: 1.5,
         strokeOpacity: 1,
         radius: 15,
+        scaledRadius: 19,
         squircleRadius: 8
     }
 
@@ -159,6 +164,20 @@
                 .attr("r", NODE_FORMAT.radius)
                 .attr("cx", (n) => n.x * POSITION_SCALE_FACTOR)
                 .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
+                .on("mouseover", (event, _) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("r", NODE_FORMAT.scaledRadius)
+                    nodeElement.attr("style", "cursor: pointer;")
+                })
+                .on("mouseout", (event) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("r", NODE_FORMAT.radius)
+                    nodeElement.attr("style", "cursor: default;")
+                })
+                .on("click", (_, d) => {
+                    selectedNode = d;
+                    detailsOpen = true;
+                })
 
         // Input Nodes
         group.append("g")
@@ -173,6 +192,26 @@
                 .attr("width", NODE_FORMAT.radius * 2)
                 .attr("height", NODE_FORMAT.radius * 2)
                 .attr("rx", NODE_FORMAT.squircleRadius)
+                .on("mouseover", (event, d) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
+                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
+                    nodeElement.attr("width", NODE_FORMAT.scaledRadius * 2);
+                    nodeElement.attr("height", NODE_FORMAT.scaledRadius * 2);
+                    nodeElement.attr("style", "cursor: pointer;")
+                })
+                .on("mouseout", (event, d) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
+                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
+                    nodeElement.attr("width", NODE_FORMAT.radius * 2);
+                    nodeElement.attr("height", NODE_FORMAT.radius * 2);
+                    nodeElement.attr("style", "cursor: default;")
+                })
+                .on("click", (_, d) => {
+                    selectedNode = d;
+                    detailsOpen = true;
+                })
     }
 
     const getLinkColor = (value: number) => {
@@ -271,3 +310,5 @@ links as a pannable and zoomable graph.
         <MagnifyingGlassMinus />
     </Button>
 </div>
+
+<NodeDetails bind:open={detailsOpen} bind:node={selectedNode} />
