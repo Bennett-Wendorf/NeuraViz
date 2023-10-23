@@ -40,7 +40,7 @@
     </div>
     <div class="grow">
         <div class="sidebar-row">
-            <DarkMode btnClass="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 
+            <DarkMode data-testid="dark_mode_button" btnClass="text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 
                 dark:hover:bg-neutral-700 focus:outline-none focus:ring-4 
                 focus:ring-neutral-400 dark:focus:ring-neutral-700 rounded-lg text-sm p-2.5" 
             />

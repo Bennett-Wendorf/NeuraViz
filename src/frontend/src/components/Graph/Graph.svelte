@@ -250,7 +250,7 @@ links as a pannable and zoomable graph.
     />
 {:else}
     <div id='upload_text' out:fade>
-        <p class="text-xl">Please upload a model to continue...</p> 
+        <p class="text-xl text-neutral-800 dark:text-neutral-400">Please upload a model to continue...</p> 
     </div>
 {/if}
 
