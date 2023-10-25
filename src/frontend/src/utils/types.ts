@@ -2,12 +2,15 @@ export interface Node {
     bias?: number;
     x: number;
     y: number;
+    isInput: boolean;
 }
 
 export interface Link {
     source: Node;
     target: Node;
     weight?: number;
+    hasDirection: boolean;
+    isInput: boolean;
 }
 
 export interface Graph {

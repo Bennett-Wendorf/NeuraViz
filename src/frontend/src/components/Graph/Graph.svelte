@@ -140,7 +140,7 @@
                     ? "stroke-black fill-black" 
                     : getLinkColor(d.weight))
                 tooltip.style('display', 'block')
-                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(5)}`)
+                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
                     .style('left', (event.pageX + 10) + 'px')
                     .style('top', (event.pageY + 10) + 'px');
             })
