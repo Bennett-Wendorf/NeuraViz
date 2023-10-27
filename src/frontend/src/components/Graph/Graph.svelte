@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as d3 from 'd3';
-    import { Button, Spinner, Tooltip } from 'flowbite-svelte';
-    import { afterUpdate } from 'svelte';
+    import { Button, Spinner } from 'flowbite-svelte';
+    import { afterUpdate, onMount } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
@@ -39,7 +39,7 @@
     }
 
     let graph_div: HTMLDivElement;
-    let tooltip;
+    let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>;
 
     let width: number;
     let height: number;
@@ -52,17 +52,13 @@
     let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
 
     function redraw(nodes: any[], links: any[]): void {
+        console.log("Redrawing...")
+
         if (graph_div == null)
             return;
 
         weightScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...links.map(item => Math.abs(item.weight))));
         biasScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...nodes.map(item => Math.abs(item.bias))));
-
-        // The tooltip element for link hovers
-        tooltip = d3.select('body')
-            .append('div')
-            .attr('class', 'absolute bg-neutral-700/70 text-white dark:bg-secondarybackground-800/70 p-[5px] rounded')
-            .style('display', 'none');
 
         // empty vis div
         d3.select(graph_div).html(null);  
@@ -257,6 +253,7 @@
     }
 
     afterUpdate(() => {
+        tooltip = d3.select('#weightTooltip');
         redraw($graph.nodes, $graph.links);
         window.addEventListener('resize', () => redraw($graph.nodes, $graph.links));
     })
@@ -310,5 +307,7 @@ links as a pannable and zoomable graph.
         <MagnifyingGlassMinus />
     </Button>
 </div>
+
+<div id="weightTooltip" class="z-50 fixed bg-neutral-700/70 text-white dark:bg-secondarybackground-800/70 p-[5px] rounded" style="display: none;" />
 
 <NodeDetails bind:open={detailsOpen} bind:node={selectedNode} />
