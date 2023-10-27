@@ -101,7 +101,7 @@
         .data(links)
         .join("line")
             .attr("class", (l) => l.hasDirection 
-                ? "stroke-black fill-black" 
+                ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                 : getLinkColor(l.weight))
             .attr("stroke-width", LINK_FORMAT.strokeWidth)
             .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
@@ -167,7 +167,7 @@
             .selectAll("rect")
             .data(nodes.filter((n) => n.isInput))
                 .join("rect")
-                .attr("class", (n) => `stroke-black fill-secondarybackground-200 dark:fill-secondarybackground-800`)
+                .attr("class", (n) => `stroke-black fill-neutral-400 dark:fill-neutral-600`)
                 .attr("x", (n) => n.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
                 .attr("y", (n) => n.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
                 .attr("width", NODE_FORMAT.radius * 2)
