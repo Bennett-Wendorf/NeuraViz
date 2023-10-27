@@ -52,8 +52,6 @@
     let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
 
     function redraw(nodes: any[], links: any[]): void {
-        console.log("Redrawing...")
-
         if (graph_div == null)
             return;
 
@@ -252,13 +250,15 @@
         svg.transition().call(zoom.scaleBy, .8);
     }
 
-    afterUpdate(() => {
+    onMount(() => {
         tooltip = d3.select('#weightTooltip');
+        // console.log(`Nodes: ${$graph.nodes.length}, Links: ${$graph.links.length}`)
         redraw($graph.nodes, $graph.links);
         window.addEventListener('resize', () => redraw($graph.nodes, $graph.links));
     })
 
-    $: redraw($graph.nodes, $graph.links);
+    // This timeout is used to help ensure that the graph container is rendered before trying to draw inside it.
+    $: setTimeout(() => redraw($graph.nodes, $graph.links), 10);
 </script>
 
 <!--
