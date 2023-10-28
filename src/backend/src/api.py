@@ -40,8 +40,7 @@ async def home(path):
     return await send_from_directory((Path(__file__).resolve().parent.parent.parent / "frontend/dist").resolve(), path)
 
 def run(port = PORT) -> None:
-    # TODO: Change this environment variable to be more specific to the application
-    debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE"
+    debug = os.getenv("NEURAVIZ_DEBUG", "FALSE").upper() == "TRUE"
 
     if debug:
         app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # This prevents caching so that changes to the frontend are reflected immediately
