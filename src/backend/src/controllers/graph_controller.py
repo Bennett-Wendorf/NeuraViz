@@ -25,7 +25,7 @@ graph_controller_blueprint = Blueprint('graph_controller', __name__)
 LAYER_MARGIN = 2
 NODE_MARGIN = 1
 
-MODEL_UPLOAD_PATH = (Path(__file__).parent.parent / "model_uploads/").resolve()
+MODEL_UPLOAD_PATH = (Path(__file__).parent.parent.parent / "model_uploads/").resolve()
 
 ALLOWED_EXTENSIONS = ['pth']
 
@@ -44,9 +44,9 @@ async def get_graph():
         match file_extension:
             case 'pth':
                 logger.debug("File type identified: Pytorch model")
-                await file.save(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
-                graph = Graph.from_pytorch(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
-                os.remove(f"{MODEL_UPLOAD_PATH}{file.filename}.upload")
+                await file.save(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
+                graph = Graph.from_pytorch(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
+                os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
                 if graph is None:
                     logger.debug("The pytorch model was invalid")
                     return { "message": "Invalid file" }, 400

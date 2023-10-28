@@ -132,7 +132,7 @@
             .style("pointer-events", "all")  // Capture hover events
             .on("mouseover", (event, d) => {
                 d3.select(event.target).attr("class", d.hasDirection 
-                    ? "stroke-black fill-black" 
+                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                     : getLinkColor(d.weight))
                 tooltip.style('display', 'block')
                     .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(5)}`)
