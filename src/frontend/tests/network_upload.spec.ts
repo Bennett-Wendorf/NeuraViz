@@ -128,3 +128,22 @@ test('Color key shows', async ({ page }) => {
 
     await expect(await page.locator('#key-label')).toBeVisible();
 });
+
+test('Node details show', async ({ page }) => {
+    await page.goto('/');
+    await uploadNetworkHelper(page);
+
+    let inputNode = await page.locator('g:nth-child(4) > rect:nth-child(1)');
+    await inputNode.click();
+    await expect(await page.locator('div[role="dialog"]')).toBeVisible();
+    await expect(await page.locator('div[role="dialog"] h3')).toContainText("This is an input node.");
+    await page.locator('button[aria-label="Close"]').click();
+    await expect(await page.locator('div[role="dialog"]')).not.toBeVisible();
+
+    let midNode = await page.locator('g:nth-child(3) > circle:nth-child(1)');
+    await midNode.click();
+    await expect(await page.locator('div[role="dialog"]')).toBeVisible();
+    await expect(await page.locator('div[role="dialog"] h3')).toContainText("-0.132");
+    await page.locator('button[aria-label="Close"]').click();
+    await expect(await page.locator('div[role="dialog"]')).not.toBeVisible();
+});
