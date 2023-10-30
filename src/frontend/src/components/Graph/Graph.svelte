@@ -2,12 +2,17 @@
     import * as d3 from 'd3';
     import { Button, Spinner } from 'flowbite-svelte';
     import { afterUpdate, onMount } from 'svelte';
-    import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
+    import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin, Link } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
     import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
     import type { Node } from '../../utils/types';
     import NodeDetails from './NodeDetails.svelte';
+    import { getArrowhead } from './graph_components/defs/marker';
+    import { getPrimaryGradient } from './graph_components/defs/gradient';
+    import { getReluMarker } from './graph_components/defs/activations/relu';
+    import { getLinkHoverAreas, getVisibleLinks } from './graph_components/links';
+    import { getInputNodes, getMainNodes } from './graph_components/nodes';
 
     let modelUploaded: boolean = false;
     let detailsOpen: boolean = false;
@@ -36,6 +41,7 @@
         strokeWidth: 2,
         strokeOpacity: 0.6,
         strokeLinecap: "round",
+        hoverScaleFactor: 3,
     };
 
     const ACTIVATION_FORMAT = {
@@ -102,191 +108,41 @@
 
         let defs = svg.append("defs");
 
-        defs.append("marker")
-            .attr("id", "arrow")
-            .attr("viewBox", [0, 0, 40, 40])
-            .attr("refX", 14)
-            .attr("refY", 10)
-            .attr("markerWidth", 10)
-            .attr("markerHeight", 10)
-            .attr("orient", "auto-start-reverse")
-            .append("path")
-            .attr("d", "M 0 0 L 20 10 L 0 20 L 0 16 L 13 10 L 0 4 z")
-            .attr("stroke-width", LINK_FORMAT.strokeWidth)
-            .attr("fill", "context-fill");
+        let arrowName = "arrow"
+        defs.append(() => getArrowhead(arrowName, LINK_FORMAT.strokeWidth));
 
-        let primaryGradient = defs
-            .append("linearGradient")
-            .attr("id", "primarygradient")
-            .attr("x1", 1.5)
-            .attr("y1", 7)
-            .attr("x2", 15)
-            .attr("y2", 7)
-            .attr("gradientUnits", "userSpaceOnUse");
+        let primaryGradientName = "primarygradient";
+        defs.append(() => getPrimaryGradient(primaryGradientName, "#a5f3fc", "#06b6d4"));
 
-        primaryGradient
-            .append("stop")
-            .attr("style", "stop-color: #a5f3fc; stop-opacity: 1")
-            .attr("offset", 0);
-
-        primaryGradient
-            .append("stop")
-            .attr("style", "stop-color: #06b6d4; stop-opacity: 1")
-            .attr("offset", 1);
-
-        let relu = defs
-            .append("marker")
-            .attr("id", "ReLU")
-            .attr("viewBox", [0, 0, 40, 40])
-            .attr("refX", 8.5)
-            .attr("refY", 16)
-            .attr("markerWidth", 40)
-            .attr("markerHeight", 40);
-        relu.append("rect")
-            .attr("class", "fill-neutral-600 stroke-[0.58]")
-            .attr("width", 17)
-            .attr("height", 17)
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("ry", 2.64);
-        relu.append("path")
-            .attr("class", "fill-none stroke-[url(#primarygradient)] stroke-[1.2]")
-            .attr("stroke-linecap", "round")
-            .attr("stroke-linejoin", "round")
-            .attr("d", "M 1.7197917,11.90625 H 8.5 L 14.948958,3.9687503");
+        defs.append(() => getReluMarker("ReLU", primaryGradientName));
 
         var group = svg.append("g");
 
         // Links
-        group
-            .append("g")
-            .selectAll("line")
-            .data(links)
-            .join("line")
-            .attr("class", (l) =>
-                l.hasDirection
-                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400"
-                    : getLinkColor(l.weight)
-            )
-            .attr("stroke-width", LINK_FORMAT.strokeWidth)
-            .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
-            .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
-            .attr("x1", (l) => l.source.x * POSITION_SCALE_FACTOR)
-            .attr("y1", (l) => l.source.y * POSITION_SCALE_FACTOR)
-            .attr("x2", (l) =>
-                l.isInput
-                    ? l.target.x * POSITION_SCALE_FACTOR -
-                      NODE_FORMAT.radius -
-                      2 * NODE_FORMAT.strokeWidth
-                    : l.target.x * POSITION_SCALE_FACTOR
-            )
-            .attr("y2", (l) => l.target.y * POSITION_SCALE_FACTOR)
-            .attr("marker-end", (l) => (l.hasDirection ? "url(#arrow)" : null));
+        group.append(() => getVisibleLinks(links, LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity, 
+            LINK_FORMAT.strokeLinecap, POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, 
+            arrowName, weightScaledAbsoluteTanH));
 
         // Hover areas on links (slightly larger than the links themselves)
-        group
-            .append("g")
-            .selectAll(".linkHoverAreas")
-            .data(links)
-            .join("line")
-            .attr("class", "stroke-transparent fill-transparent")
-            .attr("stroke-width", LINK_FORMAT.strokeWidth * 3)
-            .attr("stroke-linecap", LINK_FORMAT.strokeLinecap)
-            .attr("x1", (l) => l.source.x * POSITION_SCALE_FACTOR)
-            .attr("y1", (l) => l.source.y * POSITION_SCALE_FACTOR)
-            .attr("x2", (l) =>
-                l.isInput
-                    ? l.target.x * POSITION_SCALE_FACTOR -
-                      NODE_FORMAT.radius -
-                      2 * NODE_FORMAT.strokeWidth
-                    : l.target.x * POSITION_SCALE_FACTOR
-            )
-            .attr("y2", (l) => l.target.y * POSITION_SCALE_FACTOR)
-            .attr("marker-end", (l) => (l.hasDirection ? "url(#arrow)" : null))
-            .style("pointer-events", "all") // Capture hover events
-            .on("mouseover", (event, d) => {
-                d3.select(event.target).attr("class", d.hasDirection 
-                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
-                    : getLinkColor(d.weight))
-                tooltip.style('display', 'block')
-                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
-                    .style('left', (event.pageX + 10) + 'px')
-                    .style('top', (event.pageY + 10) + 'px');
-            })
-            .on("mousemove", (event) => {
-                tooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event) => {
-                d3.select(event.target).attr(
-                    "class",
-                    "stroke-transparent fill-transparent"
-                );
-                tooltip.style("display", "none");
-            });
+        group.append(() => getLinkHoverAreas(links, LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeLinecap, 
+            POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowName, 
+            weightScaledAbsoluteTanH, LINK_FORMAT.hoverScaleFactor, tooltip));
 
         // Main Nodes
-        group
-            .append("g")
-            .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
-            .attr("stroke-width", NODE_FORMAT.strokeWidth)
-            .selectAll("circle")
-            .data(nodes.filter((n) => !n.isInput))
-                .join("circle")
-                .attr("class", (n) => `stroke-black ${getNodeColor(n.bias)}`)
-                .attr("r", NODE_FORMAT.radius)
-                .attr("cx", (n) => n.x * POSITION_SCALE_FACTOR)
-                .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
-                .on("mouseover", (event, _) => {
-                    let nodeElement = d3.select(event.target);
-                    nodeElement.attr("r", NODE_FORMAT.scaledRadius)
-                    nodeElement.attr("style", "cursor: pointer;")
-                })
-                .on("mouseout", (event) => {
-                    let nodeElement = d3.select(event.target);
-                    nodeElement.attr("r", NODE_FORMAT.radius)
-                    nodeElement.attr("style", "cursor: default;")
-                })
-                .on("click", (_, d) => {
-                    selectedNode = d;
-                    detailsOpen = true;
-                })
+        group.append(() => getMainNodes(nodes, NODE_FORMAT.strokeWidth,
+            NODE_FORMAT.strokeOpacity, NODE_FORMAT.radius, POSITION_SCALE_FACTOR,
+            NODE_FORMAT.scaledRadius, biasScaledAbsoluteTanH, (_, data: Node) => {
+                selectedNode = data;
+                detailsOpen = true;
+            }))
 
         // Input Nodes
-        group
-            .append("g")
-            .attr("stroke-opacity", NODE_FORMAT.strokeOpacity)
-            .attr("stroke-width", NODE_FORMAT.strokeWidth)
-            .selectAll("rect")
-            .data(nodes.filter((n) => n.isInput))
-                .join("rect")
-                .attr("class", (n) => `stroke-black fill-neutral-400 dark:fill-neutral-600`)
-                .attr("x", (n) => n.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
-                .attr("y", (n) => n.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
-                .attr("width", NODE_FORMAT.radius * 2)
-                .attr("height", NODE_FORMAT.radius * 2)
-                .attr("rx", NODE_FORMAT.squircleRadius)
-                .on("mouseover", (event, d) => {
-                    let nodeElement = d3.select(event.target);
-                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
-                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
-                    nodeElement.attr("width", NODE_FORMAT.scaledRadius * 2);
-                    nodeElement.attr("height", NODE_FORMAT.scaledRadius * 2);
-                    nodeElement.attr("style", "cursor: pointer;")
-                })
-                .on("mouseout", (event, d) => {
-                    let nodeElement = d3.select(event.target);
-                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
-                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
-                    nodeElement.attr("width", NODE_FORMAT.radius * 2);
-                    nodeElement.attr("height", NODE_FORMAT.radius * 2);
-                    nodeElement.attr("style", "cursor: default;")
-                })
-                .on("click", (_, d) => {
-                    selectedNode = d;
-                    detailsOpen = true;
-                })
+        group.append(() => getInputNodes(nodes, NODE_FORMAT.squircleRadius,
+            NODE_FORMAT.radius, NODE_FORMAT.scaledRadius, POSITION_SCALE_FACTOR,
+            (_, data: Node) => {
+                selectedNode = data;
+                detailsOpen = true;
+            }))
   
         // Activation function
         group
@@ -314,48 +170,6 @@
             )
             .attr("marker-end", "url(#ReLU)")
     }
-
-    const getLinkColor = (value: number) => {
-        const enumeratedValues: string[] = [
-            "stroke-linkcolorgradientlight-50 dark:stroke-linkcolorgradientdark-50 fill-linkcolorgradientlight-50 dark:fill-linkcolorgradientdark-50",
-            "stroke-linkcolorgradientlight-100 dark:stroke-linkcolorgradientdark-100 fill-linkcolorgradientlight-100 dark:fill-linkcolorgradientdark-100",
-            "stroke-linkcolorgradientlight-200 dark:stroke-linkcolorgradientdark-200 fill-linkcolorgradientlight-200 dark:fill-linkcolorgradientdark-200",
-            "stroke-linkcolorgradientlight-300 dark:stroke-linkcolorgradientdark-300 fill-linkcolorgradientlight-300 dark:fill-linkcolorgradientdark-300",
-            "stroke-linkcolorgradientlight-400 dark:stroke-linkcolorgradientdark-400 fill-linkcolorgradientlight-400 dark:fill-linkcolorgradientdark-400",
-            "stroke-linkcolorgradientlight-500 dark:stroke-linkcolorgradientdark-500 fill-linkcolorgradientlight-500 dark:fill-linkcolorgradientdark-500",
-            "stroke-linkcolorgradientlight-600 dark:stroke-linkcolorgradientdark-600 fill-linkcolorgradientlight-600 dark:fill-linkcolorgradientdark-600",
-            "stroke-linkcolorgradientlight-700 dark:stroke-linkcolorgradientdark-700 fill-linkcolorgradientlight-700 dark:fill-linkcolorgradientdark-700",
-            "stroke-linkcolorgradientlight-800 dark:stroke-linkcolorgradientdark-800 fill-linkcolorgradientlight-800 dark:fill-linkcolorgradientdark-800",
-            "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900",
-        ];
-
-        return enumeratedValues[
-            Math.round(
-                weightScaledAbsoluteTanH(value) * (enumeratedValues.length - 1)
-            )
-        ];
-    };
-
-    const getNodeColor = (value: number) => {
-        const enumeratedValues: string[] = [
-            "fill-nodecolorgradientlight-50 dark:fill-nodecolorgradientdark-50",
-            "fill-nodecolorgradientlight-100 dark:fill-nodecolorgradientdark-100",
-            "fill-nodecolorgradientlight-200 dark:fill-nodecolorgradientdark-200",
-            "fill-nodecolorgradientlight-300 dark:fill-nodecolorgradientdark-300",
-            "fill-nodecolorgradientlight-400 dark:fill-nodecolorgradientdark-400",
-            "fill-nodecolorgradientlight-500 dark:fill-nodecolorgradientdark-500",
-            "fill-nodecolorgradientlight-600 dark:fill-nodecolorgradientdark-600",
-            "fill-nodecolorgradientlight-700 dark:fill-nodecolorgradientdark-700",
-            "fill-nodecolorgradientlight-800 dark:fill-nodecolorgradientdark-800",
-            "fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900",
-        ];
-
-        return enumeratedValues[
-            Math.round(
-                biasScaledAbsoluteTanH(value) * (enumeratedValues.length - 1)
-            )
-        ];
-    };
 
     const panCenter = () => {
         svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
