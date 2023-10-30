@@ -10,7 +10,7 @@
     import NodeDetails from './NodeDetails.svelte';
     import { getArrowhead } from './graph_components/defs/marker';
     import { getPrimaryGradient } from './graph_components/defs/gradient';
-    import { getReluMarker } from './graph_components/defs/activations/relu';
+    import { getReluG } from './graph_components/defs/activations/relu';
     import { getLinkHoverAreas, getVisibleLinks } from './graph_components/links';
     import { getInputNodes, getMainNodes } from './graph_components/nodes';
 
@@ -56,8 +56,8 @@
     let width: number;
     let height: number;
 
-    let data_max_y: number;
-    let data_min_y: number;
+    let dataMaxY: number;
+    let dataMinY: number;
 
     let svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
 
@@ -89,8 +89,8 @@
             MARGIN.top -
             MARGIN.bottom;
 
-        data_max_y = d3.max(nodes, (d) => d.y);
-        data_min_y = d3.min(nodes, (d) => d.y);
+        dataMaxY = d3.max(nodes, (d) => d.y);
+        dataMinY = d3.min(nodes, (d) => d.y);
 
         zoom = d3.zoom().on("zoom", function (event) {
             group.attr("transform", event.transform);
@@ -111,10 +111,7 @@
         let arrowName = "arrow"
         defs.append(() => getArrowhead(arrowName, LINK_FORMAT.strokeWidth));
 
-        let primaryGradientName = "primarygradient";
-        defs.append(() => getPrimaryGradient(primaryGradientName, "#a5f3fc", "#06b6d4"));
-
-        defs.append(() => getReluMarker("ReLU", primaryGradientName));
+        defs.append(() => getPrimaryGradient("primarygradient", "#a5f3fc", "#06b6d4"));
 
         var group = svg.append("g");
 
@@ -144,31 +141,15 @@
                 detailsOpen = true;
             }))
   
-        // Activation function
-        group
-            .append("g")
-            .selectAll("line")
+        // Activation functions
+        group.append("g")
+            .selectAll("g")
             .data([{ function: "ReLU", x: 0.5 }])
-            .join("line")
-            .attr("class", "stroke-neutral-800 dark:stroke-neutral-400")
-            .attr("stroke-opacity", ACTIVATION_FORMAT.strokeOpacity)
-            .attr("stroke-width", ACTIVATION_FORMAT.strokeWidth)
-            .attr("stroke-dasharray", "10, 10")
-            .attr("x1", (d) => d.x * POSITION_SCALE_FACTOR)
-            .attr(
-                "y1",
-                data_max_y * POSITION_SCALE_FACTOR +
-                    NODE_FORMAT.radius +
-                    ACTIVATION_FORMAT.overhang
-            )
-            .attr("x2", (d) => d.x * POSITION_SCALE_FACTOR)
-            .attr(
-                "y2",
-                data_min_y * POSITION_SCALE_FACTOR -
-                    NODE_FORMAT.radius -
-                    ACTIVATION_FORMAT.overhang
-            )
-            .attr("marker-end", "url(#ReLU)")
+            .join("g")
+                .append((data) => getReluG("ReLU", data, POSITION_SCALE_FACTOR,
+                    NODE_FORMAT.radius, ACTIVATION_FORMAT.strokeOpacity,
+                    ACTIVATION_FORMAT.strokeWidth, dataMinY, dataMaxY,
+                     ACTIVATION_FORMAT.overhang))
     }
 
     const panCenter = () => {
