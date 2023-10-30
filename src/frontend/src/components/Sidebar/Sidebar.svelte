@@ -9,7 +9,7 @@
     class="bg-secondarybackground-200 
         dark:bg-secondarybackground-800 border-r-[1px] border-solid 
         border-secondarybackground-800 dark:border-black h-screen
-        max-w-[23rem] min-w-[23rem] z-50 p-4 flex flex-col"
+        max-w-[23rem] min-w-[23rem] z-40 p-4 flex flex-col"
 >
     <div id="testing-functions" class="hidden">
         <div class='sidebar-row flex-row gap-1'>

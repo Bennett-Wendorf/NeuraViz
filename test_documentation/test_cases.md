@@ -7,3 +7,13 @@
 - Clicking the dark mode toggle again should change the theme back to dark mode
 - In dark mode, all elements should be themed appropriately
 - In light mode, all elements should be themed appropriately
+
+### Graph Tooltip On Hover
+- Hovering a link should make the link larger
+- It should be possible to hover from just outside the visible link
+- Hovering an inner link should show a tooltip with the link's weight
+- Hovering an input or output link should show a tooltip with "Input" or "Output" respectively
+
+### Node Size On Hover
+- Hovering a node should make the node larger
+- NOTE: Other related behavior is tested automatically by Playwright
