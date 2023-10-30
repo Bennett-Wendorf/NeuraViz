@@ -1,13 +1,17 @@
 <script lang="ts">
     import * as d3 from 'd3';
-    import { Button, Spinner, Tooltip } from 'flowbite-svelte';
-    import { afterUpdate } from 'svelte';
+    import { Button, Spinner } from 'flowbite-svelte';
+    import { afterUpdate, onMount } from 'svelte';
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
     import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
+    import type { Node } from '../../utils/types';
+    import NodeDetails from './NodeDetails.svelte';
 
     let modelUploaded: boolean = false;
+    let detailsOpen: boolean = false;
+    let selectedNode: Node = null;
 
     $: modelUploaded = $graph.nodes.length > 0 && $graph.links.length > 0;
 
@@ -24,6 +28,7 @@
         strokeWidth: 1.5,
         strokeOpacity: 1,
         radius: 15,
+        scaledRadius: 19,
         squircleRadius: 8
     }
 
@@ -34,7 +39,7 @@
     }
 
     let graph_div: HTMLDivElement;
-    let tooltip;
+    let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>;
 
     let width: number;
     let height: number;
@@ -52,12 +57,6 @@
 
         weightScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...links.map(item => Math.abs(item.weight))));
         biasScaledAbsoluteTanH = getScaledAbsoluteTanH(Math.max(...nodes.map(item => Math.abs(item.bias))));
-
-        // The tooltip element for link hovers
-        tooltip = d3.select('body')
-            .append('div')
-            .attr('class', 'absolute bg-neutral-700/70 text-white dark:bg-secondarybackground-800/70 p-[5px] rounded')
-            .style('display', 'none');
 
         // empty vis div
         d3.select(graph_div).html(null);  
@@ -135,7 +134,7 @@
                     ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                     : getLinkColor(d.weight))
                 tooltip.style('display', 'block')
-                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(5)}`)
+                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
                     .style('left', (event.pageX + 10) + 'px')
                     .style('top', (event.pageY + 10) + 'px');
             })
@@ -159,6 +158,20 @@
                 .attr("r", NODE_FORMAT.radius)
                 .attr("cx", (n) => n.x * POSITION_SCALE_FACTOR)
                 .attr("cy", (n) => n.y * POSITION_SCALE_FACTOR)
+                .on("mouseover", (event, _) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("r", NODE_FORMAT.scaledRadius)
+                    nodeElement.attr("style", "cursor: pointer;")
+                })
+                .on("mouseout", (event) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("r", NODE_FORMAT.radius)
+                    nodeElement.attr("style", "cursor: default;")
+                })
+                .on("click", (_, d) => {
+                    selectedNode = d;
+                    detailsOpen = true;
+                })
 
         // Input Nodes
         group.append("g")
@@ -173,6 +186,26 @@
                 .attr("width", NODE_FORMAT.radius * 2)
                 .attr("height", NODE_FORMAT.radius * 2)
                 .attr("rx", NODE_FORMAT.squircleRadius)
+                .on("mouseover", (event, d) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
+                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.scaledRadius);
+                    nodeElement.attr("width", NODE_FORMAT.scaledRadius * 2);
+                    nodeElement.attr("height", NODE_FORMAT.scaledRadius * 2);
+                    nodeElement.attr("style", "cursor: pointer;")
+                })
+                .on("mouseout", (event, d) => {
+                    let nodeElement = d3.select(event.target);
+                    nodeElement.attr("x", d.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
+                    nodeElement.attr("y", d.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius);
+                    nodeElement.attr("width", NODE_FORMAT.radius * 2);
+                    nodeElement.attr("height", NODE_FORMAT.radius * 2);
+                    nodeElement.attr("style", "cursor: default;")
+                })
+                .on("click", (_, d) => {
+                    selectedNode = d;
+                    detailsOpen = true;
+                })
     }
 
     const getLinkColor = (value: number) => {
@@ -217,12 +250,15 @@
         svg.transition().call(zoom.scaleBy, .8);
     }
 
-    afterUpdate(() => {
+    onMount(() => {
+        tooltip = d3.select('#weightTooltip');
+        // console.log(`Nodes: ${$graph.nodes.length}, Links: ${$graph.links.length}`)
         redraw($graph.nodes, $graph.links);
         window.addEventListener('resize', () => redraw($graph.nodes, $graph.links));
     })
 
-    $: redraw($graph.nodes, $graph.links);
+    // This timeout is used to help ensure that the graph container is rendered before trying to draw inside it.
+    $: setTimeout(() => redraw($graph.nodes, $graph.links), 10);
 </script>
 
 <!--
@@ -271,3 +307,7 @@ links as a pannable and zoomable graph.
         <MagnifyingGlassMinus />
     </Button>
 </div>
+
+<div id="weightTooltip" class="z-50 fixed bg-neutral-700/70 text-white dark:bg-secondarybackground-800/70 p-[5px] rounded" style="display: none;" />
+
+<NodeDetails bind:open={detailsOpen} bind:node={selectedNode} />
