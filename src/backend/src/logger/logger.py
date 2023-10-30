@@ -1,8 +1,8 @@
 import logging
 import os
 
-APP_LOGGER_NAME = "logger" # TODO: Change this to the name of the application
-APP_LOG_FILE = "log.log" # TODO: Change this to the name of the application
+APP_LOGGER_NAME = "NeuraViz"
+APP_LOG_FILE = "NeuraViz.log"
 
 def build_logger(logger_name = APP_LOGGER_NAME, filename = APP_LOG_FILE, debug = False):
     """Build a new logger object, set up with all the proper settings for both console and file logging"""

@@ -14,7 +14,7 @@ class TestGraph:
     @pytest.mark.asyncio
     async def test_get_graph_nominal(self) -> None:
         test_client = app.test_client()
-        file_name = "standard_example.pth"
+        file_name = "STE_Iris.pth"
         files = {
             'files[]': FileStorage(stream=open(f"src/backend/tests/file_inputs/{file_name}", 'rb'), filename=file_name)
         }

@@ -100,7 +100,7 @@
         .data(links)
         .join("line")
             .attr("class", (l) => l.hasDirection 
-                ? "stroke-black fill-black" 
+                ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                 : getLinkColor(l.weight))
             .attr("stroke-width", LINK_FORMAT.strokeWidth)
             .attr("stroke-opacity", LINK_FORMAT.strokeOpacity)
@@ -131,7 +131,7 @@
             .style("pointer-events", "all")  // Capture hover events
             .on("mouseover", (event, d) => {
                 d3.select(event.target).attr("class", d.hasDirection 
-                    ? "stroke-black fill-black" 
+                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                     : getLinkColor(d.weight))
                 tooltip.style('display', 'block')
                     .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
@@ -180,7 +180,7 @@
             .selectAll("rect")
             .data(nodes.filter((n) => n.isInput))
                 .join("rect")
-                .attr("class", (n) => `stroke-black fill-secondarybackground-200 dark:fill-secondarybackground-800`)
+                .attr("class", (n) => `stroke-black fill-neutral-400 dark:fill-neutral-600`)
                 .attr("x", (n) => n.x * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
                 .attr("y", (n) => n.y * POSITION_SCALE_FACTOR - NODE_FORMAT.radius)
                 .attr("width", NODE_FORMAT.radius * 2)
@@ -286,7 +286,7 @@ links as a pannable and zoomable graph.
     />
 {:else}
     <div id='upload_text' out:fade>
-        <p class="text-xl">Please upload a model to continue...</p> 
+        <p class="text-xl text-neutral-800 dark:text-neutral-400">Please upload a model to continue...</p> 
     </div>
 {/if}
 
