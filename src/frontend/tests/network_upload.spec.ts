@@ -39,8 +39,9 @@ test('Upload valid model: Graph', async ({ page }) => {
     await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
     
     let graph = await page.locator('#graph_container > #graph');
-    await expect(graph.locator('svg > g > g > line')).toHaveCount(30);
-    await expect(graph.locator('svg > g > g > circle')).toHaveCount(13);
+    await expect(graph.locator('svg > g > g > line')).toHaveCount(74);
+    await expect(graph.locator('svg > g > g > circle')).toHaveCount(9);
+    await expect(graph.locator('svg > g > g > rect')).toHaveCount(4);
 
     await expect(await page.locator('#pan-center > button')).not.toBeDisabled();
     await expect(await page.locator('#zoom-in > button')).not.toBeDisabled();

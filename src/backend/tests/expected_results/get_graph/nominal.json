@@ -2,460 +2,527 @@
   "graph": {
     "links": [
       {
+        "hasDirection": true,
+        "isInput": true,
         "source": {
-          "bias": null,
           "x": -3.0,
           "y": -1.5
         },
         "target": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
-          "y": -1.0
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
         },
-        "weight": 0.586996853351593
+        "weight": 0
       },
       {
+        "hasDirection": true,
+        "isInput": true,
         "source": {
-          "bias": null,
           "x": -3.0,
           "y": -0.5
         },
         "target": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
-          "y": -1.0
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
         },
-        "weight": 0.6259223818778992
+        "weight": 0
       },
       {
+        "hasDirection": true,
+        "isInput": true,
         "source": {
-          "bias": null,
           "x": -3.0,
           "y": 0.5
         },
         "target": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
-          "y": -1.0
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
         },
-        "weight": -0.5597870945930481
+        "weight": 0
       },
       {
+        "hasDirection": true,
+        "isInput": true,
         "source": {
-          "bias": null,
           "x": -3.0,
           "y": 1.5
         },
         "target": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
-          "y": -1.0
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
         },
-        "weight": -1.4081437587738037
+        "weight": 0
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": -1.5
         },
         "target": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
-          "y": 0.0
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
         },
-        "weight": 0.6403634548187256
+        "weight": -0.3654789328575134
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": -0.5
         },
         "target": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
-          "y": 0.0
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
         },
-        "weight": 0.22720909118652344
+        "weight": -0.29714542627334595
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": 0.5
         },
         "target": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
-          "y": 0.0
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
         },
-        "weight": 0.9190954566001892
+        "weight": 1.9343434572219849
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": 1.5
         },
         "target": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
-          "y": 0.0
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
         },
-        "weight": 0.07938166707754135
+        "weight": 0.7939656972885132
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": -1.5
         },
         "target": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
-          "y": 1.0
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
         },
-        "weight": 0.6209192276000977
+        "weight": 1.1994346380233765
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": -0.5
         },
         "target": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
-          "y": 1.0
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
         },
-        "weight": 0.8000067472457886
+        "weight": 0.9762427806854248
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": 0.5
         },
         "target": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
-          "y": 1.0
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
         },
-        "weight": -0.822571337223053
+        "weight": -0.9538310170173645
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
           "bias": null,
-          "x": -3.0,
+          "isInput": true,
+          "x": -2.0,
           "y": 1.5
         },
         "target": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
-          "y": 1.0
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
         },
-        "weight": -1.4113425016403198
+        "weight": -1.6823691129684448
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": -0.7281897664070129
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 0.07633354514837265
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 0.8575589656829834
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 1.3169176578521729
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
           "y": -1.0
         },
         "target": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
           "y": -1.0
         },
-        "weight": -0.2953779697418213
+        "weight": -1.4416940212249756
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
           "y": 0.0
         },
         "target": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
           "y": -1.0
         },
-        "weight": -0.1263122707605362
+        "weight": 1.1191141605377197
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
           "y": 1.0
         },
         "target": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
           "y": -1.0
         },
-        "weight": -0.04956972971558571
+        "weight": 0.4074937403202057
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
-          "y": -1.0
-        },
-        "target": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
-          "y": 0.0
-        },
-        "weight": 1.3457276821136475
-      },
-      {
-        "source": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
-          "y": 0.0
-        },
-        "target": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
-          "y": 0.0
-        },
-        "weight": 0.03347325325012207
-      },
-      {
-        "source": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
-          "y": 1.0
-        },
-        "target": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
-          "y": 0.0
-        },
-        "weight": 1.660745620727539
-      },
-      {
-        "source": {
-          "bias": 0.4283027946949005,
-          "x": -1.0,
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
           "y": -1.0
         },
         "target": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
-          "y": 1.0
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
         },
-        "weight": -0.6715227961540222
+        "weight": 0.5256883502006531
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": -0.31548821926116943,
-          "x": -1.0,
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
           "y": 0.0
         },
         "target": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
-          "y": 1.0
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
         },
-        "weight": 1.256954312324524
+        "weight": 0.3149278163909912
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": 1.0834338665008545,
-          "x": -1.0,
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
           "y": 1.0
         },
         "target": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
-          "y": 1.0
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
         },
-        "weight": -0.7789931893348694
+        "weight": -1.404784083366394
       },
       {
+        "hasDirection": false,
+        "isInput": false,
         "source": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
           "y": -1.0
         },
         "target": {
-          "bias": -0.15755248069763184,
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": 1.425222635269165
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "target": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": -2.200597047805786
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "target": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": 1.2447155714035034
+      },
+      {
+        "hasDirection": true,
+        "isInput": false,
+        "source": {
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
+          "y": -1.0
+        },
+        "target": {
           "x": 3.0,
           "y": -1.0
         },
-        "weight": 0.5449880361557007
+        "weight": 0
       },
       {
+        "hasDirection": true,
+        "isInput": false,
         "source": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
           "y": 0.0
         },
         "target": {
-          "bias": -0.15755248069763184,
-          "x": 3.0,
-          "y": -1.0
-        },
-        "weight": 0.95167076587677
-      },
-      {
-        "source": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
-          "y": 1.0
-        },
-        "target": {
-          "bias": -0.15755248069763184,
-          "x": 3.0,
-          "y": -1.0
-        },
-        "weight": -1.2483782768249512
-      },
-      {
-        "source": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
-          "y": -1.0
-        },
-        "target": {
-          "bias": 0.220333993434906,
           "x": 3.0,
           "y": 0.0
         },
-        "weight": -0.34636664390563965
+        "weight": 0
       },
       {
+        "hasDirection": true,
+        "isInput": false,
         "source": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
-          "y": 0.0
-        },
-        "target": {
-          "bias": 0.220333993434906,
-          "x": 3.0,
-          "y": 0.0
-        },
-        "weight": 0.39013880491256714
-      },
-      {
-        "source": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
           "y": 1.0
         },
         "target": {
-          "bias": 0.220333993434906,
-          "x": 3.0,
-          "y": 0.0
-        },
-        "weight": 0.22352218627929688
-      },
-      {
-        "source": {
-          "bias": 0.4233403503894806,
-          "x": 1.0,
-          "y": -1.0
-        },
-        "target": {
-          "bias": -1.0206656455993652,
           "x": 3.0,
           "y": 1.0
         },
-        "weight": 0.18668900430202484
-      },
-      {
-        "source": {
-          "bias": 0.04996563494205475,
-          "x": 1.0,
-          "y": 0.0
-        },
-        "target": {
-          "bias": -1.0206656455993652,
-          "x": 3.0,
-          "y": 1.0
-        },
-        "weight": -1.757167935371399
-      },
-      {
-        "source": {
-          "bias": -0.03954329714179039,
-          "x": 1.0,
-          "y": 1.0
-        },
-        "target": {
-          "bias": -1.0206656455993652,
-          "x": 3.0,
-          "y": 1.0
-        },
-        "weight": 0.9747533202171326
+        "weight": 0
       }
     ],
     "nodes": [
       {
         "bias": null,
-        "x": -3.0,
+        "isInput": true,
+        "x": -2.0,
         "y": -1.5
       },
       {
         "bias": null,
-        "x": -3.0,
+        "isInput": true,
+        "x": -2.0,
         "y": -0.5
       },
       {
         "bias": null,
-        "x": -3.0,
+        "isInput": true,
+        "x": -2.0,
         "y": 0.5
       },
       {
         "bias": null,
-        "x": -3.0,
+        "isInput": true,
+        "x": -2.0,
         "y": 1.5
       },
       {
-        "bias": 0.4283027946949005,
-        "x": -1.0,
+        "bias": -0.13199810683727264,
+        "isInput": false,
+        "x": 0.0,
         "y": -1.0
       },
       {
-        "bias": -0.31548821926116943,
-        "x": -1.0,
+        "bias": 0.6498288512229919,
+        "isInput": false,
+        "x": 0.0,
         "y": 0.0
       },
       {
-        "bias": 1.0834338665008545,
-        "x": -1.0,
+        "bias": -0.9158048033714294,
+        "isInput": false,
+        "x": 0.0,
         "y": 1.0
       },
       {
-        "bias": 0.4233403503894806,
-        "x": 1.0,
+        "bias": 0.4154677391052246,
+        "isInput": false,
+        "x": 2.0,
         "y": -1.0
       },
       {
-        "bias": 0.04996563494205475,
-        "x": 1.0,
+        "bias": -0.03147289156913757,
+        "isInput": false,
+        "x": 2.0,
         "y": 0.0
       },
       {
-        "bias": -0.03954329714179039,
-        "x": 1.0,
-        "y": 1.0
-      },
-      {
-        "bias": -0.15755248069763184,
-        "x": 3.0,
-        "y": -1.0
-      },
-      {
-        "bias": 0.220333993434906,
-        "x": 3.0,
-        "y": 0.0
-      },
-      {
-        "bias": -1.0206656455993652,
-        "x": 3.0,
+        "bias": -0.7302149534225464,
+        "isInput": false,
+        "x": 2.0,
         "y": 1.0
       }
     ]
