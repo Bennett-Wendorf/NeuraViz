@@ -43,6 +43,9 @@ test('Upload valid model: Graph', async ({ page }) => {
     await expect(graph.locator('svg > g > g > circle')).toHaveCount(6);
     await expect(graph.locator('svg > g > g > rect')).toHaveCount(4);
 
+    await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(2)')).toHaveAttribute('marker-end', "url(#arrow)");
+    await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(27)')).toHaveAttribute('marker-end', "url(#arrow)");
+
     await expect(await page.locator('#pan-center > button')).not.toBeDisabled();
     await expect(await page.locator('#zoom-in > button')).not.toBeDisabled();
     await expect(await page.locator('#zoom-out > button')).not.toBeDisabled();
