@@ -10,7 +10,7 @@
     import NodeDetails from './NodeDetails.svelte';
     import { getArrowhead } from './graph_components/defs/marker';
     import { getPrimaryGradient } from './graph_components/defs/gradient';
-    import { getReluG } from './graph_components/defs/activations/relu';
+    import { getActivation } from './graph_components/activations/activationOverlayBuilder';
     import { getLinkHoverAreas, getVisibleLinks } from './graph_components/links';
     import { getInputNodes, getMainNodes } from './graph_components/nodes';
 
@@ -21,6 +21,7 @@
     $: modelUploaded = $graph.nodes.length > 0 && $graph.links.length > 0;
 
     const POSITION_SCALE_FACTOR: number = 50;
+    const ACTIVATION_ICON_SCALE_FACTOR: number = 1.5; // Relative to node radius
 
     const MARGIN = {
         top: 20,
@@ -144,12 +145,13 @@
         // Activation functions
         group.append("g")
             .selectAll("g")
-            .data([{ function: "ReLU", x: 0.5 }])
+            .data([{ function: "ReLU", type: "relu", x: 0.5 }])
             .join("g")
-                .append((data) => getReluG("ReLU", data, POSITION_SCALE_FACTOR,
+                .append((data) => getActivation(data, POSITION_SCALE_FACTOR,
                     NODE_FORMAT.radius, ACTIVATION_FORMAT.strokeOpacity,
                     ACTIVATION_FORMAT.strokeWidth, dataMinY, dataMaxY,
-                     ACTIVATION_FORMAT.overhang))
+                     ACTIVATION_FORMAT.overhang, ACTIVATION_ICON_SCALE_FACTOR, 
+                     tooltip))
     }
 
     const panCenter = () => {
