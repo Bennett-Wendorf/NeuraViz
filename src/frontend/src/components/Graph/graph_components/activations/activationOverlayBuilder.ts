@@ -1,15 +1,25 @@
 //#region Imports
 import * as d3 from 'd3';
 import type { Activation, activationFunctionIconGetter } from '../../../../utils/types';
+import { getActivationLineOverlay } from './lineOverlay';
 
 //#region Icons
 import { getReluIcon } from './relu';
-import { getActivationLineOverlay } from './lineOveraly';
+import { getLogisticIcon } from './logistic';
+import { getShrinkIcon } from './shrink';
+import { getThresholdIcon } from './threshold';
+import { getSoftmaxIcon } from './softmax';
+import { getGeneralIcon } from './general';
 //#endregion
 //#endregion
 
 const iconMap: { [name: string]: activationFunctionIconGetter } = {
-    "relu": getReluIcon
+    "relu": getReluIcon,
+    "logistic": getLogisticIcon,
+    "shrink": getShrinkIcon,
+    "threshold": getThresholdIcon,
+    "softmax": getSoftmaxIcon,
+    "other": getGeneralIcon,
 };
 
 export function getActivation(data: Activation, positionScaleFactor: number,

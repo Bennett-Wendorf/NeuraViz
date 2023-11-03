@@ -168,7 +168,6 @@
 
     onMount(() => {
         tooltip = d3.select('#weightTooltip');
-        // console.log(`Nodes: ${$graph.nodes.length}, Links: ${$graph.links.length}`)
         redraw($graph.nodes, $graph.links, $graph.activations);
         window.addEventListener("resize", () =>
             redraw($graph.nodes, $graph.links, $graph.activations)
