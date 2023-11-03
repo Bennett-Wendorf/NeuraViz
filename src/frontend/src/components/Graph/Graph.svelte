@@ -67,7 +67,7 @@
     let weightScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
     let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
 
-    function redraw(nodes: any[], links: any[]): void {
+    function redraw(nodes: any[], links: any[], activations: any[]): void {
         if (graph_div == null) return;
 
         weightScaledAbsoluteTanH = getScaledAbsoluteTanH(
@@ -117,17 +117,17 @@
         var group = svg.append("g");
 
         // Links
-        group.append(() => getVisibleLinks(links, LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity, 
+        group.append(() => getVisibleLinks(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity, 
             LINK_FORMAT.strokeLinecap, POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, 
             arrowName, weightScaledAbsoluteTanH));
 
         // Hover areas on links (slightly larger than the links themselves)
-        group.append(() => getLinkHoverAreas(links, LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeLinecap, 
+        group.append(() => getLinkHoverAreas(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeLinecap, 
             POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowName, 
             weightScaledAbsoluteTanH, LINK_FORMAT.hoverScaleFactor, tooltip));
 
         // Main Nodes
-        group.append(() => getMainNodes(nodes, NODE_FORMAT.strokeWidth,
+        group.append(() => getMainNodes(nodes ?? [], NODE_FORMAT.strokeWidth,
             NODE_FORMAT.strokeOpacity, NODE_FORMAT.radius, POSITION_SCALE_FACTOR,
             NODE_FORMAT.scaledRadius, biasScaledAbsoluteTanH, (_, data: Node) => {
                 selectedNode = data;
@@ -135,7 +135,7 @@
             }))
 
         // Input Nodes
-        group.append(() => getInputNodes(nodes, NODE_FORMAT.squircleRadius,
+        group.append(() => getInputNodes(nodes ?? [], NODE_FORMAT.squircleRadius,
             NODE_FORMAT.radius, NODE_FORMAT.scaledRadius, POSITION_SCALE_FACTOR,
             (_, data: Node) => {
                 selectedNode = data;
@@ -145,7 +145,7 @@
         // Activation functions
         group.append("g")
             .selectAll("g")
-            .data([{ function: "ReLU", type: "relu", x: 0.5 }])
+            .data(activations ?? [])
             .join("g")
                 .append((data) => getActivation(data, POSITION_SCALE_FACTOR,
                     NODE_FORMAT.radius, ACTIVATION_FORMAT.strokeOpacity,
@@ -169,14 +169,14 @@
     onMount(() => {
         tooltip = d3.select('#weightTooltip');
         // console.log(`Nodes: ${$graph.nodes.length}, Links: ${$graph.links.length}`)
-        redraw($graph.nodes, $graph.links);
+        redraw($graph.nodes, $graph.links, $graph.activations);
         window.addEventListener("resize", () =>
-            redraw($graph.nodes, $graph.links)
+            redraw($graph.nodes, $graph.links, $graph.activations)
         );
     });
 
     // This timeout is used to help ensure that the graph container is rendered before trying to draw inside it.
-    $: setTimeout(() => redraw($graph.nodes, $graph.links), 10);
+    $: setTimeout(() => redraw($graph.nodes, $graph.links, $graph.activations), 10);
 </script>
 
 <!--

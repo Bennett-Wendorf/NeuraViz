@@ -23,16 +23,16 @@ export function getActivation(data: Activation, positionScaleFactor: number,
     let iconDimension = nodeRadius * iconScaleFactor;
     
     // TODO: Consider a warning or something here to the user
-    if (!(data.type in iconMap)) {
+    if (!(data.category in iconMap)) {
         return activationG.node() as SVGGElement;
     }
 
     // Add dashed line overlay
-    activationG.append(() => getActivationLineOverlay(data.x, strokeOpacity, strokeWidth,
+    activationG.append(() => getActivationLineOverlay(data.xPosition, strokeOpacity, strokeWidth,
         positionScaleFactor, lineY1, lineY2));
 
     // Get activation icon
-    let iconSelection = iconMap[data.type.toLowerCase()](data.x, positionScaleFactor,
+    let iconSelection = iconMap[data.category.toLowerCase()](data.xPosition, positionScaleFactor,
         iconDimension, lineY2)
 
     // Add tooltip

@@ -15,8 +15,8 @@ export interface Link {
 
 export interface Activation {
     function: string;
-    type: string;
-    x: number;
+    category: string;
+    xPosition: number;
 }
 
 export interface Graph {

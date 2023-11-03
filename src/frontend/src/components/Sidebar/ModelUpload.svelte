@@ -17,7 +17,7 @@
     $: uploadButtonDisabled = $uploading || $modelValid;
 
     let clearModel = () => {
-        $graph = { nodes: [], links: [] }
+        $graph = { nodes: [], links: [], activations: [] }
         $modelValid = false;
         $graphFile = null;
         files = null;
@@ -31,7 +31,7 @@
         $uploading = true;
         api.post('/graph', files)
             .then((res: any) => {
-                $graph = { nodes: res.data.graph.nodes, links: res.data.graph.links }
+                $graph = { nodes: res.data.graph.nodes, links: res.data.graph.links, activations: res.data.graph.activations }
                 $modelValid = true;
                 $uploading = false;
                 sendToast("success", "Model uploaded successfully");
