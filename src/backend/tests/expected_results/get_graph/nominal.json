@@ -1,0 +1,530 @@
+{
+  "graph": {
+    "links": [
+      {
+        "hasDirection": true,
+        "isInput": true,
+        "source": {
+          "x": -3.0,
+          "y": -1.5
+        },
+        "target": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": true,
+        "isInput": true,
+        "source": {
+          "x": -3.0,
+          "y": -0.5
+        },
+        "target": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": true,
+        "isInput": true,
+        "source": {
+          "x": -3.0,
+          "y": 0.5
+        },
+        "target": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": true,
+        "isInput": true,
+        "source": {
+          "x": -3.0,
+          "y": 1.5
+        },
+        "target": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
+        },
+        "target": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "weight": -0.3654789328575134
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
+        },
+        "target": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "weight": -0.29714542627334595
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
+        },
+        "target": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "weight": 1.9343434572219849
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
+        },
+        "target": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "weight": 0.7939656972885132
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
+        },
+        "target": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "weight": 1.1994346380233765
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
+        },
+        "target": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "weight": 0.9762427806854248
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
+        },
+        "target": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "weight": -0.9538310170173645
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
+        },
+        "target": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "weight": -1.6823691129684448
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -1.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": -0.7281897664070129
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": -0.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 0.07633354514837265
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 0.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 0.8575589656829834
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": null,
+          "isInput": true,
+          "x": -2.0,
+          "y": 1.5
+        },
+        "target": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "weight": 1.3169176578521729
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "target": {
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
+          "y": -1.0
+        },
+        "weight": -1.4416940212249756
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "target": {
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
+          "y": -1.0
+        },
+        "weight": 1.1191141605377197
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "target": {
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
+          "y": -1.0
+        },
+        "weight": 0.4074937403202057
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "target": {
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
+        },
+        "weight": 0.5256883502006531
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "target": {
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
+        },
+        "weight": 0.3149278163909912
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "target": {
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
+        },
+        "weight": -1.404784083366394
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.13199810683727264,
+          "isInput": false,
+          "x": 0.0,
+          "y": -1.0
+        },
+        "target": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": 1.425222635269165
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": 0.6498288512229919,
+          "isInput": false,
+          "x": 0.0,
+          "y": 0.0
+        },
+        "target": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": -2.200597047805786
+      },
+      {
+        "hasDirection": false,
+        "isInput": false,
+        "source": {
+          "bias": -0.9158048033714294,
+          "isInput": false,
+          "x": 0.0,
+          "y": 1.0
+        },
+        "target": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "weight": 1.2447155714035034
+      },
+      {
+        "hasDirection": true,
+        "isInput": false,
+        "source": {
+          "bias": 0.4154677391052246,
+          "isInput": false,
+          "x": 2.0,
+          "y": -1.0
+        },
+        "target": {
+          "x": 3.0,
+          "y": -1.0
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": true,
+        "isInput": false,
+        "source": {
+          "bias": -0.03147289156913757,
+          "isInput": false,
+          "x": 2.0,
+          "y": 0.0
+        },
+        "target": {
+          "x": 3.0,
+          "y": 0.0
+        },
+        "weight": 0
+      },
+      {
+        "hasDirection": true,
+        "isInput": false,
+        "source": {
+          "bias": -0.7302149534225464,
+          "isInput": false,
+          "x": 2.0,
+          "y": 1.0
+        },
+        "target": {
+          "x": 3.0,
+          "y": 1.0
+        },
+        "weight": 0
+      }
+    ],
+    "nodes": [
+      {
+        "bias": null,
+        "isInput": true,
+        "x": -2.0,
+        "y": -1.5
+      },
+      {
+        "bias": null,
+        "isInput": true,
+        "x": -2.0,
+        "y": -0.5
+      },
+      {
+        "bias": null,
+        "isInput": true,
+        "x": -2.0,
+        "y": 0.5
+      },
+      {
+        "bias": null,
+        "isInput": true,
+        "x": -2.0,
+        "y": 1.5
+      },
+      {
+        "bias": -0.13199810683727264,
+        "isInput": false,
+        "x": 0.0,
+        "y": -1.0
+      },
+      {
+        "bias": 0.6498288512229919,
+        "isInput": false,
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "bias": -0.9158048033714294,
+        "isInput": false,
+        "x": 0.0,
+        "y": 1.0
+      },
+      {
+        "bias": 0.4154677391052246,
+        "isInput": false,
+        "x": 2.0,
+        "y": -1.0
+      },
+      {
+        "bias": -0.03147289156913757,
+        "isInput": false,
+        "x": 2.0,
+        "y": 0.0
+      },
+      {
+        "bias": -0.7302149534225464,
+        "isInput": false,
+        "x": 2.0,
+        "y": 1.0
+      }
+    ]
+  }
+}
