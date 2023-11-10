@@ -3,7 +3,6 @@
 import os
 from pathlib import Path
 
-
 # Quart
 from quart import Quart, send_from_directory
 
@@ -20,8 +19,10 @@ from src.logger.logger import build_logger
 
 app = Quart(__name__)
 
+app.url_map.strict_slashes = False
+
 DEFAULT_DEBUG = False
-PORT = 5000
+PORT = os.getenv("PORT", 5000)
 
 API_PREFIX = "/api"
 
