@@ -4,6 +4,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Get latest changes
 echo "Pulling latest changes from git"
+cd $SCRIPT_DIR
 git pull
 
 # Cleanup old build files
@@ -13,21 +14,17 @@ rm -rf $SCRIPT_DIR/frontend/dist
 
 # Ensure frontend dependencies all exist
 echo "Installing frontend dependencies"
-cd frontend
+cd $SCRIPT_DIR/frontend
 npm install
-cd ..
-
-# Ensure backend dependencies all exist
-echo "Installing backend dependencies"
-cd backend
-poetry install
-cd ..
 
 # Build frontend
 echo "Building frontend"
-cd frontend
 npm run build
-cd ..
+
+# Ensure backend dependencies all exist
+echo "Installing backend dependencies"
+cd $SCRIPT_DIR/backend
+poetry install
 
 # Restart the application
 echo "Restarting application"
