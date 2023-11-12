@@ -7,14 +7,13 @@ on:
     # Allows the action to be run manually
     workflow_dispatch:
 
-env: 
-
 jobs: 
     deploy:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
+            - name: Install iproute2
+              run: sudo apt-get update && sudo apt-get install -y iproute2
 
             - name: Set up WireGuard
               uses: egor-tensin/setup-wireguard@v1.2.0
@@ -35,5 +34,5 @@ jobs:
                 SSH_KEY: ${{ secrets.SSH_KEY }}
 
             - name: Run Build Script Over SSH
-              run: ssh ${{ steps.ssh.outputs.SERVER }} "/home/${{ secrets.SSH_USER }}/${{ github.event.repository.name }}/src/build.sh"
+              run: ssh ${{ steps.ssh.outputs.SERVER }} "/home/${{ secrets.SSH_USER }}/NeuraViz/src/build.sh"
 

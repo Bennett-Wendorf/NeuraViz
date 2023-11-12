@@ -1,26 +1,31 @@
 #!/bin/bash
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # Get latest changes
-git checkout main
+echo "Pulling latest changes from git"
+cd $SCRIPT_DIR
 git pull
 
 # Cleanup old build files
-rm -rf ./src/frontend/public/build
-rm -rf ./src/frontend/dist
+echo "Cleaning up old build files"
+rm -rf $SCRIPT_DIR/frontend/public/build
+rm -rf $SCRIPT_DIR/frontend/dist
 
 # Ensure frontend dependencies all exist
-cd frontend
+echo "Installing frontend dependencies"
+cd $SCRIPT_DIR/frontend
 npm install
-cd ..
-
-cd backend
-poetry install
-cd ..
 
 # Build frontend
-cd frontend
+echo "Building frontend"
 npm run build
-cd ..
+
+# Ensure backend dependencies all exist
+echo "Installing backend dependencies"
+cd $SCRIPT_DIR/backend
+poetry install
 
 # Restart the application
-pm2 restart MSE_Capstone
+echo "Restarting application"
+pm2 restart NeuraViz
