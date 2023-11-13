@@ -3,10 +3,12 @@ from typing import List
 from src.models.graph.Node import Node
 from src.models.graph.Link import Link
 from src.models.graph.Position import Position
+from src.models.graph.Activation import Activation
 import torch
 from torch.nn.modules.module import Module
 from src.logger.logger import build_logger
 import os
+from src.utils.activation_category_mapper import get_activation_function_category
 
 # Constants TODO: Make these configurable
 LAYER_MARGIN = 2 # The amount of horizontal space between layers
@@ -18,6 +20,7 @@ logger = build_logger(logger_name = "Graph", debug = os.getenv("DEBUG", "FALSE")
 class Graph:
     nodes: List[Node]
     links: List[Link]
+    activations: List[Activation]
 
     # TODO: Try to modularize this
     @classmethod
@@ -25,7 +28,7 @@ class Graph:
         logger.debug("Generating model visualization from Pytorch model")
         try:
             # Generate the graph to later append data to
-            new_graph = cls(nodes = [], links = [])
+            new_graph = cls(nodes = [], links = [], activations = [])
             
             # Load the pytorch model
             pytorch_model = torch.load(pytorch_model_file, map_location = 'cpu')
@@ -65,12 +68,14 @@ class Graph:
             previous_layer_nodes = input_layer_nodes
             for module_index, module in enumerate(modules):
                 if cls._is_activation_layer(module):
-                    # TODO: Add activation functions into graph structure for visualization as well
+                    function = module.__class__.__name__
+                    position = ((layer_index - 1 - middle_layer_index) * LAYER_MARGIN) + (LAYER_MARGIN / 4)
+                    new_graph.activations.append(Activation(function = function, category = get_activation_function_category(function), xPosition = position))
                     continue
-
+                
                 # Calculate the layer offset (how much and which direction to positionally offset this layer from center)
                 layer_offset = (layer_index - middle_layer_index) * LAYER_MARGIN
-                
+
                 # Calculate the middle node index for positioning
                 middle_node_index = (len(module.bias.data) - 1) / 2
 

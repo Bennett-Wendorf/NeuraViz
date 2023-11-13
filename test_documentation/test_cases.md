@@ -14,6 +14,9 @@
 - Hovering an inner link should show a tooltip with the link's weight
 - Hovering an input or output link should show a tooltip with "Input" or "Output" respectively
 
+### Activation Tooltip On Hover
+- Hovering an activation function icon should show a tooltip with the activation function's name
+
 ### Node Size On Hover
 - Hovering a node should make the node larger
 - NOTE: Other related behavior is tested automatically by Playwright

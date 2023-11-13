@@ -1,5 +1,12 @@
 {
   "graph": {
+    "activations": [
+      {
+        "category": "relu",
+        "function": "ReLU",
+        "xPosition": 0.5
+      }
+    ],
     "links": [
       {
         "hasDirection": true,
