@@ -11,7 +11,7 @@ export function getGeneralIcon(xPosition: number, positionScaleFactor: number,
 
     // Add icon foreground
     generalIcon.append("text")
-        .attr("class", "fill-[url(#primarygradient)] font-bold text-xs tracking-widest")
+        .attr("class", "fill-[url(#primarylightgradient)] dark:fill-[url(#primarydarkgradient)] font-bold text-xs tracking-widest")
         .attr("x", iconDimension * 0.21)
         .attr("y", iconDimension * 0.7)
         .html("fX")

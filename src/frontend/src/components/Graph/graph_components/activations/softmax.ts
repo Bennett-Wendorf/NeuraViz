@@ -11,7 +11,7 @@ export function getSoftmaxIcon(xPosition: number, positionScaleFactor: number,
 
     // Add icon foreground
     softmaxIcon.append("text")
-        .attr("class", "fill-[url(#primarygradient)] font-bold text-xs text-center")
+        .attr("class", "fill-[url(#primarylightgradient)] dark:fill-[url(#primarydarkgradient)] font-bold text-xs text-center")
         .attr("x", iconDimension * 0.11)
         .attr("y", iconDimension * 0.65)
         .html("sm")

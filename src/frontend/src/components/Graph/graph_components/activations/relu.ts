@@ -11,7 +11,7 @@ export function getReluIcon(xPosition: number, positionScaleFactor: number,
 
     // Add icon foreground
     reluIcon.append("path")
-        .attr("class", "fill-none stroke-[url(#primarygradient)]")
+        .attr("class", "fill-none stroke-[url(#primarylightgradient)] dark:stroke-[url(#primarydarkgradient)]")
         .attr("stroke-linecap", "round")
         .attr("stroke-linejoin", "round")
         .attr("stroke-width", iconDimension * 0.07)

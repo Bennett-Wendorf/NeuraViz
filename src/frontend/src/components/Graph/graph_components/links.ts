@@ -61,7 +61,8 @@ export function getLinkHoverAreas(links: Link[], strokeWidth: number,
             .attr("marker-end", (l) => (l.hasDirection ? `url(#${arrowName})` : null))
             .style("pointer-events", "all") // Capture hover events
             .on("mouseover", (event, d) => {
-                d3.select(event.target).attr("class", d.hasDirection 
+                const linkElement = d3.select(event.target);
+                linkElement.attr("class", d.hasDirection 
                     ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
                     : getLinkColor(d.weight, absoluteTanH))
                 globalTooltip.style('display', 'block')
@@ -75,7 +76,8 @@ export function getLinkHoverAreas(links: Link[], strokeWidth: number,
                     .style("top", event.pageY + 10 + "px");
             })
             .on("mouseout", (event) => {
-                d3.select(event.target).attr("class", "stroke-transparent fill-transparent");
+                const linkElement = d3.select(event.target);
+                linkElement.attr("class", "stroke-transparent fill-transparent");
                 globalTooltip.style("display", "none");
             });
 

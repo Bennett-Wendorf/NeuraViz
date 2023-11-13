@@ -9,7 +9,7 @@
     import type { Node } from '../../utils/types';
     import NodeDetails from './NodeDetails.svelte';
     import { getArrowhead } from './graph_components/defs/marker';
-    import { getPrimaryGradient } from './graph_components/defs/gradient';
+    import { getPrimaryLightGradient, getPrimaryDarkGradient } from './graph_components/defs/gradient';
     import { getActivation } from './graph_components/activations/activationOverlayBuilder';
     import { getLinkHoverAreas, getVisibleLinks } from './graph_components/links';
     import { getInputNodes, getMainNodes } from './graph_components/nodes';
@@ -104,7 +104,7 @@
             .attr("width", width)
             .attr("height", height)
             .attr("viewBox", [-width / 2, -height / 2, width, height])
-            .attr("class", "max-w-full h-[intrinsic]")
+            .attr("class", "max-w-full h-[intrinsic] cursor-move")
             .call(zoom);
 
         let defs = svg.append("defs");
@@ -112,7 +112,8 @@
         let arrowName = "arrow"
         defs.append(() => getArrowhead(arrowName, LINK_FORMAT.strokeWidth));
 
-        defs.append(() => getPrimaryGradient("primarygradient", "#a5f3fc", "#06b6d4"));
+        defs.append(() => getPrimaryLightGradient("primarylightgradient"));
+        defs.append(() => getPrimaryDarkGradient("primarydarkgradient"));
 
         var group = svg.append("g");
 
