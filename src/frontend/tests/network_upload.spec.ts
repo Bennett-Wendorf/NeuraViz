@@ -42,6 +42,7 @@ test('Upload valid model: Graph', async ({ page }) => {
     await expect(graph.locator('svg > g > g > line')).toHaveCount(56);
     await expect(graph.locator('svg > g > g > circle')).toHaveCount(6);
     await expect(graph.locator('svg > g > g > rect')).toHaveCount(4);
+    await expect(graph.locator('svg > g > g > g > g > g > rect')).toHaveCount(1);
 
     await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(2)')).toHaveAttribute('marker-end', "url(#arrow)");
     await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(27)')).toHaveAttribute('marker-end', "url(#arrow)");
@@ -95,7 +96,7 @@ test('Links are color graded', async ({ page }) => {
     await page.goto('/');
     await uploadNetworkHelper(page);
 
-    let inputLine = await page.locator('g:nth-child(1) > line:nth-child(1)');
+    let inputLine = await page.locator('g:nth-child(1) > line:nth-child(1)').first();
     await expect(inputLine).toHaveClass(/stroke-neutral-800/);
     await expect(inputLine).toHaveClass(/dark:stroke-neutral-400/);
     await expect(inputLine).toHaveClass(/fill-neutral-800/);
