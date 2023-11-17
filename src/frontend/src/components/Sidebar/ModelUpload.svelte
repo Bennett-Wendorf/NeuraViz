@@ -29,7 +29,7 @@
 
     let submitForm = () => {
         $uploading = true;
-        api.post('/graph', files)
+        api.post('/graph', files, { timeout: 30000})
             .then((res: any) => {
                 $graph = { nodes: res.data.graph.nodes, links: res.data.graph.links, activations: res.data.graph.activations }
                 $modelValid = true;
@@ -37,6 +37,7 @@
                 sendToast("success", "Model uploaded successfully");
             })
             .catch((err: any) => {
+                console.log(err)
                 let [_, message] = getResponseError(err);
                 sendToast("error", `${message}`);
                 $uploading = false;
