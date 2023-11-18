@@ -9,3 +9,4 @@ class Link:
     weight: float
     hasDirection: bool = False
     isInput: bool = False
+    isMulti: bool = False

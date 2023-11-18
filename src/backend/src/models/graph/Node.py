@@ -7,3 +7,4 @@ class Node:
     x: float = None
     y: float = None
     isInput: bool = False
+    isLayer: bool = False

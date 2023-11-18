@@ -3,6 +3,7 @@ export interface Node {
     x: number;
     y: number;
     isInput: boolean;
+    isLayer: boolean;
 }
 
 export interface Link {
@@ -11,6 +12,7 @@ export interface Link {
     weight?: number;
     hasDirection: boolean;
     isInput: boolean;
+    isMulti: boolean;
 }
 
 export interface Activation {
