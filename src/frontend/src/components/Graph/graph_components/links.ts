@@ -1,9 +1,7 @@
 import * as d3 from 'd3';
-import type { Link } from '../../../utils/types';
+import { isLinkCollection, type Link, type LinkCollection } from '../../../utils/types';
 
-// const LINK_HOVER_FACTOR = 3;
-
-export function getVisibleLinks(links: Link[], strokeWidth: number,
+export function getVisibleLinks(links: (Link | LinkCollection)[], strokeWidth: number,
         strokeOpacity: number, strokeLinecap: string, positionScaleFactor: number,
         nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
         absoluteTanH: (x: number) => number): SVGGElement {
@@ -16,7 +14,9 @@ export function getVisibleLinks(links: Link[], strokeWidth: number,
             .attr("class", (l) =>
                 l.hasDirection
                     ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400"
-                    : getLinkColor(l.weight, absoluteTanH)
+                    : isLinkCollection(l)
+                        ? "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900"
+                        : getLinkColor(l.weight, absoluteTanH)
             )
             .attr("stroke-width", strokeWidth)
             .attr("stroke-opacity", strokeOpacity)
@@ -26,8 +26,7 @@ export function getVisibleLinks(links: Link[], strokeWidth: number,
             .attr("x2", (l) =>
                 l.isInput
                     ? l.target.x * positionScaleFactor -
-                    nodeRadius -
-                      2 * nodeStrokeWidth
+                      nodeRadius - 2 * nodeStrokeWidth - 2
                     : l.target.x * positionScaleFactor
             )
             .attr("y2", (l) => l.target.y * positionScaleFactor)
@@ -36,7 +35,7 @@ export function getVisibleLinks(links: Link[], strokeWidth: number,
     return visibleLinks.node() as SVGGElement;
 }
 
-export function getLinkHoverAreas(links: Link[], strokeWidth: number,
+export function getLinkHoverAreas(links: (Link | LinkCollection)[], strokeWidth: number,
         strokeLinecap: string, positionScaleFactor: number,
         nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
         absoluteTanH: (x: number) => number, hoverScaleFactor: number,
@@ -64,9 +63,15 @@ export function getLinkHoverAreas(links: Link[], strokeWidth: number,
                 const linkElement = d3.select(event.target);
                 linkElement.attr("class", d.hasDirection 
                     ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
-                    : getLinkColor(d.weight, absoluteTanH))
+                    : isLinkCollection(d)
+                        ? "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900"
+                        : getLinkColor(d.weight, absoluteTanH))
                 globalTooltip.style('display', 'block')
-                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
+                    .html(d.hasDirection 
+                        ? (d.isInput ? "Input" : "Output") 
+                        : isLinkCollection(d)
+                            ? "Multiple links"
+                            : `Weight: ${d.weight.toFixed(3)}`)
                     .style('left', (event.pageX + 10) + 'px')
                     .style('top', (event.pageY + 10) + 'px');
             })

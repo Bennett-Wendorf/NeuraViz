@@ -1,12 +1,13 @@
 <script lang="ts">
     import * as d3 from 'd3';
     import { Button, Spinner } from 'flowbite-svelte';
-    import { afterUpdate, onMount } from 'svelte';
-    import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin, Link } from 'svelte-heros-v2'
+    import { onMount } from 'svelte';
+    import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
     import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
-    import type { Node } from '../../utils/types';
+    import type { Node, NodeCollection, Link, LinkCollection, Activation } from '../../utils/types';
+    import { isLinkCollection, isNodeCollection } from '../../utils/types';
     import NodeDetails from './NodeDetails.svelte';
     import { getArrowhead } from './graph_components/defs/marker';
     import { getPrimaryLightGradient, getPrimaryDarkGradient } from './graph_components/defs/gradient';
@@ -35,7 +36,8 @@
         strokeOpacity: 1,
         radius: 15,
         scaledRadius: 19,
-        squircleRadius: 8
+        squircleRadius: 8,
+        layerNodeOffset: 5
     }
 
     const LINK_FORMAT = {
@@ -67,14 +69,14 @@
     let weightScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
     let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
 
-    function redraw(nodes: any[], links: any[], activations: any[]): void {
+    function redraw(nodes: (Node | NodeCollection)[], links: (Link | LinkCollection)[], activations: Activation[]): void {
         if (graph_div == null) return;
 
         weightScaledAbsoluteTanH = getScaledAbsoluteTanH(
-            Math.max(...links.map((item) => Math.abs(item.weight)))
+            Math.max(...links.map((item) => Math.abs(isLinkCollection(item) ? 0 : item.weight)))
         );
         biasScaledAbsoluteTanH = getScaledAbsoluteTanH(
-            Math.max(...nodes.map((item) => Math.abs(item.bias)))
+            Math.max(...nodes.map((item) => Math.abs(isNodeCollection(item) ? 0 : item.bias)))
         );
   
         // empty vis div
@@ -90,8 +92,8 @@
             MARGIN.top -
             MARGIN.bottom;
 
-        dataMaxY = d3.max(nodes, (d) => d.y);
-        dataMinY = d3.min(nodes, (d) => d.y);
+        dataMaxY = d3.max(nodes, (d) => isNodeCollection(d) ? 0 : d.y);
+        dataMinY = d3.min(nodes, (d) => isNodeCollection(d) ? 0 : d.y);
 
         zoom = d3.zoom().on("zoom", function (event) {
             group.attr("transform", event.transform);
@@ -128,7 +130,7 @@
             weightScaledAbsoluteTanH, LINK_FORMAT.hoverScaleFactor, tooltip));
 
         // Main Nodes
-        group.append(() => getMainNodes(nodes ?? [], NODE_FORMAT.strokeWidth,
+        group.append(() => getMainNodes(nodes ?? [], NODE_FORMAT.layerNodeOffset, NODE_FORMAT.strokeWidth,
             NODE_FORMAT.strokeOpacity, NODE_FORMAT.radius, POSITION_SCALE_FACTOR,
             NODE_FORMAT.scaledRadius, biasScaledAbsoluteTanH, (_, data: Node) => {
                 selectedNode = data;
@@ -136,7 +138,7 @@
             }))
 
         // Input Nodes
-        group.append(() => getInputNodes(nodes ?? [], NODE_FORMAT.squircleRadius,
+        group.append(() => getInputNodes(nodes ?? [], NODE_FORMAT.layerNodeOffset, NODE_FORMAT.squircleRadius,
             NODE_FORMAT.radius, NODE_FORMAT.scaledRadius, POSITION_SCALE_FACTOR,
             (_, data: Node) => {
                 selectedNode = data;

@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 @dataclass
-class Node:
-    bias: Optional[float] = None
+class NodeCollection:
     x: float = None
-    y: float = None
     isInput: bool = False
+    numNodes: int = 0

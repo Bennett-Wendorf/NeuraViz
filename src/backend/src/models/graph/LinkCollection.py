@@ -3,9 +3,9 @@ from src.models.graph.Node import Node
 from src.models.graph.Position import Position
 
 @dataclass
-class Link:
+class LinkCollection:
     source: Node | Position
     target: Node | Position
-    weight: float
     hasDirection: bool = False
     isInput: bool = False
+    numLinks: int = 0

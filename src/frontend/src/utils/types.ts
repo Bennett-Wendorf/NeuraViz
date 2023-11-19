@@ -3,7 +3,16 @@ export interface Node {
     x: number;
     y: number;
     isInput: boolean;
-    isLayer: boolean;
+}
+
+export interface NodeCollection {
+    x: number;
+    isInput: boolean;
+    numNodes: number;
+}
+
+export function isNodeCollection(node: Node | NodeCollection): node is NodeCollection {
+    return (node as NodeCollection).numNodes !== undefined;
 }
 
 export interface Link {
@@ -12,7 +21,18 @@ export interface Link {
     weight?: number;
     hasDirection: boolean;
     isInput: boolean;
-    isMulti: boolean;
+}
+
+export interface LinkCollection {
+    source: Node;
+    target: Node;
+    hasDirection: boolean;
+    isInput: boolean;
+    numLinks: number;
+}
+
+export function isLinkCollection(link: Link | LinkCollection): link is LinkCollection {
+    return (link as LinkCollection).numLinks !== undefined;
 }
 
 export interface Activation {
@@ -22,8 +42,8 @@ export interface Activation {
 }
 
 export interface Graph {
-    nodes: Node[];
-    links: Link[];
+    nodes: (Node | NodeCollection)[];
+    links:(Link | LinkCollection)[];
     activations: Activation[];
 }
 
