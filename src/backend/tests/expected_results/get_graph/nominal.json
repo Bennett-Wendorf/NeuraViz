@@ -4,7 +4,7 @@
       {
         "category": "relu",
         "function": "ReLU",
-        "xPosition": 0.5
+        "xPosition": 0.625
       }
     ],
     "links": [
@@ -12,13 +12,13 @@
         "hasDirection": true,
         "isInput": true,
         "source": {
-          "x": -3.0,
+          "x": -3.5,
           "y": -1.5
         },
         "target": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -1.5
         },
         "weight": 0
@@ -27,13 +27,13 @@
         "hasDirection": true,
         "isInput": true,
         "source": {
-          "x": -3.0,
+          "x": -3.5,
           "y": -0.5
         },
         "target": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -0.5
         },
         "weight": 0
@@ -42,13 +42,13 @@
         "hasDirection": true,
         "isInput": true,
         "source": {
-          "x": -3.0,
+          "x": -3.5,
           "y": 0.5
         },
         "target": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 0.5
         },
         "weight": 0
@@ -57,13 +57,13 @@
         "hasDirection": true,
         "isInput": true,
         "source": {
-          "x": -3.0,
+          "x": -3.5,
           "y": 1.5
         },
         "target": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 1.5
         },
         "weight": 0
@@ -74,7 +74,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -1.5
         },
         "target": {
@@ -91,7 +91,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -0.5
         },
         "target": {
@@ -108,7 +108,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 0.5
         },
         "target": {
@@ -125,7 +125,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 1.5
         },
         "target": {
@@ -142,7 +142,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -1.5
         },
         "target": {
@@ -159,7 +159,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -0.5
         },
         "target": {
@@ -176,7 +176,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 0.5
         },
         "target": {
@@ -193,7 +193,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 1.5
         },
         "target": {
@@ -210,7 +210,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -1.5
         },
         "target": {
@@ -227,7 +227,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": -0.5
         },
         "target": {
@@ -244,7 +244,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 0.5
         },
         "target": {
@@ -261,7 +261,7 @@
         "source": {
           "bias": null,
           "isInput": true,
-          "x": -2.0,
+          "x": -2.5,
           "y": 1.5
         },
         "target": {
@@ -284,7 +284,7 @@
         "target": {
           "bias": 0.4154677391052246,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": -1.0
         },
         "weight": -1.4416940212249756
@@ -301,7 +301,7 @@
         "target": {
           "bias": 0.4154677391052246,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": -1.0
         },
         "weight": 1.1191141605377197
@@ -318,7 +318,7 @@
         "target": {
           "bias": 0.4154677391052246,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": -1.0
         },
         "weight": 0.4074937403202057
@@ -335,7 +335,7 @@
         "target": {
           "bias": -0.03147289156913757,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 0.0
         },
         "weight": 0.5256883502006531
@@ -352,7 +352,7 @@
         "target": {
           "bias": -0.03147289156913757,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 0.0
         },
         "weight": 0.3149278163909912
@@ -369,7 +369,7 @@
         "target": {
           "bias": -0.03147289156913757,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 0.0
         },
         "weight": -1.404784083366394
@@ -386,7 +386,7 @@
         "target": {
           "bias": -0.7302149534225464,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 1.0
         },
         "weight": 1.425222635269165
@@ -403,7 +403,7 @@
         "target": {
           "bias": -0.7302149534225464,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 1.0
         },
         "weight": -2.200597047805786
@@ -420,7 +420,7 @@
         "target": {
           "bias": -0.7302149534225464,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 1.0
         },
         "weight": 1.2447155714035034
@@ -431,11 +431,11 @@
         "source": {
           "bias": 0.4154677391052246,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": -1.0
         },
         "target": {
-          "x": 3.0,
+          "x": 3.5,
           "y": -1.0
         },
         "weight": 0
@@ -446,11 +446,11 @@
         "source": {
           "bias": -0.03147289156913757,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 0.0
         },
         "target": {
-          "x": 3.0,
+          "x": 3.5,
           "y": 0.0
         },
         "weight": 0
@@ -461,11 +461,11 @@
         "source": {
           "bias": -0.7302149534225464,
           "isInput": false,
-          "x": 2.0,
+          "x": 2.5,
           "y": 1.0
         },
         "target": {
-          "x": 3.0,
+          "x": 3.5,
           "y": 1.0
         },
         "weight": 0
@@ -475,25 +475,25 @@
       {
         "bias": null,
         "isInput": true,
-        "x": -2.0,
+        "x": -2.5,
         "y": -1.5
       },
       {
         "bias": null,
         "isInput": true,
-        "x": -2.0,
+        "x": -2.5,
         "y": -0.5
       },
       {
         "bias": null,
         "isInput": true,
-        "x": -2.0,
+        "x": -2.5,
         "y": 0.5
       },
       {
         "bias": null,
         "isInput": true,
-        "x": -2.0,
+        "x": -2.5,
         "y": 1.5
       },
       {
@@ -517,19 +517,19 @@
       {
         "bias": 0.4154677391052246,
         "isInput": false,
-        "x": 2.0,
+        "x": 2.5,
         "y": -1.0
       },
       {
         "bias": -0.03147289156913757,
         "isInput": false,
-        "x": 2.0,
+        "x": 2.5,
         "y": 0.0
       },
       {
         "bias": -0.7302149534225464,
         "isInput": false,
-        "x": 2.0,
+        "x": 2.5,
         "y": 1.0
       }
     ]

@@ -39,13 +39,13 @@ test('Upload valid model: Graph', async ({ page }) => {
     await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
     
     let graph = await page.locator('#graph_container > #graph');
-    await expect(graph.locator('svg > g > g > line')).toHaveCount(56);
-    await expect(graph.locator('svg > g > g > circle')).toHaveCount(6);
-    await expect(graph.locator('svg > g > g > rect')).toHaveCount(4);
+    await expect(graph.locator('svg > g > g > g > line')).toHaveCount(56);
+    await expect(graph.locator('svg > g > g > g > circle')).toHaveCount(6);
+    await expect(graph.locator('svg > g > g > g > rect')).toHaveCount(4);
     await expect(graph.locator('svg > g > g > g > g > g > rect')).toHaveCount(1);
 
-    await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(2)')).toHaveAttribute('marker-end', "url(#arrow)");
-    await expect(graph.locator('svg > g > g:nth-child(1) > line:nth-child(27)')).toHaveAttribute('marker-end', "url(#arrow)");
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(2) > line')).toHaveAttribute('marker-end', "url(#arrow)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(27) > line')).toHaveAttribute('marker-end', "url(#arrowHover)");
 
     await expect(await page.locator('#pan-center > button')).not.toBeDisabled();
     await expect(await page.locator('#zoom-in > button')).not.toBeDisabled();
@@ -102,7 +102,7 @@ test('Links are color graded', async ({ page }) => {
     await expect(inputLine).toHaveClass(/fill-neutral-800/);
     await expect(inputLine).toHaveClass(/dark:fill-neutral-400/);
 
-    let midLine = await page.locator('g:nth-child(1) > line:nth-child(5)');
+    let midLine = await page.locator('g:nth-child(1) > g:nth-child(5) > line');
     await expect(midLine).toHaveClass(/stroke-linkcolorgradientlight-300/);
     await expect(midLine).toHaveClass(/dark:stroke-linkcolorgradientdark-300/);
     await expect(midLine).toHaveClass(/fill-linkcolorgradientlight-300/);
@@ -118,7 +118,7 @@ test('Nodes are color graded', async ({ page }) => {
     await expect(inputNode).toHaveClass(/fill-neutral-400/);
     await expect(inputNode).toHaveClass(/dark:fill-neutral-600/);
 
-    let midNode = await page.locator('g:nth-child(3) > circle:nth-child(1)');
+    let midNode = await page.locator('g:nth-child(1) > circle:nth-child(1)');
     await expect(midNode).toHaveClass(/stroke-black/);
     await expect(midNode).toHaveClass(/fill-nodecolorgradientlight-300/);
     await expect(midNode).toHaveClass(/dark:fill-nodecolorgradientdark-300/);
@@ -141,10 +141,10 @@ test('Node details show', async ({ page }) => {
     await page.locator('button[aria-label="Close"]').click();
     await expect(await page.locator('div[role="dialog"]')).not.toBeVisible();
 
-    let midNode = await page.locator('g:nth-child(3) > circle:nth-child(1)');
+    let midNode = await page.locator('g:nth-child(1) > circle:nth-child(1)');
     await midNode.click();
     await expect(await page.locator('div[role="dialog"]')).toBeVisible();
-    await expect(await page.locator('div[role="dialog"] h3')).toContainText("-0.132");
+    await expect(await page.locator('div[role="dialog"] h3')).toContainText("Bias: -0.132");
     await page.locator('button[aria-label="Close"]').click();
     await expect(await page.locator('div[role="dialog"]')).not.toBeVisible();
 });
