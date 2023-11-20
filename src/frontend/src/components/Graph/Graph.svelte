@@ -9,7 +9,7 @@
     import type { Node, NodeCollection, Link, LinkCollection, Activation } from '../../utils/types';
     import { isLinkCollection, isNodeCollection } from '../../utils/types';
     import NodeDetails from './NodeDetails.svelte';
-    import { getArrowhead } from './graph_components/defs/marker';
+    import { getArrowhead, getMultiMarker } from './graph_components/defs/marker';
     import { getPrimaryLightGradient, getPrimaryDarkGradient } from './graph_components/defs/gradient';
     import { getActivation } from './graph_components/activations/activationOverlayBuilder';
     import { getLinkHoverAreas, getVisibleLinks } from './graph_components/links';
@@ -112,7 +112,18 @@
         let defs = svg.append("defs");
 
         let arrowName = "arrow"
-        defs.append(() => getArrowhead(arrowName, LINK_FORMAT.strokeWidth));
+        defs.append(() => getArrowhead(arrowName, LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity));
+
+        let arrowHoverName = "arrowHover"
+        defs.append(() => getArrowhead(arrowHoverName, LINK_FORMAT.strokeWidth, 1));
+
+        let multiMarkerName = "multiMarker"
+        defs.append(() => getMultiMarker(multiMarkerName, LINK_FORMAT.strokeWidth / 2, LINK_FORMAT.strokeLinecap, 
+            LINK_FORMAT.strokeOpacity, 18, 10));
+
+        let multiMarkerHoverName = "multiMarkerHover"
+        defs.append(() => getMultiMarker(multiMarkerHoverName, LINK_FORMAT.strokeWidth / 2, LINK_FORMAT.strokeLinecap, 
+            1, 9.3, 10));
 
         defs.append(() => getPrimaryLightGradient("primarylightgradient"));
         defs.append(() => getPrimaryDarkGradient("primarydarkgradient"));
@@ -122,11 +133,11 @@
         // Links
         group.append(() => getVisibleLinks(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity, 
             LINK_FORMAT.strokeLinecap, POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, 
-            arrowName, weightScaledAbsoluteTanH));
+            arrowName, multiMarkerName, weightScaledAbsoluteTanH));
 
         // Hover areas on links (slightly larger than the links themselves)
         group.append(() => getLinkHoverAreas(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeLinecap, 
-            POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowName, 
+            POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowHoverName, multiMarkerHoverName,
             weightScaledAbsoluteTanH, LINK_FORMAT.hoverScaleFactor, tooltip));
 
         // Main Nodes
