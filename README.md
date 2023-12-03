@@ -29,7 +29,7 @@
   <h1 align="center">NeuraViz</h3>
 
   <p align="center">
-    TODO: Fill in short description
+    NeuraViz is a web application for visualizing the underlying structure of neural networks, primarily for teaching purposes.
     <br />
     <a href="https://github.com/bennett-Wendorf/NeuraViz"><strong>Explore the docs »</strong></a>
     <br />
@@ -68,7 +68,7 @@
 
 <p align='center'><img src='res/v0.1.0-alpha.png'></p>
 
-TODO: Longer project description
+Neural networks are notoriously difficult to visualize for students and experienced engineers alike due to their scale and complexity. Too combat this problem, NeuraViz was devised to provide a simple, intuitive interface for visualizing the structure of neural networks. While it can be used on larger networks, such as those used for real-world problems, visualizing networks of that scale has diminishing returns. The structure of individual nodes and links at a scale of even hundreds of nodes just isn't meaningful. Instead, NeuraViz is intended to be used for smaller networks, such as those one might use to learn about how neural networks work. For example, the image above shows the visualization of a network trained to classify the Iris dataset, a famous toy example used primarily for teaching about neural networks.
 
 ### Built With
 
