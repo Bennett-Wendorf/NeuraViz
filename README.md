@@ -72,15 +72,24 @@ Neural networks are notoriously difficult to visualize for students and experien
 
 ### Built With
 
-This project is written in Python with Quart and Typescript with Svelte and FlowBite Svelte.
+This project is written in Python with Quart and Typescript with Svelte and FlowBite Svelte. In addition, the following libraries are used:
 * [Python](https://www.python.org/)
 * [Quart](https://pgjones.gitlab.io/quart/)
+* [Pytorch](https://pytorch.org/)
+* [scikit-learn](https://scikit-learn.org/stable/)
+* [Pandas](https://pandas.pydata.org/)
+* [Python-dotenv](https://pypi.org/project/python-dotenv/)
 * [Typescript](https://www.typescriptlang.org/)
 * [Svelte](https://svelte.dev/)
 * [FlowBite Svelte](https://flowbite-svelte.com/)
 * [Tailwind CSS](https://tailwindcss.com/)
 * [D3.js](https://d3js.org/)
+* [Popperjs](https://popper.js.org/)
+* [Axios](https://axios-http.com/)
+* [Svelte Heros V2](https://github.com/shinokada/svelte-heros-v2)
 * For a full list of dependencies, see [package.json](https://github.com/Bennett-Wendorf/NeuraViz/blob/main/src/frontend/package.json) and [pyproject.toml](https://github.com/Bennett-Wendorf/NeuraViz/blob/main/src/backend/pyproject.toml)
+
+Each of their respective licenses apply to their binaries and their use in this project. Their licenses can be found at the links above.
 
 
 <!-- CONTRIBUTING -->
@@ -100,7 +109,7 @@ If you find an issue in existing code, feel free to use the above procedure to g
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the BSD 3-Clause License. See `LICENSE` for more information.
 
 
 
