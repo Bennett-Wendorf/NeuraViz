@@ -13,9 +13,16 @@ export interface Link {
     isInput: boolean;
 }
 
+export interface Activation {
+    function: string;
+    category: string;
+    xPosition: number;
+}
+
 export interface Graph {
     nodes: Node[];
     links: Link[];
+    activations: Activation[];
 }
 
 export interface Bread {
@@ -24,3 +31,5 @@ export interface Bread {
     message?: string,
     duration?: number
 }
+
+export type activationFunctionIconGetter = (xPosition: number, positionScaleFactor: number, iconDimension: number, lineY2: number) => d3.Selection<Element, undefined, null, undefined>;

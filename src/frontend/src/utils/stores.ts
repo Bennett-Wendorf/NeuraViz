@@ -8,7 +8,7 @@ modelValid.useLocalStorage();
 let graphFile = writableLocalStore<string>('graph-file', null);
 graphFile.useLocalStorage();
 
-let graph = writableLocalStore<Graph>('graph', { nodes: [], links: [] });
+let graph = writableLocalStore<Graph>('graph', { nodes: [], links: [], activations: [] });
 graph.useLocalStorage();
 
 let uploading = writable(false);

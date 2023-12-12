@@ -9,8 +9,6 @@ const config = {
 
   darkMode: 'class',
 
-  mode: 'jit',
-
   theme: {
     extend: {
       colors: {
