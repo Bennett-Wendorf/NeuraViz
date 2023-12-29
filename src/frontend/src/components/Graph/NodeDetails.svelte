@@ -1,9 +1,10 @@
 <script lang="ts">
     import { Modal, Button } from "flowbite-svelte";
-    import type { Node } from "../../utils/types";
+    import type { Node, NodeCollection } from "../../utils/types";
+    import { isNodeCollection } from "../../utils/types";
 
     export let open: boolean = false;
-    export let node: Node = null;
+    export let node: Node | NodeCollection = null;
 </script>
 
 <Modal bind:open autoclose outsideclose color="none"
@@ -12,11 +13,15 @@
     <h1 class="mb-4 text-2xl font-semibold text-neutral-800 dark:text-neutral-400">Node Details</h1>
     {#if node.isInput}
         <h3 class="text-md text-neutral-800 dark:text-neutral-400">
-            This is an input node.
+            {isNodeCollection(node) ? `This is an input layer containing ${node.numNodes} nodes.` : "This is an input node."}
         </h3>
     {:else}
         <h3 class="text-md text-neutral-800 dark:text-neutral-400">
-            <span class="font-semibold">Bias:</span> {node.bias?.toFixed(3)}
+            {#if isNodeCollection(node)}
+                This is a layer containing {node.numNodes} nodes.
+            {:else}
+                <span class="font-semibold">Bias:</span> {node.bias?.toFixed(3)}
+            {/if}
         </h3>
     {/if}
     <Button color="none" on:click={() => open = false}

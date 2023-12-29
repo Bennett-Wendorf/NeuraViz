@@ -4,6 +4,8 @@ from src.models.graph.Node import Node
 from src.models.graph.Link import Link
 from src.models.graph.Position import Position
 from src.models.graph.Activation import Activation
+from src.models.graph.NodeCollection import NodeCollection
+from src.models.graph.LinkCollection import LinkCollection
 import torch
 from torch.nn.modules.module import Module
 from src.logger.logger import build_logger
@@ -11,15 +13,16 @@ import os
 from src.utils.activation_category_mapper import get_activation_function_category
 
 # Constants TODO: Make these configurable
-LAYER_MARGIN = 2 # The amount of horizontal space between layers
+LAYER_MARGIN = 2.5 # The amount of horizontal space between layers
 NODE_MARGIN = 1 # The amount of vertical space between nodes 
+MAX_LAYER_NODES = 10 # The maximum number of nodes to display per layer. Any more than this and the layer will collapse
 
 logger = build_logger(logger_name = "Graph", debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
 
 @dataclass
 class Graph:
-    nodes: List[Node]
-    links: List[Link]
+    nodes: List[Node | NodeCollection]
+    links: List[Link | LinkCollection]
     activations: List[Activation]
 
     # TODO: Try to modularize this
@@ -43,14 +46,13 @@ class Graph:
             middle_layer_index = (len([module for module in modules if not cls._is_activation_layer(module)])) / 2
 
             # Since the input layer is implicit, we need to add it manually
-            input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(modules[0].in_features, middle_layer_index)
+            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(modules[0].in_features, middle_layer_index)
             new_graph.nodes.extend(input_layer_nodes)
             new_graph.links.extend(input_layer_links)
 
-            # TODO: Validate the the network isn't too large to be displayed
-
             layer_index = 1
             previous_layer_nodes = input_layer_nodes
+            previous_layer_is_collapsed = input_layer_is_collapsed
             for module_index, module in enumerate(modules):
                 if cls._is_activation_layer(module):
                     function = module.__class__.__name__
@@ -67,27 +69,64 @@ class Graph:
                 # TODO: Right now this only supports linear layers, so add error checks (and eventually support) for other types
                 # TODO: Add validation that in_features and out_features of previous match
                 layer_nodes = []
-                for node_index, node_bias in enumerate(module.bias.data):
-                    # Calculate the node offset (how much and which direction to positionally offset this node from center)
-                    node_offset = (node_index - middle_node_index) * NODE_MARGIN
+                # Validate the the network isn't too large to be displayed (limit to MAX_LAYER_NODES nodes per layer)
+                is_collapsed = len(module.bias.data) > MAX_LAYER_NODES
 
-                    # Create the node and add it to the graph
-                    layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
+                if is_collapsed:
+                    layer_nodes.append(NodeCollection(x = layer_offset, numNodes = len(module.bias.data)))
+                else:
+                    for node_index, node_bias in enumerate(module.bias.data):
+                        # Calculate the node offset (how much and which direction to positionally offset this node from center)
+                        node_offset = (node_index - middle_node_index) * NODE_MARGIN
+
+                        # Create the node and add it to the graph
+                        layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
+                
                 new_graph.nodes.extend(layer_nodes)
-
+                
                 # Generate the links between the previous layer and the current layer
-                new_links = [
-                    Link(
-                        source=previous_layer_nodes[weight_index],
-                        target=layer_nodes[weight_layer_index],
-                        weight=float(previous_layer_edge)
+                if is_collapsed and previous_layer_is_collapsed:
+                    new_graph.links.append(
+                        LinkCollection(
+                            source=previous_layer_nodes[0],
+                            target=layer_nodes[0],
+                            numLinks=len(previous_layer_nodes),
+                        )
                     )
-                    for weight_layer_index, current_layer_weights in enumerate(module.weight.data.numpy())
-                    for weight_index, previous_layer_edge in enumerate(current_layer_weights)
-                ]
-                new_graph.links.extend(new_links)
+                elif is_collapsed:
+                    new_links = [
+                        LinkCollection(
+                            source=previous_layer_nodes[index],
+                            target=layer_nodes[0],
+                            numLinks=len(layer_nodes)
+                        )
+                        for index in range(len(previous_layer_nodes))
+                    ]
+                    new_graph.links.extend(new_links)
+                elif previous_layer_is_collapsed:
+                    new_links = [
+                        LinkCollection(
+                            source=previous_layer_nodes[0],
+                            target=layer_nodes[index],
+                            numLinks=len(previous_layer_nodes)
+                        )
+                        for index in range(len(layer_nodes))
+                    ]
+                    new_graph.links.extend(new_links)
+                else:
+                    new_links = [
+                        Link(
+                            source=previous_layer_nodes[weight_index],
+                            target=layer_nodes[weight_layer_index],
+                            weight=float(previous_layer_edge)
+                        )
+                        for weight_layer_index, current_layer_weights in enumerate(module.weight.data.numpy())
+                        for weight_index, previous_layer_edge in enumerate(current_layer_weights)
+                    ]
+                    new_graph.links.extend(new_links)
 
                 previous_layer_nodes = layer_nodes
+                previous_layer_is_collapsed = is_collapsed
                 layer_index += 1
 
                 # Add output links to the last layer
@@ -111,20 +150,29 @@ class Graph:
         nodes, links = [], []
 
         input_layer_size = num_input_nodes
+        is_collapsed = input_layer_size > MAX_LAYER_NODES
+
+        input_layer_offset = (0 - middle_layer_index) * LAYER_MARGIN
+
+        if is_collapsed:
+            # Create the collapsed input layer node and add it to the graph
+            new_node_collection = NodeCollection(x = input_layer_offset, isInput = True, numNodes = input_layer_size)
+            nodes.append(new_node_collection)
+
+            links.append(LinkCollection(source = Position(x = input_layer_offset - NODE_MARGIN, y = 0), target = new_node_collection, hasDirection = True, isInput = True, numLinks = input_layer_size))
+            return is_collapsed, nodes, links
 
         # Calculate the middle node index for positioning
         input_layer_middle_node_index = (input_layer_size - 1) / 2
-
-        input_layer_offset = (0 - middle_layer_index) * LAYER_MARGIN
 
         for node_index in range(input_layer_size):
             # Calculate the node offset (how much and which direction to positionally offset this node from center)
             node_offset = (node_index - input_layer_middle_node_index) * NODE_MARGIN
 
             # Create the node and add it to the graph
-            new_node = Node(x = input_layer_offset, y = node_offset, isInput=True)
+            new_node = Node(x = input_layer_offset, y = node_offset, isInput = True)
             nodes.append(new_node)
 
-            links.append(Link(source = Position(x = input_layer_offset - NODE_MARGIN, y = node_offset), target = new_node, weight = 0, hasDirection=True, isInput=True))
+            links.append(Link(source = Position(x = input_layer_offset - NODE_MARGIN, y = node_offset), target = new_node, weight = 0, hasDirection = True, isInput = True))
 
-        return nodes, links
+        return is_collapsed, nodes, links

@@ -1,87 +1,173 @@
 import * as d3 from 'd3';
-import type { Link } from '../../../utils/types';
+import { isLinkCollection, isNodeCollection, type Link, type LinkCollection } from '../../../utils/types';
 
-// const LINK_HOVER_FACTOR = 3;
-
-export function getVisibleLinks(links: Link[], strokeWidth: number,
+export function getVisibleLinks(links: (Link | LinkCollection)[], strokeWidth: number,
         strokeOpacity: number, strokeLinecap: string, positionScaleFactor: number,
-        nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
+        nodeRadius: number, nodeStrokeWidth: number, arrowName: string, multiMarkerName: string,
         absoluteTanH: (x: number) => number): SVGGElement {
     let visibleLinks = d3.create("svg:g")
         .attr("class", "visibleLinksContainer");
     
-    visibleLinks.selectAll("line")
+    visibleLinks.selectAll("g")
         .data(links)
-        .join("line")
-            .attr("class", (l) =>
-                l.hasDirection
-                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400"
-                    : getLinkColor(l.weight, absoluteTanH)
-            )
-            .attr("stroke-width", strokeWidth)
-            .attr("stroke-opacity", strokeOpacity)
-            .attr("stroke-linecap", strokeLinecap)
-            .attr("x1", (l) => l.source.x * positionScaleFactor)
-            .attr("y1", (l) => l.source.y * positionScaleFactor)
-            .attr("x2", (l) =>
-                l.isInput
-                    ? l.target.x * positionScaleFactor -
-                    nodeRadius -
-                      2 * nodeStrokeWidth
-                    : l.target.x * positionScaleFactor
-            )
-            .attr("y2", (l) => l.target.y * positionScaleFactor)
-            .attr("marker-end", (l) => (l.hasDirection ? `url(#${arrowName})` : null));
+        .join("g")
+            .append((l) => isLinkCollection(l)
+                ? getVisibleLinkCollection(l, strokeWidth, strokeOpacity, strokeLinecap,
+                    positionScaleFactor, nodeRadius, nodeStrokeWidth, arrowName, multiMarkerName)
+                : getVisibleLink(l, strokeWidth, strokeOpacity, strokeLinecap, 
+                    positionScaleFactor, nodeRadius, nodeStrokeWidth, arrowName, absoluteTanH));
 
     return visibleLinks.node() as SVGGElement;
 }
 
-export function getLinkHoverAreas(links: Link[], strokeWidth: number,
+function getVisibleLink(link: Link, strokeWidth: number,
+    strokeOpacity: number, strokeLinecap: string, positionScaleFactor: number,
+    nodeRadius: number, nodeStrokeWidth: number, arrowName: string, 
+    absoluteTanH: (x: number) => number): SVGGElement {
+    return d3.create("svg:line")
+        .attr("class", link.hasDirection
+                ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400"
+                : getLinkColor(link.weight, absoluteTanH)
+        )
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke-opacity", strokeOpacity)
+        .attr("stroke-linecap", strokeLinecap)
+        .attr("x1", link.source.x * positionScaleFactor)
+        .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
+        .attr("x2", link.isInput
+                ? link.target.x * positionScaleFactor -
+                nodeRadius - 2 * nodeStrokeWidth - 2
+                : link.target.x * positionScaleFactor
+        )
+        .attr("y2", !isNodeCollection(link.target) ? link.target.y * positionScaleFactor : 0)
+        .attr("marker-end", (link.hasDirection ? `url(#${arrowName})` : null)).node() as SVGGElement;
+}
+
+function getVisibleLinkCollection(link: LinkCollection, strokeWidth: number,
+    strokeOpacity: number, strokeLinecap: string, positionScaleFactor: number,
+    nodeRadius: number, nodeStrokeWidth: number, arrowName: string, multiMarkerName: string): SVGGElement {
+    return d3.create("svg:line")
+        .attr("class", link.hasDirection
+        ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400"
+        : "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900")
+        .attr("stroke-width", strokeWidth)
+        .attr("stroke-opacity", strokeOpacity)
+        .attr("stroke-linecap", strokeLinecap)
+        .attr("x1", link.source.x * positionScaleFactor)
+        .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
+        .attr("x2", link.isInput
+                ? link.target.x * positionScaleFactor - nodeRadius - 2 * nodeStrokeWidth - 2
+                : link.target.x * positionScaleFactor
+        )
+        .attr("y2", !isNodeCollection(link.target) ? link.target.y * positionScaleFactor : 0)
+        .attr("marker-end", link.hasDirection ? `url(#${arrowName})` : isNodeCollection(link.target) ? `url(#${multiMarkerName})` : null)
+        .attr("marker-start", isNodeCollection(link.source) ? `url(#${multiMarkerName})` : null)
+        .node() as SVGGElement;
+}
+
+export function getLinkHoverAreas(links: (Link | LinkCollection)[], strokeWidth: number,
         strokeLinecap: string, positionScaleFactor: number,
-        nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
+        nodeRadius: number, nodeStrokeWidth: number, arrowName: string, multiMarkerName: string,
         absoluteTanH: (x: number) => number, hoverScaleFactor: number,
         globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>): SVGGElement {
     let linkHoverAreas = d3.create("svg:g")
         .attr("class", "linkHoverAreasContainer");
 
-    linkHoverAreas.selectAll(".linkHoverAreas")
+    linkHoverAreas.selectAll("g")
             .data(links)
-            .join("line")
-            .attr("class", "stroke-transparent fill-transparent")
-            .attr("stroke-width", strokeWidth * hoverScaleFactor)
-            .attr("stroke-linecap", strokeLinecap)
-            .attr("x1", (l) => l.source.x * positionScaleFactor)
-            .attr("y1", (l) => l.source.y * positionScaleFactor)
-            .attr("x2", (l) =>
-                l.isInput
-                    ? l.target.x * positionScaleFactor - nodeRadius - 2 * nodeStrokeWidth
-                    : l.target.x * positionScaleFactor
-            )
-            .attr("y2", (l) => l.target.y * positionScaleFactor)
-            .attr("marker-end", (l) => (l.hasDirection ? `url(#${arrowName})` : null))
-            .style("pointer-events", "all") // Capture hover events
-            .on("mouseover", (event, d) => {
-                const linkElement = d3.select(event.target);
-                linkElement.attr("class", d.hasDirection 
-                    ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
-                    : getLinkColor(d.weight, absoluteTanH))
-                globalTooltip.style('display', 'block')
-                    .html(d.hasDirection ? (d.isInput ? "Input" : "Output") : `Weight: ${d.weight.toFixed(3)}`)
-                    .style('left', (event.pageX + 10) + 'px')
-                    .style('top', (event.pageY + 10) + 'px');
-            })
-            .on("mousemove", (event) => {
-                globalTooltip
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseout", (event) => {
-                const linkElement = d3.select(event.target);
-                linkElement.attr("class", "stroke-transparent fill-transparent");
-                globalTooltip.style("display", "none");
-            });
+            .join("g")
+            .append((l) => isLinkCollection(l)
+                ? getLinkHoverAreaCollection(l, strokeWidth, hoverScaleFactor, strokeLinecap,
+                    positionScaleFactor, nodeRadius, nodeStrokeWidth, arrowName, multiMarkerName, globalTooltip)
+                : getLinkHoverArea(l, strokeWidth, hoverScaleFactor, strokeLinecap,
+                    positionScaleFactor, nodeRadius, nodeStrokeWidth, arrowName, absoluteTanH, globalTooltip));
 
     return linkHoverAreas.node() as SVGGElement;
+}
+
+function getLinkHoverArea(link: Link, strokeWidth: number, hoverScaleFactor: number,
+        strokeLinecap: string, positionScaleFactor: number, nodeRadius: number, nodeStrokeWidth: number,
+        arrowName: string, absoluteTanH: (x: number) => number,
+        globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>): SVGGElement {
+    return d3.create("svg:line")
+        .attr("class", "stroke-transparent fill-transparent")
+        .attr("stroke-width", strokeWidth * hoverScaleFactor)
+        .attr("stroke-linecap", strokeLinecap)
+        .attr("x1", link.source.x * positionScaleFactor)
+        .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
+        .attr("x2", link.isInput
+                ? link.target.x * positionScaleFactor - nodeRadius - 2 * nodeStrokeWidth
+                : link.target.x * positionScaleFactor
+        )
+        .attr("y2", !isNodeCollection(link.target) ? link.target.y * positionScaleFactor : 0)
+        .attr("marker-end", link.hasDirection ? `url(#${arrowName})` : null)
+        .style("pointer-events", "all") // Capture hover events
+        .on("mouseover", (event) => {
+            const linkElement = d3.select(event.target);
+            linkElement.attr("class", link.hasDirection 
+                ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
+                : getLinkColor(link.weight, absoluteTanH))
+            globalTooltip.style('display', 'block')
+                .html(link.hasDirection 
+                    ? (link.isInput ? "Input" : "Output") 
+                    : `Weight: ${link.weight.toFixed(3)}`)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY + 10) + 'px');
+        })
+        .on("mousemove", (event) => {
+            globalTooltip
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY + 10 + "px");
+        })
+        .on("mouseout", (event) => {
+            const linkElement = d3.select(event.target);
+            linkElement.attr("class", "stroke-transparent fill-transparent");
+            globalTooltip.style("display", "none");
+        })
+        .node() as SVGGElement;
+}
+
+function getLinkHoverAreaCollection(link: LinkCollection, strokeWidth: number,
+    hoverScaleFactor: number, strokeLinecap: string, positionScaleFactor: number,
+    nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
+    multiMarkerName: string, globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>): SVGGElement {
+    return d3.create("svg:line")
+        .attr("class", "stroke-transparent fill-transparent")
+        .attr("stroke-width", strokeWidth * hoverScaleFactor)
+        .attr("stroke-linecap", strokeLinecap)
+        .attr("x1", link.source.x * positionScaleFactor)
+        .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
+        .attr("x2", link.isInput
+                ? link.target.x * positionScaleFactor - nodeRadius - 2 * nodeStrokeWidth
+                : link.target.x * positionScaleFactor
+        )
+        .attr("y2", !isNodeCollection(link.target) ? link.target.y * positionScaleFactor : 0)
+        .attr("marker-end", link.hasDirection ? `url(#${arrowName})` : isNodeCollection(link.target) ? `url(#${multiMarkerName})` : null)
+        .attr("marker-start", isNodeCollection(link.source) ? `url(#${multiMarkerName})` : null)
+        .style("pointer-events", "all") // Capture hover events
+        .on("mouseover", (event) => {
+            const linkElement = d3.select(event.target);
+            linkElement.attr("class", link.hasDirection 
+                ? "stroke-neutral-800 fill-neutral-800 dark:stroke-neutral-400 dark:fill-neutral-400" 
+                : "stroke-linkcolorgradientlight-900 dark:stroke-linkcolorgradientdark-900 fill-linkcolorgradientlight-900 dark:fill-linkcolorgradientdark-900")
+            globalTooltip.style('display', 'block')
+                .html(link.hasDirection 
+                    ? (link.isInput ? "Input" : "Output") 
+                    : "Multiple links")
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY + 10) + 'px');
+        })
+        .on("mousemove", (event) => {
+            globalTooltip
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY + 10 + "px");
+        })
+        .on("mouseout", (event) => {
+            const linkElement = d3.select(event.target);
+            linkElement.attr("class", "stroke-transparent fill-transparent");
+            globalTooltip.style("display", "none");
+        })
+        .node() as SVGGElement;
 }
 
 function getLinkColor(value: number, absoluteTanH: (x: number) => number) {
