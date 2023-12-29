@@ -9,7 +9,7 @@
         flex justify-center items-center"
 >
     <Sidebar />
-    <Toaster/>
+    <Toaster />
     <div id="graph_container" 
         class="h-screen w-[80vw] flex grow
         shrink relative justify-center items-center"

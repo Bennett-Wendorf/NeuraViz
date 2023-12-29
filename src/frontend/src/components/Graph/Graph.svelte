@@ -142,7 +142,7 @@
                 selectedNode = data;
                 detailsOpen = true;
             }))
-  
+
         // Activation functions
         group.append("g")
             .selectAll("g")
@@ -155,15 +155,15 @@
                      tooltip))
     }
 
-    const panCenter = () => {
+    function panCenter() {
         svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
     };
 
-    const zoomIn = () => {
+    function zoomIn() {
         svg.transition().call(zoom.scaleBy, 1.2);
     };
 
-    const zoomOut = () => {
+    function zoomOut() {
         svg.transition().call(zoom.scaleBy, 0.8);
     };
 

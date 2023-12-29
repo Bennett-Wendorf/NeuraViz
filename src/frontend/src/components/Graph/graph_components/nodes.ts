@@ -68,7 +68,7 @@ export function getInputNodes(nodes: Node[], radius: number,
     return inputNodes.node() as SVGGElement;
 }
 
-const getNodeColor = (value: number, absoluteTanH: (x: number) => number) => {
+function getNodeColor (value: number, absoluteTanH: (x: number) => number) {
     const enumeratedValues: string[] = [
         "fill-nodecolorgradientlight-50 dark:fill-nodecolorgradientdark-50",
         "fill-nodecolorgradientlight-100 dark:fill-nodecolorgradientdark-100",

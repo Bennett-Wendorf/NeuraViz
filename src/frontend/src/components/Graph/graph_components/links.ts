@@ -84,7 +84,7 @@ export function getLinkHoverAreas(links: Link[], strokeWidth: number,
     return linkHoverAreas.node() as SVGGElement;
 }
 
-const getLinkColor = (value: number, absoluteTanH: (x: number) => number) => {
+function getLinkColor(value: number, absoluteTanH: (x: number) => number) {
     const enumeratedValues: string[] = [
         "stroke-linkcolorgradientlight-50 dark:stroke-linkcolorgradientdark-50 fill-linkcolorgradientlight-50 dark:fill-linkcolorgradientdark-50",
         "stroke-linkcolorgradientlight-100 dark:stroke-linkcolorgradientdark-100 fill-linkcolorgradientlight-100 dark:fill-linkcolorgradientdark-100",
