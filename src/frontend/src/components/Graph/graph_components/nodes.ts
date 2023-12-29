@@ -221,7 +221,7 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
     return inputLayer.node() as SVGGElement;
 }
 
-const getNodeColor = (value: number, absoluteTanH: (x: number) => number) => {
+function getNodeColor (value: number, absoluteTanH: (x: number) => number) {
     const enumeratedValues: string[] = [
         "fill-nodecolorgradientlight-50 dark:fill-nodecolorgradientdark-50",
         "fill-nodecolorgradientlight-100 dark:fill-nodecolorgradientdark-100",

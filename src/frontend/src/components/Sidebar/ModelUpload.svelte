@@ -16,18 +16,18 @@
 
     $: uploadButtonDisabled = $uploading || $modelValid;
 
-    let clearModel = () => {
+    function clearModel() {
         $graph = { nodes: [], links: [], activations: [] }
         $modelValid = false;
         $graphFile = null;
         files = null;
     }
 
-    let handleFileUploadChange = () => {
+    function handleFileUploadChange() {
         $modelValid = false;
     }
 
-    let submitForm = () => {
+    function submitForm() {
         $uploading = true;
         api.post('/graph', files, { timeout: 30000})
             .then((res: any) => {
