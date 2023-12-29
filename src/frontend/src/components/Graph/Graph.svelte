@@ -142,7 +142,7 @@
                 selectedNode = data;
                 detailsOpen = true;
             }))
-  
+
         // Activation functions
         group.append("g")
             .selectAll("g")
