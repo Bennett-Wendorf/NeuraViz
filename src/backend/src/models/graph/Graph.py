@@ -69,7 +69,7 @@ class Graph:
                 # TODO: Right now this only supports linear layers, so add error checks (and eventually support) for other types
                 # TODO: Add validation that in_features and out_features of previous match
                 layer_nodes = []
-                # Validate the the network isn't too large to be displayed (limit to MAx_LAYER_NODES nodes per layer)
+                # Validate the the network isn't too large to be displayed (limit to MAX_LAYER_NODES nodes per layer)
                 is_collapsed = len(module.bias.data) > MAX_LAYER_NODES
 
                 if is_collapsed:
