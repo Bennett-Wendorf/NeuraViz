@@ -1,9 +1,15 @@
 import { test, expect } from '@playwright/test';
 
-let uploadNetworkHelper = async (page) => {
+async function uploadIrisNetworkHelper(page) {
     await page.locator('#model-upload').setInputFiles('tests/file_inputs/STE_Iris.pth');
     await page.getByRole('button', { name: 'Upload' }).click();
     await page.locator('#graph_container > #graph').waitFor({ state: "visible" });
+}
+
+async function uploadMNISTNetworkHelper(page) {
+    await page.locator("#model-upload").setInputFiles("tests/file_inputs/STE_MNIST.pth");
+    await page.getByRole("button", { name: "Upload" }).click();
+    await page.locator("#graph_container > #graph").waitFor({ state: "visible" });
 }
 
 test('No network displayed when no network is uploaded', async ({ page }) => {
@@ -35,7 +41,7 @@ test('Upload valid model: Sidebar', async ({ page }) => {
 
 test('Upload valid model: Graph', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
     await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
     
     let graph = await page.locator('#graph_container > #graph');
@@ -52,23 +58,53 @@ test('Upload valid model: Graph', async ({ page }) => {
     await expect(await page.locator('#zoom-out > button')).not.toBeDisabled();
 });
 
+test('Upload large valid model: Graph', async ({ page }) => {
+    await page.goto('/');
+    await uploadMNISTNetworkHelper(page);
+    await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
+
+    let graph = await page.locator('#graph_container > #graph');
+    await expect(graph.locator('svg > g > g > g > line')).toHaveCount(46);
+    await expect(graph.locator('svg > g > g > g > circle')).toHaveCount(10);
+    await expect(graph.locator('svg > g > g > g > g > circle')).toHaveCount(6);
+    await expect(graph.locator('svg > g > g > g > g > rect')).toHaveCount(3);
+    await expect(graph.locator('svg > g > g > g > g > g > rect')).toHaveCount(2);
+
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(1) > line')).toHaveAttribute('marker-end', "url(#arrow)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(14) > line')).toHaveAttribute('marker-end', "url(#arrowHover)");
+
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(2) > line')).toHaveAttribute('marker-start', "url(#multiMarker)");
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(2) > line')).toHaveAttribute('marker-end', "url(#multiMarker)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(2) > line')).toHaveAttribute('marker-start', "url(#multiMarkerHover)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(2) > line')).toHaveAttribute('marker-end', "url(#multiMarkerHover)");
+
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(4) > line')).toHaveAttribute('marker-start', "url(#multiMarker)");
+    await expect(graph.locator('svg > g > g:nth-child(1) > g:nth-child(4) > line')).not.toHaveAttribute('marker-end', "url(#multiMarker)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(4) > line')).toHaveAttribute('marker-start', "url(#multiMarkerHover)");
+    await expect(graph.locator('svg > g > g:nth-child(2) > g:nth-child(4) > line')).not.toHaveAttribute('marker-end', "url(#multiMarkerHover)");
+
+    await expect(await page.locator('#pan-center > button')).not.toBeDisabled();
+    await expect(await page.locator('#zoom-in > button')).not.toBeDisabled();
+    await expect(await page.locator('#zoom-out > button')).not.toBeDisabled();
+});
+
 test('Graph zoom in', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
     await page.locator('#zoom-in > button').click();
     await expect(page.locator('#graph_container > #graph > svg > g')).toHaveAttribute('transform', 'translate(0,0) scale(1.2)');
 });
 
 test('Graph zoom out', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
     await page.locator('#zoom-out > button').click();
     await expect(page.locator('#graph_container > #graph > svg > g')).toHaveAttribute('transform', 'translate(0,0) scale(0.8)');
 });
 
 test('Graph center', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
     let graph = await page.locator('#graph_container > #graph > svg');
     await graph.dragTo(page.locator('#pan-center'));
     await expect(graph.locator('g').first()).not.toHaveAttribute('transform', 'translate(0,0) scale(1)');
@@ -79,7 +115,7 @@ test('Graph center', async ({ page }) => {
 
 test('Graph persists refresh', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
     await page.reload();
     await expect(await page.isVisible('#graph_container > #graph > svg')).toBeTruthy();
     await expect(page.locator('#model-upload-readout')).toHaveText('STE_Iris.pth');
@@ -94,7 +130,7 @@ test('Graph persists refresh', async ({ page }) => {
 
 test('Links are color graded', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
 
     let inputLine = await page.locator('g:nth-child(1) > line:nth-child(1)').first();
     await expect(inputLine).toHaveClass(/stroke-neutral-800/);
@@ -111,7 +147,7 @@ test('Links are color graded', async ({ page }) => {
 
 test('Nodes are color graded', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
 
     let inputNode = await page.locator('g:nth-child(4) > rect:nth-child(1)');
     await expect(inputNode).toHaveClass(/stroke-black/);
@@ -132,7 +168,7 @@ test('Color key shows', async ({ page }) => {
 
 test('Node details show', async ({ page }) => {
     await page.goto('/');
-    await uploadNetworkHelper(page);
+    await uploadIrisNetworkHelper(page);
 
     let inputNode = await page.locator('g:nth-child(4) > rect:nth-child(1)');
     await inputNode.click();
