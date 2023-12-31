@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 async function uploadIrisNetworkHelper(page) {
-    await page.locator('#model-upload').setInputFiles('tests/file_inputs/STE_Iris.pth');
+    await page.locator('#model-upload').setInputFiles('../../testing/input_files/pytorch/STE_Iris.pth');
     await page.getByRole('button', { name: 'Upload' }).click();
     await page.locator('#graph_container > #graph').waitFor({ state: "visible" });
 }
 
 async function uploadMNISTNetworkHelper(page) {
-    await page.locator("#model-upload").setInputFiles("tests/file_inputs/STE_MNIST.pth");
+    await page.locator("#model-upload").setInputFiles("../../testing/input_files/pytorch/STE_MNIST.pth");
     await page.getByRole("button", { name: "Upload" }).click();
     await page.locator("#graph_container > #graph").waitFor({ state: "visible" });
 }
@@ -17,7 +17,7 @@ test('No network displayed when no network is uploaded', async ({ page }) => {
     await expect(page.locator('#graph_container > #upload_text')).toHaveText('Please upload a model to continue...');
 });
 
-test('Upload empty model: Sidebar', async ({ page }) => {
+test('Upload no model: Sidebar', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Upload' }).click();
     await expect(page.locator('#model-upload')).toHaveValue('');
@@ -25,9 +25,18 @@ test('Upload empty model: Sidebar', async ({ page }) => {
     await expect(page.locator('#model-validation')).toHaveClass(/text-error/);
 });
 
+test('Upload empty model: Sidebar', async ({ page }) => {
+    await page.goto('/');
+    await page.locator("#model-upload").setInputFiles("../../testing/input_files/pytorch/fake_model.pth");
+    await page.getByRole('button', { name: 'Upload' }).click();
+    await expect(page.locator('#model-upload')).toHaveValue('C:\\fakepath\\fake_model.pth');
+    await expect(page.locator('#model-validation')).toHaveText('Model is not valid');
+    await expect(page.locator('#model-validation')).toHaveClass(/text-error/);
+});
+
 test('Upload valid model: Sidebar', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#model-upload').setInputFiles('tests/file_inputs/STE_Iris.pth');
+    await page.locator('#model-upload').setInputFiles('../../testing/input_files/pytorch/STE_Iris.pth');
     await page.getByRole('button', { name: 'Upload' }).click();
     await expect(page.locator('#model-upload')).toHaveValue('C:\\fakepath\\STE_Iris.pth');
     await expect(page.locator('#model-upload-readout')).toHaveText('STE_Iris.pth');

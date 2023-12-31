@@ -16,7 +16,7 @@ class TestGraph:
         test_client = app.test_client()
         file_name = "STE_Iris.pth"
         files = {
-            'files[]': FileStorage(stream=open(f"src/backend/tests/file_inputs/{file_name}", 'rb'), filename=file_name)
+            'files[]': FileStorage(stream=open(f"testing/input_files/pytorch/{file_name}", 'rb'), filename=file_name)
         }
         response = await test_client.post('/api/graph/', files=files, headers={'Content-Type': 'multipart/form-data'})
         assert response.status_code == 200
@@ -30,7 +30,7 @@ class TestGraph:
         test_client = app.test_client()
         file_name = "STE_MNIST.pth"
         files = {
-            'files[]': FileStorage(stream=open(f"src/backend/tests/file_inputs/{file_name}", 'rb'), filename=file_name)
+            'files[]': FileStorage(stream=open(f"testing/input_files/pytorch/{file_name}", 'rb'), filename=file_name)
         }
         response = await test_client.post('/api/graph/', files=files, headers={'Content-Type': 'multipart/form-data'})
         assert response.status_code == 200

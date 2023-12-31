@@ -27,7 +27,7 @@ NODE_MARGIN = 1
 
 MODEL_UPLOAD_PATH = (Path(__file__).parent.parent.parent / "model_uploads/").resolve()
 
-ALLOWED_EXTENSIONS = ['pth']
+ALLOWED_EXTENSIONS = ['pth', 'keras']
 
 @graph_controller_blueprint.post('/')
 async def get_graph():
@@ -39,7 +39,7 @@ async def get_graph():
         file_extension = file.filename.split('.')[-1]
         if file_extension not in ALLOWED_EXTENSIONS:
             logger.debug("Invalid file extension")
-            return { "message": "Invalid file extension" }, 400
+            return { "message": f"Invalid file extension. Available files types include: {_get_printable_list(ALLOWED_EXTENSIONS)}" }, 400
 
         match file_extension:
             case 'pth':
@@ -52,9 +52,21 @@ async def get_graph():
                     return { "message": "Invalid file" }, 400
                 else:
                     return {'graph': graph}, 200
+            case 'keras':
+                logger.debug("File type identified: Keras model")
+                await file.save(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
+                graph = None
+                os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
+                if graph is None:
+                    logger.debug("The keras model was invalid")
+                    return { "message": "Invalid file" }, 400
+                return { "message": "Keras models are not yet supported" }, 501
             case _:
                 logger.warn("File type not identified")
                 return { "message": "Not implemented" }, 501
     else:
         logger.debug("No file selected")
         return { "message": "No file selected" }, 400
+
+def _get_printable_list(data: List[str]) -> str:
+    return ", ".join(data)

@@ -1,3 +1,4 @@
+#region imports
 from dataclasses import dataclass
 from typing import List, Tuple
 from src.models.graph.Node import Node
@@ -11,6 +12,7 @@ from torch.nn.modules.module import Module
 from src.logger.logger import build_logger
 import os
 from src.utils.activation_category_mapper import get_activation_function_category
+#endregion
 
 # Constants TODO: Make these configurable
 LAYER_MARGIN = 2.5 # The amount of horizontal space between layers
