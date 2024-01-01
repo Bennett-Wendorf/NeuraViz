@@ -24,7 +24,7 @@ npm run build
 # Ensure backend dependencies all exist
 echo "Installing backend dependencies"
 cd $SCRIPT_DIR/backend
-poetry install
+pipenv install
 
 # Restart the application
 echo "Restarting application"

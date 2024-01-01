@@ -10,12 +10,12 @@ from quart import Blueprint
 from quart import request, abort
 
 # Models
-from src.models.graph.Node import Node
-from src.models.graph.Link import Link
-from src.models.graph.Graph import Graph
+from models.graph.Node import Node
+from models.graph.Link import Link
+from models.graph.Graph import Graph
 
 # Utils
-from src.logger.logger import build_logger
+from logger.logger import build_logger
 #endregion
 
 logger = build_logger(logger_name = "Graph Controller", debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
@@ -25,7 +25,7 @@ graph_controller_blueprint = Blueprint('graph_controller', __name__)
 LAYER_MARGIN = 2
 NODE_MARGIN = 1
 
-MODEL_UPLOAD_PATH = (Path(__file__).parent.parent.parent / "model_uploads/").resolve()
+MODEL_UPLOAD_PATH = (Path(__file__).parent.parent / "model_uploads/").resolve()
 
 ALLOWED_EXTENSIONS = ['pth', 'keras']
 

@@ -2,12 +2,15 @@
 from json import load
 import pytest
 
-from src.api import app
+import sys
+print(f"Path: {sys.path}")
+
+from api import app
 
 from quart.datastructures import FileStorage
 
 # Models
-from src.models.graph.Graph import Graph
+from models.graph.Graph import Graph
 #endregion
 
 class TestGraph:
