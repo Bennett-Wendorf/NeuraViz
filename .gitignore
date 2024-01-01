@@ -1,12 +1,13 @@
 # Python cache
 __pycache__/
 
+# Python environment
 .env*
 .secrets*
 
 # Lock files
+Pipfile.lock
 package-lock.json
-poetry.lock
 
 # VSCode config
 .vscode/
