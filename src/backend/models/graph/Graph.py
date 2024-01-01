@@ -1,16 +1,16 @@
 from dataclasses import dataclass
 from typing import List, Tuple
-from src.models.graph.Node import Node
-from src.models.graph.Link import Link
-from src.models.graph.Position import Position
-from src.models.graph.Activation import Activation
-from src.models.graph.NodeCollection import NodeCollection
-from src.models.graph.LinkCollection import LinkCollection
+from models.graph.Node import Node
+from models.graph.Link import Link
+from models.graph.Position import Position
+from models.graph.Activation import Activation
+from models.graph.NodeCollection import NodeCollection
+from models.graph.LinkCollection import LinkCollection
 import torch
 from torch.nn.modules.module import Module
-from src.logger.logger import build_logger
+from logger.logger import build_logger
 import os
-from src.utils.activation_category_mapper import get_activation_function_category
+from utils.activation_category_mapper import get_activation_function_category
 
 # Constants TODO: Make these configurable
 LAYER_MARGIN = 2.5 # The amount of horizontal space between layers
