@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from src.models.graph.Node import Node
-from src.models.graph.Position import Position
+from models.graph.Node import Node
+from models.graph.Position import Position
 
 @dataclass
 class Link:

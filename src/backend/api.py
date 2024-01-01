@@ -11,10 +11,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #Controllers
-from src.controllers.graph_controller import graph_controller_blueprint as graph_controller
+from controllers.graph_controller import graph_controller_blueprint as graph_controller
 
 # Utils
-from src.logger.logger import build_logger
+from logger.logger import build_logger
 #endregion
 
 app = Quart(__name__)
@@ -33,12 +33,12 @@ app.register_blueprint(graph_controller, url_prefix = f'{API_PREFIX}/graph')
 # Main page
 @app.route('/')
 async def index():
-    return await send_from_directory((Path(__file__).resolve().parent.parent.parent / "frontend/dist").resolve(), 'index.html')
+    return await send_from_directory((Path(__file__).resolve().parent.parent / "frontend/dist").resolve(), 'index.html')
 
 # Static files
 @app.route('/<path:path>')
 async def home(path):
-    return await send_from_directory((Path(__file__).resolve().parent.parent.parent / "frontend/dist").resolve(), path)
+    return await send_from_directory((Path(__file__).resolve().parent.parent / "frontend/dist").resolve(), path)
 
 def run(port = PORT) -> None:
     debug = os.getenv("NEURAVIZ_DEBUG", "FALSE").upper() == "TRUE"
