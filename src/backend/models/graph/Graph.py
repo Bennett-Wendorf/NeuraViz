@@ -173,7 +173,7 @@ class Graph:
             middle_layer_index = len(modules) / 2
 
             # Since the input layer is implicit, we need to add it manually
-            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(modules[0].kernel.shape[0], middle_layer_index)
+            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(cls._get_keras_first_kernel_module(modules).kernel.shape[0], middle_layer_index)
             new_graph.nodes.extend(input_layer_nodes)
             new_graph.links.extend(input_layer_links)
 
@@ -181,6 +181,10 @@ class Graph:
             previous_layer_nodes = input_layer_nodes
             previous_layer_is_collapsed = input_layer_is_collapsed
             for module_index, module in enumerate(modules):
+                # Skip non-kernel layers
+                if not hasattr(module, 'kernel'):
+                    continue
+
                 # Calculate the layer offset (how much and which direction to positionally offset this layer from center)
                 layer_offset = (layer_index - middle_layer_index) * LAYER_MARGIN
 
@@ -271,6 +275,14 @@ class Graph:
         all_activations = torch.nn.modules.activation.__all__
 
         return module.__class__.__name__ in all_activations
+
+    @classmethod
+    def _get_keras_first_kernel_module(cls, modules: List[keras.layers.Layer]) -> keras.layers.Layer:
+        for module in modules:
+            if hasattr(module, 'kernel'):
+                return module
+
+        return None
 
     @classmethod
     def _get_input_layer_nodes_and_links(cls, num_input_nodes: int, middle_layer_index: int) -> Tuple[List[Node], List[Link]]:
