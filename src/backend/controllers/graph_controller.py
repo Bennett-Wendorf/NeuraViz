@@ -54,13 +54,14 @@ async def get_graph():
                     return {'graph': graph}, 200
             case 'keras':
                 logger.debug("File type identified: Keras model")
-                await file.save(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
-                graph = None
-                os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
+                await file.save(f"{MODEL_UPLOAD_PATH}/{file.filename}")
+                graph = Graph.from_keras(f"{MODEL_UPLOAD_PATH}/{file.filename}")
+                os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}")
                 if graph is None:
                     logger.debug("The keras model was invalid")
                     return { "message": "Invalid file" }, 400
-                return { "message": "Keras models are not yet supported" }, 501
+                else:
+                    return {'graph': graph}, 200
             case _:
                 logger.warn("File type not identified")
                 return { "message": "Not implemented" }, 501
