@@ -1,7 +1,7 @@
 #region imports
 #region Python
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Callable, Iterable, Self
 import os
 #endregion
 
@@ -38,237 +38,73 @@ class Graph:
     nodes: List[Node | NodeCollection]
     links: List[Link | LinkCollection]
     activations: List[Activation]
-
-    # TODO: Try to modularize this
+    
     @classmethod
-    def from_pytorch(cls, pytorch_model_file: str):
+    def from_pytorch(cls, pytorch_model_file: str) -> Self:
         logger.debug("Generating model visualization from Pytorch model")
-        try:
-            # Generate the graph to later append data to
-            new_graph = cls(nodes = [], links = [], activations = [])
+
+        def load_model(model_file):
+            return torch.load(model_file, map_location = 'cpu')
+
+        def get_modules(model):
+            return list(model.modules())[1:]
+
+        def get_input_size(modules):
+            return modules[0].in_features
+
+        def get_module_count(modules):
+            return len([module for module in modules if not cls._is_torch_activation_layer(module)])
+
+        def module_skipper(module, graph: Self, layer_index: int, middle_layer_index: int):
+            should_skip = cls._is_torch_activation_layer(module)
+            if should_skip:
+                function = module.__class__.__name__
+                position = ((layer_index - 1 - middle_layer_index) * LAYER_MARGIN) + (LAYER_MARGIN / 4)
+                graph.activations.append(Activation(function = function, category = get_activation_function_category(function), xPosition = position))
             
-            # Load the pytorch model
-            pytorch_model = torch.load(pytorch_model_file, map_location = 'cpu')
-            logger.debug(f"Load model from file: {'success' if pytorch_model is not None else 'fail'}")
+            return should_skip, None
 
-            # Get the network structure and the modules
-            modules = list(pytorch_model.modules())
-            network_structure = modules[0] # TODO: Use this to determine basic structure (i.e. sequential, convolutional, recurrent, etc.)
-            modules = modules[1:]
-            
-            # Calculate middle layer index for positioning
-            middle_layer_index = (len([module for module in modules if not cls._is_activation_layer(module)])) / 2
+        def get_module_size(module):
+            return len(module.bias.data)
 
-            # Since the input layer is implicit, we need to add it manually
-            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(modules[0].in_features, middle_layer_index)
-            new_graph.nodes.extend(input_layer_nodes)
-            new_graph.links.extend(input_layer_links)
+        def get_bias(module):
+            return module.bias.data
 
-            layer_index = 1
-            previous_layer_nodes = input_layer_nodes
-            previous_layer_is_collapsed = input_layer_is_collapsed
-            for module_index, module in enumerate(modules):
-                if cls._is_torch_activation_layer(module):
-                    function = module.__class__.__name__
-                    position = ((layer_index - 1 - middle_layer_index) * LAYER_MARGIN) + (LAYER_MARGIN / 4)
-                    new_graph.activations.append(Activation(function = function, category = get_activation_function_category(function), xPosition = position))
-                    continue
-                
-                # Calculate the layer offset (how much and which direction to positionally offset this layer from center)
-                layer_offset = (layer_index - middle_layer_index) * LAYER_MARGIN
+        def get_weights(module):
+            return module.weight.data.numpy()
 
-                # Calculate the middle node index for positioning
-                middle_node_index = (len(module.bias.data) - 1) / 2
-
-                # TODO: Right now this only supports linear layers, so add error checks (and eventually support) for other types
-                # TODO: Add validation that in_features and out_features of previous match
-                layer_nodes = []
-                # Validate the the network isn't too large to be displayed (limit to MAX_LAYER_NODES nodes per layer)
-                is_collapsed = len(module.bias.data) > MAX_LAYER_NODES
-
-                if is_collapsed:
-                    layer_nodes.append(NodeCollection(x = layer_offset, numNodes = len(module.bias.data)))
-                else:
-                    for node_index, node_bias in enumerate(module.bias.data):
-                        # Calculate the node offset (how much and which direction to positionally offset this node from center)
-                        node_offset = (node_index - middle_node_index) * NODE_MARGIN
-
-                        # Create the node and add it to the graph
-                        layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
-                
-                new_graph.nodes.extend(layer_nodes)
-                
-                # Generate the links between the previous layer and the current layer
-                if is_collapsed and previous_layer_is_collapsed:
-                    new_graph.links.append(
-                        LinkCollection(
-                            source=previous_layer_nodes[0],
-                            target=layer_nodes[0],
-                            numLinks=len(previous_layer_nodes),
-                        )
-                    )
-                elif is_collapsed:
-                    new_links = [
-                        LinkCollection(
-                            source=previous_layer_nodes[index],
-                            target=layer_nodes[0],
-                            numLinks=len(layer_nodes)
-                        )
-                        for index in range(len(previous_layer_nodes))
-                    ]
-                    new_graph.links.extend(new_links)
-                elif previous_layer_is_collapsed:
-                    new_links = [
-                        LinkCollection(
-                            source=previous_layer_nodes[0],
-                            target=layer_nodes[index],
-                            numLinks=len(previous_layer_nodes)
-                        )
-                        for index in range(len(layer_nodes))
-                    ]
-                    new_graph.links.extend(new_links)
-                else:
-                    new_links = [
-                        Link(
-                            source=previous_layer_nodes[weight_index],
-                            target=layer_nodes[weight_layer_index],
-                            weight=float(previous_layer_edge)
-                        )
-                        for weight_layer_index, current_layer_weights in enumerate(module.weight.data.numpy())
-                        for weight_index, previous_layer_edge in enumerate(current_layer_weights)
-                    ]
-                    new_graph.links.extend(new_links)
-
-                previous_layer_nodes = layer_nodes
-                previous_layer_is_collapsed = is_collapsed
-                layer_index += 1
-
-                # Add output links to the last layer
-                if module_index == len(modules) - 1: # Only do this for the last layer
-                    for node in layer_nodes:
-                        new_graph.links.append(Link(source = node, target = Position(x = node.x + NODE_MARGIN, y = node.y), weight = 0, hasDirection=True))
-            
-            return new_graph
-        except Exception as e:
-            logger.error(e)
-            return None
-
+        return cls._build_graph(pytorch_model_file, load_model, get_modules, get_input_size,
+            get_module_count, module_skipper, get_module_size, get_bias, get_weights)
 
     @classmethod
-    def from_keras(cls, keras_model_file: str):
+    def from_keras(cls, keras_model_file: str) -> Self:
         logger.debug("Generating model visualization from Keras model")
-        try:
-            # Generate the graph to later append data to
-            new_graph = cls(nodes = [], links = [], activations = [])
-            
-            # Load the Keras model
-            keras_model = keras.models.load_model(keras_model_file)
-            logger.debug(f"Load model from file: {'success' if keras_model is not None else 'fail'}")
 
-            # Get the network structure and the modules
-            modules = keras_model.layers
-            # TODO: Check type of model object to determine basic structure (i.e. sequential, convolutional, recurrent, etc.)
-            
-            # Calculate middle layer index for positioning
-            middle_layer_index = len(modules) / 2
+        def get_modules(model):
+            return model.layers
 
-            # Since the input layer is implicit, we need to add it manually
-            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(cls._get_keras_first_kernel_module(modules).kernel.shape[0], middle_layer_index)
-            new_graph.nodes.extend(input_layer_nodes)
-            new_graph.links.extend(input_layer_links)
+        def get_input_size(modules):
+            return cls._get_keras_first_kernel_module(modules).kernel.shape[0]
 
-            layer_index = 1
-            previous_layer_nodes = input_layer_nodes
-            previous_layer_is_collapsed = input_layer_is_collapsed
-            for module_index, module in enumerate(modules):
-                # Skip non-kernel layers
-                if not hasattr(module, 'kernel'):
-                    continue
+        def get_module_count(modules):
+            return len(modules)
 
-                # Calculate the layer offset (how much and which direction to positionally offset this layer from center)
-                layer_offset = (layer_index - middle_layer_index) * LAYER_MARGIN
+        def module_skipper(module, graph: Graph, layer_index: int, middle_layer_index: int):
+            should_skip = not hasattr(module, 'kernel')
+            return should_skip, module.activation.__name__ if not should_skip else None
 
-                num_nodes = module.kernel.shape[1]
+        def get_module_size(module):
+            return module.kernel.shape[1]
+        
+        def get_bias(module):
+            return module.bias.numpy()
 
-                # Calculate the middle node index for positioning
-                middle_node_index = (num_nodes - 1) / 2
+        def get_weights(module):
+            return module.kernel.numpy()
 
-                # TODO: Right now this only supports linear layers, so add error checks (and eventually support) for other types
-                # TODO: Add validation that in_features and out_features of previous match
-                layer_nodes = []
-                # Validate the the network isn't too large to be displayed (limit to MAX_LAYER_NODES nodes per layer)
-                is_collapsed = num_nodes > MAX_LAYER_NODES
-
-                if is_collapsed:
-                    layer_nodes.append(NodeCollection(x = layer_offset, numNodes = num_nodes))
-                else:
-                    for node_index, node_bias in enumerate(module.bias.numpy()):
-                        # Calculate the node offset (how much and which direction to positionally offset this node from center)
-                        node_offset = (node_index - middle_node_index) * NODE_MARGIN
-
-                        # Create the node and add it to the graph
-                        layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
-                
-                new_graph.nodes.extend(layer_nodes)
-
-                # Generate the links between the previous layer and the current layer
-                if is_collapsed and previous_layer_is_collapsed:
-                    new_graph.links.append(
-                        LinkCollection(
-                            source=previous_layer_nodes[0],
-                            target=layer_nodes[0],
-                            numLinks=len(previous_layer_nodes),
-                        )
-                    )
-                elif is_collapsed:
-                    new_links = [
-                        LinkCollection(
-                            source=previous_layer_nodes[index],
-                            target=layer_nodes[0],
-                            numLinks=len(layer_nodes)
-                        )
-                        for index in range(len(previous_layer_nodes))
-                    ]
-                    new_graph.links.extend(new_links)
-                elif previous_layer_is_collapsed:
-                    new_links = [
-                        LinkCollection(
-                            source=previous_layer_nodes[0],
-                            target=layer_nodes[index],
-                            numLinks=len(previous_layer_nodes)
-                        )
-                        for index in range(len(layer_nodes))
-                    ]
-                    new_graph.links.extend(new_links)
-                else:
-                    new_links = [
-                        Link(
-                            source=previous_layer_nodes[weight_layer_index],
-                            target=layer_nodes[weight_index],
-                            weight=float(previous_layer_edge)
-                        )
-                        for weight_layer_index, current_layer_weights in enumerate(module.kernel.numpy())
-                        for weight_index, previous_layer_edge in enumerate(current_layer_weights)
-                    ]
-                    new_graph.links.extend(new_links)
-
-                previous_layer_nodes = layer_nodes
-                previous_layer_is_collapsed = is_collapsed
-                layer_index += 1
-
-                # Add output links to the last layer
-                if module_index == len(modules) - 1: # Only do this for the last layer
-                    for node in layer_nodes:
-                        new_graph.links.append(Link(source = node, target = Position(x = node.x + NODE_MARGIN, y = node.y), weight = 0, hasDirection=True))
-
-                activation_function_name = module.activation.__name__
-                position = ((layer_index - 1 - middle_layer_index) * LAYER_MARGIN) + (LAYER_MARGIN / 4)
-                new_graph.activations.append(Activation(function = activation_function_name, category = get_activation_function_category(activation_function_name), xPosition = position))
-
-            return new_graph
-        except Exception as e:
-            logger.error(e)
-            return None
+        return cls._build_graph(keras_model_file, keras.models.load_model, get_modules, 
+            get_input_size, get_module_count, module_skipper, get_module_size, get_bias, 
+            get_weights, reverse_weights = True)
     
     @classmethod
     def _is_torch_activation_layer(cls, module: Module) -> bool:
@@ -315,3 +151,122 @@ class Graph:
             links.append(Link(source = Position(x = input_layer_offset - NODE_MARGIN, y = node_offset), target = new_node, weight = 0, hasDirection = True, isInput = True))
 
         return is_collapsed, nodes, links
+
+    @classmethod
+    def _build_graph(cls, model_file: str, model_loader: Callable[[str], object], modules_accessor: Callable[[object], List[object]],
+        input_size_accessor: Callable[[object], int], module_count_accessor: Callable[[object], int], 
+        module_skipper: Callable[[object, Self, int, int], Tuple[bool, str]], module_size_accessor: Callable[[object], int],
+        bias_accessor: Callable[[object], Iterable[float]], weight_accessor: Callable[[object], Iterable[float]], reverse_weights: bool = False) -> Self:
+        try:
+            # Generate the graph to later append data to
+            new_graph = cls(nodes = [], links = [], activations = [])
+            
+            # Load the model
+            model = model_loader(model_file)
+            logger.debug(f"Load model from file: {'success' if model is not None else 'fail'}")
+
+            # Get the network structure and the modules
+            modules = modules_accessor(model)
+            # TODO: Determine basic structure (i.e. sequential, convolutional, recurrent, etc.)
+            
+            # Calculate middle layer index for positioning
+            middle_layer_index = module_count_accessor(modules) / 2
+
+            # Since the input layer is implicit, we need to add it manually
+            input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(input_size_accessor(modules), middle_layer_index)
+            new_graph.nodes.extend(input_layer_nodes)
+            new_graph.links.extend(input_layer_links)
+
+            layer_index = 1
+            previous_layer_nodes = input_layer_nodes
+            previous_layer_is_collapsed = input_layer_is_collapsed
+            for module_index, module in enumerate(modules):
+                # Skip some modules
+                should_skip_module, activation_function_name = module_skipper(module, new_graph, layer_index, middle_layer_index)
+                if should_skip_module:
+                    continue
+
+                if (activation_function_name is not None):
+                    position = ((layer_index - middle_layer_index) * LAYER_MARGIN) + (LAYER_MARGIN / 4)
+                    new_graph.activations.append(Activation(function = activation_function_name, category = get_activation_function_category(activation_function_name), xPosition = position))
+
+                # Calculate the layer offset (how much and which direction to positionally offset this layer from center)
+                layer_offset = (layer_index - middle_layer_index) * LAYER_MARGIN
+
+                num_nodes = module_size_accessor(module)
+
+                # Calculate the middle node index for positioning
+                middle_node_index = (num_nodes - 1) / 2
+
+                # TODO: Right now this only supports linear layers, so add error checks (and eventually support) for other types
+                # TODO: Add validation that in_features and out_features of previous match
+                layer_nodes = []
+                # Validate the the network isn't too large to be displayed (limit to MAX_LAYER_NODES nodes per layer)
+                is_collapsed = num_nodes > MAX_LAYER_NODES
+
+                if is_collapsed:
+                    layer_nodes.append(NodeCollection(x = layer_offset, numNodes = num_nodes))
+                else:
+                    for node_index, node_bias in enumerate(bias_accessor(module)):
+                        # Calculate the node offset (how much and which direction to positionally offset this node from center)
+                        node_offset = (node_index - middle_node_index) * NODE_MARGIN
+
+                        # Create the node and add it to the graph
+                        layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
+                
+                new_graph.nodes.extend(layer_nodes)
+
+                # Generate the links between the previous layer and the current layer
+                if is_collapsed and previous_layer_is_collapsed:
+                    new_graph.links.append(
+                        LinkCollection(
+                            source=previous_layer_nodes[0],
+                            target=layer_nodes[0],
+                            numLinks=len(previous_layer_nodes),
+                        )
+                    )
+                elif is_collapsed:
+                    new_links = [
+                        LinkCollection(
+                            source=previous_layer_nodes[index],
+                            target=layer_nodes[0],
+                            numLinks=len(layer_nodes)
+                        )
+                        for index in range(len(previous_layer_nodes))
+                    ]
+                    new_graph.links.extend(new_links)
+                elif previous_layer_is_collapsed:
+                    new_links = [
+                        LinkCollection(
+                            source=previous_layer_nodes[0],
+                            target=layer_nodes[index],
+                            numLinks=len(previous_layer_nodes)
+                        )
+                        for index in range(len(layer_nodes))
+                    ]
+                    new_graph.links.extend(new_links)
+                else:
+                    new_links = [
+                        Link(
+                            source=previous_layer_nodes[weight_layer_index if reverse_weights else weight_index],
+                            target=layer_nodes[weight_index if reverse_weights else weight_layer_index],
+                            weight=float(previous_layer_edge)
+                        )
+                        for weight_layer_index, current_layer_weights in enumerate(weight_accessor(module))
+                        for weight_index, previous_layer_edge in enumerate(current_layer_weights)
+                    ]
+                    new_graph.links.extend(new_links)
+
+                previous_layer_nodes = layer_nodes
+                previous_layer_is_collapsed = is_collapsed
+                layer_index += 1
+
+                # Add output links to the last layer
+                if module_index == len(modules) - 1: # Only do this for the last layer
+                    for node in layer_nodes:
+                        new_graph.links.append(Link(source = node, target = Position(x = node.x + NODE_MARGIN, y = node.y), weight = 0, hasDirection=True))
+
+            return new_graph
+        except Exception as e:
+            logger.error(e)
+            return None
