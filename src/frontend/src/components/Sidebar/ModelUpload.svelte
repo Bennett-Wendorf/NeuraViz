@@ -77,7 +77,7 @@
         <XMark />
     </Button>
 </div>
-<Helper>PTH</Helper>
+<Helper>pth, keras</Helper>
 <div class="flex flex-row mt-4">
     <Button on:click={submitForm} disabled={uploadButtonDisabled}>Upload</Button>
     {#if uploadButtonDisabled}
