@@ -1,3 +1,8 @@
+export interface Position {
+    x: number;
+    y: number;
+}
+
 export interface Node {
     bias?: number;
     x: number;
@@ -5,12 +10,38 @@ export interface Node {
     isInput: boolean;
 }
 
+export function isNode(node: Node | NodeCollection | Position): node is Node {
+    return (node as Node).bias !== undefined;
+}
+
+export interface NodeCollection {
+    x: number;
+    isInput: boolean;
+    numNodes: number;
+}
+
+export function isNodeCollection(node: Node | NodeCollection | Position): node is NodeCollection {
+    return (node as NodeCollection).numNodes !== undefined;
+}
+
 export interface Link {
-    source: Node;
-    target: Node;
+    source: Node | NodeCollection | Position;
+    target: Node | NodeCollection | Position;
     weight?: number;
     hasDirection: boolean;
     isInput: boolean;
+}
+
+export interface LinkCollection {
+    source: Node | NodeCollection | Position;
+    target: Node | NodeCollection | Position;
+    hasDirection: boolean;
+    isInput: boolean;
+    numLinks: number;
+}
+
+export function isLinkCollection(link: Link | LinkCollection): link is LinkCollection {
+    return (link as LinkCollection).numLinks !== undefined;
 }
 
 export interface Activation {
@@ -20,8 +51,8 @@ export interface Activation {
 }
 
 export interface Graph {
-    nodes: Node[];
-    links: Link[];
+    nodes: (Node | NodeCollection)[];
+    links:(Link | LinkCollection)[];
     activations: Activation[];
 }
 

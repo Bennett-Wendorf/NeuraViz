@@ -34,6 +34,9 @@ export function getResponseError(err: any): readonly [field: string, message: st
 }
 
 export function getScaledAbsoluteTanH(maxAbs: number) {
+    if (maxAbs === 0) {
+        return (value: number) => 0;
+    }
     return (value: number) => absoluteTanH(value * (2/maxAbs)); // The two here comes from the location that tanh gets pretty close to 1 (visually)
 }
 

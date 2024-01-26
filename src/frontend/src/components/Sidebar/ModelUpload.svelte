@@ -16,18 +16,18 @@
 
     $: uploadButtonDisabled = $uploading || $modelValid;
 
-    let clearModel = () => {
+    function clearModel() {
         $graph = { nodes: [], links: [], activations: [] }
         $modelValid = false;
         $graphFile = null;
         files = null;
     }
 
-    let handleFileUploadChange = () => {
+    function handleFileUploadChange() {
         $modelValid = false;
     }
 
-    let submitForm = () => {
+    function submitForm() {
         $uploading = true;
         api.post('/graph', files, { timeout: 30000})
             .then((res: any) => {
@@ -77,7 +77,7 @@
         <XMark />
     </Button>
 </div>
-<Helper>PTH</Helper>
+<Helper>pth, keras</Helper>
 <div class="flex flex-row mt-4">
     <Button on:click={submitForm} disabled={uploadButtonDisabled}>Upload</Button>
     {#if uploadButtonDisabled}
