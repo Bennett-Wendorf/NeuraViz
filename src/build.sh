@@ -24,7 +24,10 @@ npm run build
 # Ensure backend dependencies all exist
 echo "Installing backend dependencies"
 cd $SCRIPT_DIR/backend
-pipenv install
+python3 -m pipenv install
+
+# Create model uploads directory if it doesn't exist
+mkdir -p $SCRIPT_DIR/backend/model_uploads
 
 # Restart the application
 echo "Restarting application"
