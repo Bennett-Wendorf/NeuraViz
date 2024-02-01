@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from models.graph.Node import Node
+from models.graph.NodeCollection import NodeCollection
 from models.graph.Position import Position
 
 @dataclass
