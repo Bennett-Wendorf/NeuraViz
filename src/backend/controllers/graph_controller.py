@@ -16,6 +16,7 @@ from models.graph.Graph import Graph
 
 # Utils
 from logger.logger import build_logger
+from services.session_manager import find_or_create_session, make_sessioned_response, set_session_graph
 #endregion
 
 logger = build_logger(logger_name = "Graph Controller", debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
@@ -32,6 +33,9 @@ ALLOWED_EXTENSIONS = ['pth', 'keras']
 @graph_controller_blueprint.post('/')
 async def get_graph():
     logger.debug("Received request to get graph")
+
+    session = find_or_create_session(request.cookies.get('session_id'))
+
     files = await request.files
     if files:
         file = files['files[]']
@@ -39,7 +43,9 @@ async def get_graph():
         file_extension = file.filename.split('.')[-1]
         if file_extension not in ALLOWED_EXTENSIONS:
             logger.debug("Invalid file extension")
-            return { "message": f"Invalid file extension. Available files types include: {_get_printable_list(ALLOWED_EXTENSIONS)}" }, 400
+            return await make_sessioned_response(session, 
+                { "message": f"Invalid file extension. Available files types include: {_get_printable_list(ALLOWED_EXTENSIONS)}" }, 
+                400)
 
         match file_extension:
             case 'pth':
@@ -49,9 +55,10 @@ async def get_graph():
                 os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}.upload")
                 if graph is None:
                     logger.debug("The pytorch model was invalid")
-                    return { "message": "Invalid file" }, 400
+                    return await make_sessioned_response(session, { "message": "Invalid file" }, 400)
                 else:
-                    return {'graph': graph}, 200
+                    set_session_graph(session, graph)
+                    return await make_sessioned_response(session, {'graph': graph}, 200)
             case 'keras':
                 logger.debug("File type identified: Keras model")
                 await file.save(f"{MODEL_UPLOAD_PATH}/{file.filename}")
@@ -59,15 +66,16 @@ async def get_graph():
                 os.remove(f"{MODEL_UPLOAD_PATH}/{file.filename}")
                 if graph is None:
                     logger.debug("The keras model was invalid")
-                    return { "message": "Invalid file" }, 400
+                    return await make_sessioned_response(session, { "message": "Invalid file" }, 400)
                 else:
-                    return {'graph': graph}, 200
+                    set_session_graph(session, graph)
+                    return await make_sessioned_response(session, {'graph': graph}, 200)
             case _:
                 logger.warn("File type not identified")
-                return { "message": "Not implemented" }, 501
+                return await make_sessioned_response(session, { "message": "Not implemented" }, 501)
     else:
         logger.debug("No file selected")
-        return { "message": "No file selected" }, 400
+        return await make_sessioned_response(session, { "message": "No file selected" }, 400)
 
 def _get_printable_list(data: List[str]) -> str:
     return ", ".join(data)

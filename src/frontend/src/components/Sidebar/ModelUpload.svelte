@@ -4,6 +4,7 @@
     import api from '../../utils/api';
     import { modelValid, graphFile, graph, uploading } from '../../utils/stores';
     import { sendToast, getResponseError } from '../../utils/utils';
+    import type { AxiosResponse } from 'axios';
 
     let fileUploader;
     let files: FileList;
@@ -30,13 +31,13 @@
     function submitForm() {
         $uploading = true;
         api.post('/graph', files, { timeout: 30000})
-            .then((res: any) => {
+            .then((res: AxiosResponse) => {
                 $graph = { nodes: res.data.graph.nodes, links: res.data.graph.links, activations: res.data.graph.activations }
                 $modelValid = true;
                 $uploading = false;
                 sendToast("success", "Model uploaded successfully");
             })
-            .catch((err: any) => {
+            .catch((err: Error) => {
                 console.log(err)
                 let [_, message] = getResponseError(err);
                 sendToast("error", `${message}`);
