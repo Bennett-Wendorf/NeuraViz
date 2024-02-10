@@ -9,3 +9,12 @@ class LinkCollection:
     hasDirection: bool = False
     isInput: bool = False
     numLinks: int = 0
+
+    def to_dict(self):
+        return {
+            "source": self.source.__dict__,
+            "target": self.target.__dict__,
+            "hasDirection": self.hasDirection,
+            "isInput": self.isInput,
+            "numLinks": self.numLinks
+        }

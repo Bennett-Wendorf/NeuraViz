@@ -38,6 +38,13 @@ class Graph:
     nodes: List[Node | NodeCollection]
     links: List[Link | LinkCollection]
     activations: List[Activation]
+
+    def to_dict(self):
+        return {
+            "nodes": [node.__dict__ for node in self.nodes],
+            "links": [link.to_dict() for link in self.links],
+            "activations": [activation.__dict__ for activation in self.activations]
+        }
     
     @classmethod
     def from_pytorch(cls, pytorch_model_file: str) -> Self:

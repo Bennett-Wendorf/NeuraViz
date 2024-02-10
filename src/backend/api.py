@@ -2,6 +2,7 @@
 # System
 import os
 from pathlib import Path
+import schedule
 
 # Quart
 from quart import Quart, send_from_directory
@@ -10,11 +11,12 @@ from quart import Quart, send_from_directory
 from dotenv import load_dotenv
 load_dotenv()
 
-#Controllers
+# Controllers
 from controllers.graph_controller import graph_controller_blueprint as graph_controller
 
 # Utils
 from logger.logger import build_logger
+from services.session_manager import prune_sessions
 #endregion
 
 app = Quart(__name__)
@@ -28,6 +30,7 @@ API_PREFIX = "/api"
 
 logger = build_logger(debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
 
+# Register controllers
 app.register_blueprint(graph_controller, url_prefix = f'{API_PREFIX}/graph')
 
 # Main page
@@ -45,6 +48,9 @@ def run(port = PORT) -> None:
 
     if debug:
         app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # This prevents caching so that changes to the frontend are reflected immediately
+
+    # Prune sessions occasionally
+    schedule.every(10).minutes.do(prune_sessions)
 
     app.run(debug=debug, port=port)
 

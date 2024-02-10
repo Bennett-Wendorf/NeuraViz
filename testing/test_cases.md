@@ -20,3 +20,6 @@
 ### Node Size On Hover
 - Hovering a node should make the node larger
 - NOTE: Other related behavior is tested automatically by Playwright
+
+### Sessions
+- Upload model and ensure session exists in db and is cached on the client
