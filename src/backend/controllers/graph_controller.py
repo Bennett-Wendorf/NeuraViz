@@ -17,6 +17,7 @@ from models.graph.Graph import Graph
 # Utils
 from logger.logger import build_logger
 from services.session_manager import find_or_create_session, make_sessioned_response, set_session_graph
+from utils.tikz_converter import get_tikz_representation, get_color_definitions, get_styles
 #endregion
 
 logger = build_logger(logger_name = "Graph Controller", debug = os.getenv("DEBUG", "FALSE").upper() == "TRUE")
@@ -76,6 +77,34 @@ async def get_graph():
     else:
         logger.debug("No file selected")
         return await make_sessioned_response(session, { "message": "No file selected" }, 400)
+
+@graph_controller_blueprint.get('/tikz')
+async def get_tikz():
+    logger.debug("Received request to get tikz")
+
+    session = find_or_create_session(request.cookies.get('session_id'))
+    graph = Graph.from_dict(session.graphs[0])
+
+    if graph is None:
+        logger.debug("No graph found")
+        return await make_sessioned_response(session, { "message": "No graph found" }, 400)
+
+    graph_tikz = get_tikz_representation(graph)
+    color_includes = get_color_definitions()
+    styles = get_styles()
+    tikz = f"""\\documentclass{{article}}
+\\usepackage{{tikz}}
+\\usepackage{{xcolor}}
+{styles}
+{color_includes}
+\\begin{{document}}
+\\begin{{tikzpicture}}
+{graph_tikz}
+\\end{{tikzpicture}}
+\\end{{document}}
+"""
+
+    return await make_sessioned_response(session, { "tikz": tikz }, 200)
 
 def _get_printable_list(data: List[str]) -> str:
     return ", ".join(data)

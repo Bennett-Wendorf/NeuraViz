@@ -1,6 +1,7 @@
 <script lang="ts">
     import { DarkMode, Label, Button } from 'flowbite-svelte';
     import ModelUpload from './ModelUpload.svelte';
+    import TikzExport from './TikzExport.svelte';
     import Key from '../Graph/Key.svelte';
     import { sendToast } from '../../utils/utils';
 </script>
@@ -27,6 +28,9 @@
     </div>
     <div class='sidebar-row flex-col'>
         <ModelUpload/>
+    </div>
+    <div class='sidebar-row flex-col mt-4'>
+        <TikzExport/>
     </div>
     <div class="mb-4">
         <p id="settings-label"
