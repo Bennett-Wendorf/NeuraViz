@@ -8,11 +8,12 @@ class Node:
     x: float = None
     y: float = None
     isInput: bool = False
+    colorIndex: int = 0
 
     @classmethod
     def from_dict(cls, data: dict) -> Self:
-        return Node(id = data["id"], bias = data["bias"], x = data["x"], y = data["y"], isInput = data["isInput"])
+        return Node(id = data["id"], bias = data["bias"], x = data["x"], y = data["y"], isInput = data["isInput"], colorIndex = data["colorIndex"])
 
     @classmethod
     def is_node(cls, data: dict) -> bool:
-        return "id" in data and "bias" in data and "x" in data and "y" in data and "isInput" in data
+        return "id" in data and "bias" in data and "x" in data and "y" in data and "isInput" in data and "colorIndex" in data

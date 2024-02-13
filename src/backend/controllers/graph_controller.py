@@ -94,6 +94,7 @@ async def get_tikz():
     styles = get_styles()
     tikz = f"""\\documentclass{{article}}
 \\usepackage{{tikz}}
+\\usetikzlibrary{{backgrounds}}
 \\usepackage{{xcolor}}
 {styles}
 {color_includes}

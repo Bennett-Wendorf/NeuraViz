@@ -11,6 +11,7 @@ class LinkCollection:
     hasDirection: bool = False
     isInput: bool = False
     numLinks: int = 0
+    colorIndex: int = 9
 
     def to_dict(self):
         return {
@@ -18,16 +19,17 @@ class LinkCollection:
             "target": self.target.__dict__,
             "hasDirection": self.hasDirection,
             "isInput": self.isInput,
-            "numLinks": self.numLinks
+            "numLinks": self.numLinks,
+            "colorIndex": self.colorIndex
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> Self:
-        return LinkCollection(source = cls._get_nodelike_object(data["source"]), target = cls._get_nodelike_object(data["target"]), hasDirection = data["hasDirection"], isInput = data["isInput"], numLinks = data["numLinks"])
+        return LinkCollection(source = cls._get_nodelike_object(data["source"]), target = cls._get_nodelike_object(data["target"]), hasDirection = data["hasDirection"], isInput = data["isInput"], numLinks = data["numLinks"], colorIndex=data["colorIndex"])
 
     @classmethod
     def is_link_collection(cls, data: dict) -> bool:
-        return "source" in data and "target" in data and "hasDirection" in data and "isInput" in data and "numLinks" in data
+        return "source" in data and "target" in data and "hasDirection" in data and "isInput" in data and "numLinks" in data and "colorIndex" in data
 
     @classmethod
     def _get_nodelike_object(cls, data: dict) -> Node | NodeCollection | Position:

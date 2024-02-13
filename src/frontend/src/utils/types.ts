@@ -8,6 +8,7 @@ export interface Node {
     x: number;
     y: number;
     isInput: boolean;
+    colorIndex: number;
 }
 
 export function isNode(node: Node | NodeCollection | Position): node is Node {
@@ -18,6 +19,7 @@ export interface NodeCollection {
     x: number;
     isInput: boolean;
     numNodes: number;
+    colorIndex: number
 }
 
 export function isNodeCollection(node: Node | NodeCollection | Position): node is NodeCollection {
@@ -30,6 +32,7 @@ export interface Link {
     weight?: number;
     hasDirection: boolean;
     isInput: boolean;
+    colorIndex: number;
 }
 
 export interface LinkCollection {
@@ -38,6 +41,7 @@ export interface LinkCollection {
     hasDirection: boolean;
     isInput: boolean;
     numLinks: number;
+    colorIndex: number;
 }
 
 export function isLinkCollection(link: Link | LinkCollection): link is LinkCollection {

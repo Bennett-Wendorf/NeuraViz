@@ -11,6 +11,7 @@ class Link:
     weight: float
     hasDirection: bool = False
     isInput: bool = False
+    colorIndex: int = 0
 
     def to_dict(self):
         return {
@@ -18,16 +19,17 @@ class Link:
             "target": self.target.__dict__,
             "weight": self.weight,
             "hasDirection": self.hasDirection,
-            "isInput": self.isInput
+            "isInput": self.isInput,
+            "colorIndex": self.colorIndex
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> Self:
-        return Link(source = cls._get_nodelike_object(data["source"]), target = cls._get_nodelike_object(data["target"]), weight = data["weight"], hasDirection = data["hasDirection"], isInput = data["isInput"])
+        return Link(source = cls._get_nodelike_object(data["source"]), target = cls._get_nodelike_object(data["target"]), weight = data["weight"], hasDirection = data["hasDirection"], isInput = data["isInput"], colorIndex=data["colorIndex"])
 
     @classmethod
     def is_link(cls, data: dict) -> bool:
-        return "source" in data and "target" in data and "weight" in data and "hasDirection" in data and "isInput" in data
+        return "source" in data and "target" in data and "weight" in data and "hasDirection" in data and "isInput" in data and "colorIndex" in data
 
     @classmethod
     def _get_nodelike_object(cls, data: dict) -> Node | NodeCollection | Position:
