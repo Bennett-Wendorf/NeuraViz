@@ -96,12 +96,15 @@ async def get_tikz():
 \\usepackage{{tikz}}
 \\usetikzlibrary{{backgrounds}}
 \\usepackage{{xcolor}}
+\\usepackage{{pdflscape}}
 {styles}
 {color_includes}
 \\begin{{document}}
+\\begin{{landscape}}
 \\begin{{tikzpicture}}
 {graph_tikz}
 \\end{{tikzpicture}}
+\\end{{landscape}}
 \\end{{document}}
 """
 
