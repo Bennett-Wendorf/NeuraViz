@@ -97,6 +97,8 @@ async def get_tikz():
 \\usetikzlibrary{{backgrounds}}
 \\usepackage{{xcolor}}
 \\usepackage{{pdflscape}}
+\\def\scale{{1}}
+\\newcommand{{\scalevalue}}[1]{{\scale*#1}}
 {styles}
 {color_includes}
 \\begin{{document}}

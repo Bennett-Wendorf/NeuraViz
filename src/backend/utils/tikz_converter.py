@@ -13,38 +13,46 @@ def get_tikz_representation(graph: Graph) -> str:
     for node in graph.nodes:
         if node.isInput:
             if isinstance(node, Node):
-                tikz += f"\\node[input_node] ({node.id}) at ({node.x * NODE_POSITION_SCALE_FACTOR}, {node.y * NODE_POSITION_SCALE_FACTOR}) {{}};\n"
+                node_x = node.x * NODE_POSITION_SCALE_FACTOR
+                node_y = node.y * NODE_POSITION_SCALE_FACTOR
+                tikz += f"\\node[input_node] ({node.id}) at (\\scalevalue{{{node_x}}}, \\scalevalue{{{node_y}}}) {{}};\n"
             else:
-                tikz += f"\\node[input_node] (-1) at ({(node.x * NODE_POSITION_SCALE_FACTOR) - 0.25}, 0.25) {{}};\n"
-                tikz += f"\\node[input_node] ({node.id}) at ({node.x * NODE_POSITION_SCALE_FACTOR}, 0) {{}};\n"
-                tikz += f"\\node[input_node] (-1) at ({(node.x * NODE_POSITION_SCALE_FACTOR) + 0.25}, -0.25) {{}};\n"
+                tikz += f"\\node[input_node] (-1) at (\\scalevalue{{{(node.x * NODE_POSITION_SCALE_FACTOR) - 0.25}}}, \\scalevalue{{0.25}}) {{}};\n"
+                tikz += f"\\node[input_node] ({node.id}) at (\\scalevalue{{{node.x * NODE_POSITION_SCALE_FACTOR}}}, 0) {{}};\n"
+                tikz += f"\\node[input_node] (-1) at (\\scalevalue{{{(node.x * NODE_POSITION_SCALE_FACTOR) + 0.25}}}, \\scalevalue{{-0.25}}) {{}};\n"
         else:
             if isinstance(node, Node):
-                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] ({node.id}) at ({node.x * NODE_POSITION_SCALE_FACTOR}, {node.y * NODE_POSITION_SCALE_FACTOR}) {{}};\n"
+                node_x = node.x * NODE_POSITION_SCALE_FACTOR
+                node_y = node.y * NODE_POSITION_SCALE_FACTOR
+                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] ({node.id}) at (\\scalevalue{{{node_x}}}, \\scalevalue{{{node_y}}}) {{}};\n"
             else:
-                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] (-1) at ({(node.x * NODE_POSITION_SCALE_FACTOR) - 0.25}, 0.25) {{}};\n"
-                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] ({node.id}) at ({node.x * 2}, 0) {{}};\n"
-                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] (-1) at ({(node.x * NODE_POSITION_SCALE_FACTOR) + 0.25}, -0.25) {{}};\n"
+                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] (-1) at (\\scalevalue{{{(node.x * NODE_POSITION_SCALE_FACTOR) - 0.25}}}, \\scalevalue{{0.25}}) {{}};\n"
+                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] ({node.id}) at (\\scalevalue{{{node.x * NODE_POSITION_SCALE_FACTOR}}}, 0) {{}};\n"
+                tikz += f"\\node[node, fill={get_node_color_name(node.colorIndex)}] (-1) at (\\scalevalue{{{(node.x * NODE_POSITION_SCALE_FACTOR) + 0.25}}}, \\scalevalue{{-0.25}}) {{}};\n"
     tikz += f"\\begin{{scope}}[on background layer]\n"
-    for link in graph.links:
+    for link in sorted(graph.links, key=lambda link: link.colorIndex):
         if link.isInput:
-            tikz += f"\\draw[io_link] ({(link.source.x * NODE_POSITION_SCALE_FACTOR) - 1},{link.source.y * NODE_POSITION_SCALE_FACTOR}) -- ({link.target.id});\n"
+            tikz += f"\\draw[io_link] (\\scalevalue{{{(link.source.x * NODE_POSITION_SCALE_FACTOR) - 1}}},\\scalevalue{{{link.source.y * NODE_POSITION_SCALE_FACTOR}}}) -- ({link.target.id});\n"
         elif link.hasDirection:
-            tikz += f"\\draw[io_link] ({link.source.id}) -- ({(link.target.x * NODE_POSITION_SCALE_FACTOR) + 1},{link.target.y * NODE_POSITION_SCALE_FACTOR});\n"
+            tikz += f"\\draw[io_link] ({link.source.id}) -- (\\scalevalue{{{(link.target.x * NODE_POSITION_SCALE_FACTOR) + 1}}},\\scalevalue{{{link.target.y * NODE_POSITION_SCALE_FACTOR}}});\n"
         else:
+            source_id = f"{link.source.id}.center" if link.source.isInput else link.source.id
+            target_id = f"{link.target.id}.center" if link.target.isInput else link.target.id
             if isinstance(link, Link):
-                tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({link.source.id}) -- ({link.target.id});\n"
+                tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({source_id}) -- ({target_id});\n"
             else:
-                tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({link.source.id}) -- ({link.target.id});\n"
+                tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({source_id}) -- ({target_id});\n"
                 if isinstance(link.source, NodeCollection) and isinstance(link.target, NodeCollection):
-                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({(link.source.x * NODE_POSITION_SCALE_FACTOR) + 1.25}, 0.25) -- ({(link.source.x * NODE_POSITION_SCALE_FACTOR) + 1.25}, -0.25);\n"
-                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({(link.target.x * NODE_POSITION_SCALE_FACTOR) - 1.25}, 0.25) -- ({(link.target.x * NODE_POSITION_SCALE_FACTOR) - 1.25}, -0.25);\n"
+                    source_marker_x = f"\\scalevalue{{{l(ink.source.x * NODE_POSITION_SCALE_FACTOR) + 1.25}}}"
+                    target_marker_x = f"\\scalevalue{{{link.target.x * NODE_POSITION_SCALE_FACTOR - 1.25}}}"
+                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({source_marker_x}, \\scalevalue{{0.25}}) -- ({source_marker_x}, \\scalevalue{{-0.25}});\n"
+                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({target_marker_x}, \\scalevalue{{0.25}}) -- ({target_marker_x}, \\scalevalue{{-0.25}});\n"
                 elif isinstance(link.source, NodeCollection):
                     marker_top_x, marker_top_y, marker_bottom_x, marker_bottom_y = _calculate_marker_location(link.source.x * NODE_POSITION_SCALE_FACTOR, 0, link.target.x * NODE_POSITION_SCALE_FACTOR, link.target.y * NODE_POSITION_SCALE_FACTOR)
-                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({marker_top_x}, {marker_top_y}) -- ({marker_bottom_x}, {marker_bottom_y});\n"
+                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] (\\scalevalue{{{marker_top_x}}}, \\scalevalue{{{marker_top_y}}}) -- (\\scalevalue{{{marker_bottom_x}}}, \\scalevalue{{{marker_bottom_y}}});\n"
                 elif isinstance(link.target, NodeCollection):
                     marker_top_x, marker_top_y, marker_bottom_x, marker_bottom_y = _calculate_marker_location(link.target.x * NODE_POSITION_SCALE_FACTOR, 0, link.source.x * NODE_POSITION_SCALE_FACTOR, link.source.y * NODE_POSITION_SCALE_FACTOR)
-                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({marker_top_x}, {marker_top_y}) -- ({marker_bottom_x}, {marker_bottom_y});\n"
+                    tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] (\\scalevalue{{{marker_top_x}}}, \\scalevalue{{{marker_top_y}}}) -- (\\scalevalue{{{marker_bottom_x}}}, \\scalevalue{{{marker_bottom_y}}});\n"
 
     tikz += f"\\end{{scope}}\n"
     return tikz
@@ -71,8 +79,8 @@ def get_color_definitions() -> str:
 
 def get_styles() -> str:
     return """
-\\tikzstyle{node}=[circle, draw=black, minimum size=1.25cm, thick]
-\\tikzstyle{input_node}=[rectangle, rounded corners=.25cm, draw=black, minimum size=1.25cm, thick, fill=gray]
-\\tikzstyle{link}=[line width = 4pt]
-\\tikzstyle{io_link}=[-latex, line width = 4pt, draw=gray]
+\\tikzstyle{node}=[circle, draw=black, minimum size=\\scalevalue{1.25}cm, thick]
+\\tikzstyle{input_node}=[rectangle, rounded corners=\\scalevalue{.25}cm, draw=black, minimum size=\\scalevalue{1.25}cm, thick, fill=gray]
+\\tikzstyle{link}=[line width = \\scalevalue{4}pt]
+\\tikzstyle{io_link}=[-latex, line width = \\scalevalue{4}pt, draw=gray]
     """    
