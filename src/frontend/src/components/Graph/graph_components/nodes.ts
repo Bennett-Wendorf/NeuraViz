@@ -3,8 +3,7 @@ import { isNodeCollection, type Node, type NodeCollection } from '../../../utils
 
 export function getMainNodes(nodes: (Node | NodeCollection)[], layerNodeOffset: number, strokeWidth: number,
         strokeOpacity: number, radius: number, positionScaleFactor: number,
-        scaledRadius: number, absoluteTanH: (x: number) => number,
-        clickCallback: (event, data: Node) => void): SVGGElement {
+        scaledRadius: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let mainNodes = d3.create("svg:g")
         .attr("class", "mainNodesContainer");
 
@@ -13,21 +12,20 @@ export function getMainNodes(nodes: (Node | NodeCollection)[], layerNodeOffset: 
         .join("g")
             .append((n) => isNodeCollection(n)
                 ? getMainLayer(n, layerNodeOffset, strokeWidth, strokeOpacity, radius,
-                    positionScaleFactor, scaledRadius, absoluteTanH, clickCallback)
+                    positionScaleFactor, scaledRadius, clickCallback)
                 : getMainNode(n, strokeWidth, strokeOpacity, radius, 
-                    positionScaleFactor, scaledRadius, absoluteTanH, clickCallback))
+                    positionScaleFactor, scaledRadius, clickCallback))
     
     return mainNodes.node() as SVGGElement;
 }
 
 function getMainNode(node: Node, strokeWidth: number,
     strokeOpacity: number, radius: number, positionScaleFactor: number,
-    scaledRadius: number, absoluteTanH: (x: number) => number,
-    clickCallback: (event, data: Node) => void): SVGGElement {
+    scaledRadius: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let mainNode = d3.create("svg:circle")
         .attr("class", `stroke-black ${isNodeCollection(node)
-            ? "fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900"
-            : getNodeColor(node.bias, absoluteTanH)}`)
+            ? getNodeColor(node.colorIndex)
+            : getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
         .attr("r", radius)
@@ -50,13 +48,12 @@ function getMainNode(node: Node, strokeWidth: number,
 
 function getMainLayer(node: NodeCollection, layerNodeOffset: number, strokeWidth: number,
     strokeOpacity: number, radius: number, positionScaleFactor: number,
-    scaledRadius: number, absoluteTanH: (x: number) => number,
-    clickCallback: (event, data: Node) => void): SVGGElement {
+    scaledRadius: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let mainLayer = d3.create("svg:g")
         .attr("class", "mainLayerContainer");
 
     let bottomCircle = mainLayer.append("circle")
-        .attr("class", "stroke-black fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
         .attr("r", radius)
@@ -64,7 +61,7 @@ function getMainLayer(node: NodeCollection, layerNodeOffset: number, strokeWidth
         .attr("cy", -layerNodeOffset);
 
     let middleCircle = mainLayer.append("circle")
-        .attr("class", "stroke-black fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
         .attr("r", radius)
@@ -72,7 +69,7 @@ function getMainLayer(node: NodeCollection, layerNodeOffset: number, strokeWidth
         .attr("cy", 0);
 
     let topCircle = mainLayer.append("circle")
-        .attr("class", "stroke-black fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
         .attr("r", radius)
@@ -122,7 +119,7 @@ function getInputNode(node: Node, radius: number,
     positionScaleFactor: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let inputNode = d3.create("svg:rect")
 
-    inputNode.attr("class", () => `stroke-black fill-neutral-400 dark:fill-neutral-600`)
+    inputNode.attr("class", () => `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius)
         .attr("y", node.y * positionScaleFactor - mainNodeRadius)
         .attr("width", mainNodeRadius * 2)
@@ -156,7 +153,7 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
         .attr("class", "inputLayerContainer");
 
     let bottomRect = inputLayer.append("rect")
-        .attr("class", "stroke-black fill-neutral-400 dark:fill-neutral-600")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius - layerNodeOffset)
         .attr("y", 0 - mainNodeRadius - layerNodeOffset)
         .attr("width", mainNodeRadius * 2)
@@ -164,7 +161,7 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
         .attr("rx", radius);
 
     let middleRect = inputLayer.append("rect")
-        .attr("class", "stroke-black fill-neutral-400 dark:fill-neutral-600")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius)
         .attr("y", 0 - mainNodeRadius)
         .attr("width", mainNodeRadius * 2)
@@ -172,7 +169,7 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
         .attr("rx", radius);
 
     let topRect = inputLayer.append("rect")
-        .attr("class", "stroke-black fill-neutral-400 dark:fill-neutral-600")
+        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius + layerNodeOffset)
         .attr("y", 0 - mainNodeRadius + layerNodeOffset)
         .attr("width", mainNodeRadius * 2)
@@ -221,7 +218,7 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
     return inputLayer.node() as SVGGElement;
 }
 
-function getNodeColor (value: number, absoluteTanH: (x: number) => number) {
+function getNodeColor(colorIndex: number) {
     const enumeratedValues: string[] = [
         "fill-nodecolorgradientlight-50 dark:fill-nodecolorgradientdark-50",
         "fill-nodecolorgradientlight-100 dark:fill-nodecolorgradientdark-100",
@@ -235,9 +232,11 @@ function getNodeColor (value: number, absoluteTanH: (x: number) => number) {
         "fill-nodecolorgradientlight-900 dark:fill-nodecolorgradientdark-900",
     ];
 
-    return enumeratedValues[
-        Math.round(
-            absoluteTanH(value) * (enumeratedValues.length - 1)
-        )
-    ];
+    const inputColorClass = "fill-neutral-400 dark:fill-neutral-600";
+
+    if (colorIndex === -1) {
+        return inputColorClass;
+    }
+
+    return enumeratedValues[colorIndex];
 };

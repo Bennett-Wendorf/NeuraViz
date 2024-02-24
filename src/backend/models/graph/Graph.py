@@ -23,6 +23,7 @@ from models.graph.LinkCollection import LinkCollection
 #region Helpers
 from logger.logger import build_logger
 from utils.activation_category_mapper import get_activation_function_category
+from utils.color_helper import populate_color_indexes
 #endregion
 #endregion
 
@@ -45,7 +46,17 @@ class Graph:
             "links": [link.to_dict() for link in self.links],
             "activations": [activation.__dict__ for activation in self.activations]
         }
-    
+
+    @classmethod
+    def from_dict(cls, dict: dict) -> Self:
+        if dict is None:
+            return None
+        return Graph(
+            nodes = [Node.from_dict(node) if Node.is_node(node) else NodeCollection.from_dict(node) for node in dict["nodes"]], 
+            links = [Link.from_dict(link) if Link.is_link(link) else LinkCollection.from_dict(link) for link in dict["links"]], 
+            activations = [Activation.from_dict(activation) for activation in dict["activations"]]
+        )
+
     @classmethod
     def from_pytorch(cls, pytorch_model_file: str) -> Self:
         logger.debug("Generating model visualization from Pytorch model")
@@ -138,7 +149,7 @@ class Graph:
 
         if is_collapsed:
             # Create the collapsed input layer node and add it to the graph
-            new_node_collection = NodeCollection(x = input_layer_offset, isInput = True, numNodes = input_layer_size)
+            new_node_collection = NodeCollection(id = -1, x = input_layer_offset, isInput = True, numNodes = input_layer_size)
             nodes.append(new_node_collection)
 
             links.append(LinkCollection(source = Position(x = input_layer_offset - NODE_MARGIN, y = 0), target = new_node_collection, hasDirection = True, isInput = True, numLinks = input_layer_size))
@@ -152,7 +163,7 @@ class Graph:
             node_offset = (node_index - input_layer_middle_node_index) * NODE_MARGIN
 
             # Create the node and add it to the graph
-            new_node = Node(x = input_layer_offset, y = node_offset, isInput = True)
+            new_node = Node(id = -1, x = input_layer_offset, y = node_offset, isInput = True)
             nodes.append(new_node)
 
             links.append(Link(source = Position(x = input_layer_offset - NODE_MARGIN, y = node_offset), target = new_node, weight = 0, hasDirection = True, isInput = True))
@@ -164,6 +175,7 @@ class Graph:
         input_size_accessor: Callable[[object], int], module_count_accessor: Callable[[object], int], 
         module_skipper: Callable[[object, Self, int, int], Tuple[bool, str]], module_size_accessor: Callable[[object], int],
         bias_accessor: Callable[[object], Iterable[float]], weight_accessor: Callable[[object], Iterable[float]], reverse_weights: bool = False) -> Self:
+        node_id = 0
         try:
             # Generate the graph to later append data to
             new_graph = cls(nodes = [], links = [], activations = [])
@@ -181,6 +193,9 @@ class Graph:
 
             # Since the input layer is implicit, we need to add it manually
             input_layer_is_collapsed, input_layer_nodes, input_layer_links = cls._get_input_layer_nodes_and_links(input_size_accessor(modules), middle_layer_index)
+            for node in input_layer_nodes:
+                node.id = node_id
+                node_id += 1
             new_graph.nodes.extend(input_layer_nodes)
             new_graph.links.extend(input_layer_links)
 
@@ -212,14 +227,16 @@ class Graph:
                 is_collapsed = num_nodes > MAX_LAYER_NODES
 
                 if is_collapsed:
-                    layer_nodes.append(NodeCollection(x = layer_offset, numNodes = num_nodes))
+                    layer_nodes.append(NodeCollection(id = node_id, x = layer_offset, numNodes = num_nodes))
+                    node_id += 1
                 else:
                     for node_index, node_bias in enumerate(bias_accessor(module)):
                         # Calculate the node offset (how much and which direction to positionally offset this node from center)
                         node_offset = (node_index - middle_node_index) * NODE_MARGIN
 
                         # Create the node and add it to the graph
-                        layer_nodes.append(Node(bias = float(node_bias), x = layer_offset, y = node_offset))
+                        layer_nodes.append(Node(id = node_id, bias = float(node_bias), x = layer_offset, y = node_offset))
+                        node_id += 1
                 
                 new_graph.nodes.extend(layer_nodes)
 
@@ -273,7 +290,15 @@ class Graph:
                     for node in layer_nodes:
                         new_graph.links.append(Link(source = node, target = Position(x = node.x + NODE_MARGIN, y = node.y), weight = 0, hasDirection=True))
 
+            max_bias, max_weight = new_graph._get_max_abs_values()
+            populate_color_indexes(new_graph, max_bias, max_weight)
+
             return new_graph
         except Exception as e:
             logger.error(e)
             return None
+
+    def _get_max_abs_values(self) -> Tuple[float, float]:
+        max_bias = max([abs(node.bias) if isinstance(node, Node) and not node.isInput else 0 for node in self.nodes])
+        max_weight = max([abs(link.weight) if isinstance(link, Link) and not link.isInput else 0 for link in self.links])
+        return max_bias, max_weight

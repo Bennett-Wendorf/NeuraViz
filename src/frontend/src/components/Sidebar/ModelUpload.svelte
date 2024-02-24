@@ -9,7 +9,7 @@
     let fileUploader;
     let files: FileList;
     let validationClass: string;
-    let uploadButtonDisabled: boolean = false;
+    let uploadButtonDisabled: boolean = $uploading || $modelValid;
 
     $: validationClass = $modelValid ? "text-success-800 dark:text-success-200" : "text-error-800 dark:text-error-200";
 
