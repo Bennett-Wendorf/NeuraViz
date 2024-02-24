@@ -79,8 +79,8 @@ def get_color_definitions() -> str:
 
 def get_styles() -> str:
     return """
-\\tikzstyle{node}=[circle, draw=black, minimum size=\\scalevalue{1.25}cm, thick]
-\\tikzstyle{input_node}=[rectangle, rounded corners=\\scalevalue{.25}cm, draw=black, minimum size=\\scalevalue{1.25}cm, thick, fill=gray]
+\\tikzstyle{node}=[circle, draw=black, minimum size=\\scalevalue{1.25}cm, line width=\\scalevalue{2}pt]
+\\tikzstyle{input_node}=[rectangle, rounded corners=\\scalevalue{.25}cm, draw=black, minimum size=\\scalevalue{1.25}cm, line width=\\scalevalue{2}pt, fill=gray]
 \\tikzstyle{link}=[line width = \\scalevalue{4}pt]
 \\tikzstyle{io_link}=[-latex, line width = \\scalevalue{4}pt, draw=gray]
     """    

@@ -92,21 +92,18 @@ async def get_tikz():
     graph_tikz = get_tikz_representation(graph)
     color_includes = get_color_definitions()
     styles = get_styles()
-    tikz = f"""\\documentclass{{article}}
+    tikz = f"""\\documentclass{{standalone}}
 \\usepackage{{tikz}}
 \\usetikzlibrary{{backgrounds}}
 \\usepackage{{xcolor}}
-\\usepackage{{pdflscape}}
 \\def\scale{{1}}
 \\newcommand{{\scalevalue}}[1]{{\scale*#1}}
 {styles}
 {color_includes}
 \\begin{{document}}
-\\begin{{landscape}}
 \\begin{{tikzpicture}}
 {graph_tikz}
 \\end{{tikzpicture}}
-\\end{{landscape}}
 \\end{{document}}
 """
 
