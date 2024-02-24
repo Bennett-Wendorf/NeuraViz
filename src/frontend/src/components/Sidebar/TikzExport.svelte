@@ -5,11 +5,11 @@
     import { sendToast, getResponseError } from '../../utils/utils';
     import type { AxiosResponse } from 'axios';
 
-    import { uploading, modelValid } from '../../utils/stores';
+    import { modelValid } from '../../utils/stores';
 
-    let exportButtonDisabled: boolean = !$uploading && !$modelValid;
+    let exportButtonDisabled: boolean = !$modelValid;
 
-    $: exportButtonDisabled = !$uploading && !$modelValid;
+    $: exportButtonDisabled = !$modelValid;
 
     function retrieveTikz() {
         api.get('/graph/tikz')
