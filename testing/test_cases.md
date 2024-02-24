@@ -23,3 +23,9 @@
 
 ### Sessions
 - Upload model and ensure session exists in db and is cached on the client
+
+### Tikz Export
+- Exporting a model to Tikz should download a .tex file
+- Compile the .tex file to a .pdf file and visually inspect to ensure that it's the same as the svg representation (excluding activation functions)
+- Change scale variable in tex and recompile to ensure model scales appropriately.
+- Ensure that the tikz export is disabled when no model exists

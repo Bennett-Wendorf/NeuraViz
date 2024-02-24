@@ -1,9 +1,15 @@
 <script lang="ts">
-    import { Button } from 'flowbite-svelte';
+    import { Button, Tooltip } from 'flowbite-svelte';
     import api from '../../utils/api';
 
     import { sendToast, getResponseError } from '../../utils/utils';
     import type { AxiosResponse } from 'axios';
+
+    import { uploading, modelValid } from '../../utils/stores';
+
+    let exportButtonDisabled: boolean = !$uploading && !$modelValid;
+
+    $: exportButtonDisabled = !$uploading && !$modelValid;
 
     function retrieveTikz() {
         api.get('/graph/tikz')
@@ -24,7 +30,10 @@
 </script>
 
 <div class="flex flex-row gap-2 justify-center">
-    <Button on:click={retrieveTikz}>
+    <Button on:click={retrieveTikz} disabled={exportButtonDisabled}>
         Export as LaTeX
     </Button>
+    {#if exportButtonDisabled}
+        <Tooltip class="bg-neutral-700 text-white dark:bg-neutral-800">Please upload a file before exporting</Tooltip>
+    {/if}
 </div>

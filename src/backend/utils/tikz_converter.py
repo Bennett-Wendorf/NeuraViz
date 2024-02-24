@@ -43,7 +43,7 @@ def get_tikz_representation(graph: Graph) -> str:
             else:
                 tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({source_id}) -- ({target_id});\n"
                 if isinstance(link.source, NodeCollection) and isinstance(link.target, NodeCollection):
-                    source_marker_x = f"\\scalevalue{{{l(ink.source.x * NODE_POSITION_SCALE_FACTOR) + 1.25}}}"
+                    source_marker_x = f"\\scalevalue{{{(link.source.x * NODE_POSITION_SCALE_FACTOR) + 1.25}}}"
                     target_marker_x = f"\\scalevalue{{{link.target.x * NODE_POSITION_SCALE_FACTOR - 1.25}}}"
                     tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({source_marker_x}, \\scalevalue{{0.25}}) -- ({source_marker_x}, \\scalevalue{{-0.25}});\n"
                     tikz += f"\\draw[link, draw={get_link_color_name(link.colorIndex)}] ({target_marker_x}, \\scalevalue{{0.25}}) -- ({target_marker_x}, \\scalevalue{{-0.25}});\n"
