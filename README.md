@@ -15,6 +15,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Documentation Status](https://readthedocs.org/projects/neuraviz/badge/?version=latest)](https://neuraviz.readthedocs.io/en/latest/?badge=latest)
 <!-- [![Forks][forks-shield]][forks-url] -->
 
 
