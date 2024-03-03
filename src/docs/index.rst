@@ -15,10 +15,13 @@ Welcome to NeuraViz's documentation!
 .. toctree::
    neural_networks
 
+.. toctree::
+   visualization
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. Indices and tables
+.. ==================
+
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
