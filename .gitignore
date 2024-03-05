@@ -30,3 +30,4 @@ src/frontend/dist/
 *.toc
 *.lof
 *.lot
+*.run.xml
