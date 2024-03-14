@@ -45,6 +45,18 @@ Since NeuraViz only has one developer, the scrum model doesn't fit perfectly. Ho
     \label{fig:scrum_model}
 \end{figure}
 
+\subsection{Development Process Technologies}
+An important part of the scrum model is managing small, independent projects that can be completed in a short amount of time. To help manage these projects, Jira's scrum template was used. This template allows for a main project backlog where user stories can be converted to sprint tasks. Each sprint can then be created and tasks can be scheduled into one. Once each sprint begins, projects/tasks move through columns including backlog, programming, testing required, and done. This allows for a clear view of exactly what is being worked on at any given time. The scrum board for sprint 21 (March 5th, 2024 - March 19, 2024) can be seen in Figure \ref{fig:jira_scrum_board}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\textwidth]{02_dev_process/res/jira_board_sprint_21.png}
+    \caption[Jira Scrum Board]{Jira Scrum Board}
+    \label{fig:jira_scrum_board}
+\end{figure}
+
+In addition to Jira, Github and specifically branches were used to help keep track of individual sprint tasks. A new branch was created for each task, with the name of the branch including the task key from Jira and a brief description. Jira's integration with GitHub provided a link to see what phase the code was actually in directly from the Jira task, including whether a pull request had been created or merged.
+
 \subsection{Functional Requirements}
 Since agile methodologies were chosen for the development of this project, a set of functional requirements in the form of user stories were collected prior to the start of development. These user stories served as a guide for features to implement and helped ensure that no major functionality was missed during development.
 
