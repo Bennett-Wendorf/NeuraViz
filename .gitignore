@@ -31,3 +31,5 @@ src/frontend/dist/
 *.lof
 *.lot
 *.run.xml
+*.bbl
+*.blg

@@ -7,15 +7,13 @@
 \usepackage{hyperref}
 \usepackage[all]{hypcap}
 \usepackage{qtree,algorithm,algorithmic}
-% \usepackage{biblatex}
+\usepackage{natbib}
 \pagestyle{plain}
 \fancyhf{}
 \lhead{}
 \chead{}
 \rhead{}
 \cfoot{\thepage}
-
-% \addbibresource{bibliography.bib} %Imports bibliography file
 
 %\floatstyle{boxed}
 %\restylefloat{figure}
@@ -112,9 +110,8 @@ Finally, I would like to thank my parents, family, friends, and all the teachers
 \IfFileExists{07_conclusion/conclusion}{\input{07_conclusion/conclusion}}{}\clearpage
 
 %% BIBLIOGRAPHY
-\section{Bibliography}
-\label{sec:bibliography}
-% \printbibliography
+\bibliographystyle{plain}
+\bibliography{bibliography}
 \clearpage
 
 %%% APPENDICES
