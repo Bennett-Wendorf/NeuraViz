@@ -11,10 +11,11 @@ export function getReluIcon(xPosition: number, positionScaleFactor: number,
 
     // Add icon foreground
     reluIcon.append("path")
-        .attr("class", "fill-none stroke-[url(#primarylightgradient)] dark:stroke-[url(#primarydarkgradient)]")
+        .attr("class", "stroke-[url(#primarylightgradient)] dark:stroke-[url(#primarydarkgradient)]")
         .attr("stroke-linecap", "round")
         .attr("stroke-linejoin", "round")
         .attr("stroke-width", iconDimension * 0.07)
+        .attr("fill", "none")
         .attr("d", `M ${iconDimension * 0.11},${iconDimension * 0.7} 
                     H ${iconDimension * 0.5} 
                     L ${iconDimension * 0.89},${iconDimension * 0.25}`);
