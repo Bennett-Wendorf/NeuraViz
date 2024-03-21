@@ -17,7 +17,7 @@
 - For node collections, I can see some statistics on the group as a whole, such as average, minimum, and maximum values.
 - As a user, it is clear how models should be formatted for proper upload.
 - As a user, I can collapse layers to make the graph more readable.
-- I can export the graph as a PNG image.
+- I can export the graph as an SVG image.
 - I can export the graph to LaTeX tikz syntax.
 - I can input sample data and watch the feed-forward process in action by stepping through.
 - Feed-forward steps can be exported to a series of LaTeX tikz graphs.
