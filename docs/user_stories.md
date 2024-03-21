@@ -1,0 +1,31 @@
+# Functional
+- As a user, I can select a model file of the specified formats to upload.
+- I can upload models created using Pytorch.
+- I can upload models created using Keras.
+- I can upload models created using scikit-learn.
+- I can upload models in the ONNX format.
+- As a user, I can see the full graph of a valid uploaded model once it finishes processing.
+- As a user, I can pan and zoom the model visualization.
+- The model visualization includes nodes, links, and activation functions.
+- As a user, I can hover activation function icons to see the exact type of function.
+- As a user, I can click on nodes and node collections to see bias information or layer count information.
+- As a user, I can hover links to see weight information.
+- As a user, I can get back to the default graph view if I lose it.
+- As a user, it is clear to me how nodes and links are color-coded to represent their values.
+- As a user, I can show the application in both light and dark modes, depending on my preferences.
+- If a model fails to upload and render, I get a notification that accurately and simply describes why.
+- For node collections, I can see some statistics on the group as a whole, such as average, minimum, and maximum values.
+- As a user, it is clear how models should be formatted for proper upload.
+- As a user, I can collapse layers to make the graph more readable.
+- I can export the graph as an SVG image.
+- I can export the graph to LaTeX tikz syntax.
+- I can input sample data and watch the feed-forward process in action by stepping through.
+- Feed-forward steps can be exported to a series of LaTeX tikz graphs.
+
+# Non-Functional
+- Large network layers are collapsed if they are too big to reasonably render.
+- If I am unable to view the model visually, labels exist for screen readers as much as possible.
+- If the site takes a long time to load, skeletonized components are shown to indicate that the site is still loading.
+- As a user, my data is reasonably secure, both during transmission and processing.
+- Themes are sufficiently differentiable for colorblind users.
+- Invalid models are rejected and not stored unnecessarily.

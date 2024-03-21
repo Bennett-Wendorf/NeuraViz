@@ -5,7 +5,6 @@
     import { MagnifyingGlassPlus, MagnifyingGlassMinus, MapPin } from 'svelte-heros-v2'
     import { fade } from 'svelte/transition';
     import { graph, uploading } from '../../utils/stores';
-    import { absoluteTanH, getScaledAbsoluteTanH } from '../../utils/utils';
     import type { Node, NodeCollection, Link, LinkCollection, Activation } from '../../utils/types';
     import { isLinkCollection, isNodeCollection } from '../../utils/types';
     import NodeDetails from './NodeDetails.svelte';
@@ -66,18 +65,8 @@
 
     let zoom: d3.ZoomBehavior<Element, unknown>;
 
-    let weightScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
-    let biasScaledAbsoluteTanH: (x: number) => number = absoluteTanH;
-
     function redraw(nodes: (Node | NodeCollection)[], links: (Link | LinkCollection)[], activations: Activation[]): void {
         if (graph_div == null) return;
-
-        weightScaledAbsoluteTanH = getScaledAbsoluteTanH(
-            Math.max(...links.map((item) => Math.abs(isLinkCollection(item) ? 0 : item.weight)))
-        );
-        biasScaledAbsoluteTanH = getScaledAbsoluteTanH(
-            Math.max(...nodes.map((item) => Math.abs(isNodeCollection(item) ? 0 : item.bias)))
-        );
   
         // empty vis div
         d3.select(graph_div).html(null);
@@ -133,17 +122,17 @@
         // Links
         group.append(() => getVisibleLinks(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeOpacity, 
             LINK_FORMAT.strokeLinecap, POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, 
-            arrowName, multiMarkerName, weightScaledAbsoluteTanH));
+            arrowName, multiMarkerName));
 
         // Hover areas on links (slightly larger than the links themselves)
         group.append(() => getLinkHoverAreas(links ?? [], LINK_FORMAT.strokeWidth, LINK_FORMAT.strokeLinecap, 
-            POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowHoverName, multiMarkerHoverName,
-            weightScaledAbsoluteTanH, LINK_FORMAT.hoverScaleFactor, tooltip));
+            POSITION_SCALE_FACTOR, NODE_FORMAT.radius, NODE_FORMAT.strokeWidth, arrowHoverName, multiMarkerHoverName, 
+            LINK_FORMAT.hoverScaleFactor, tooltip));
 
         // Main Nodes
         group.append(() => getMainNodes(nodes ?? [], NODE_FORMAT.layerNodeOffset, NODE_FORMAT.strokeWidth,
             NODE_FORMAT.strokeOpacity, NODE_FORMAT.radius, POSITION_SCALE_FACTOR,
-            NODE_FORMAT.scaledRadius, biasScaledAbsoluteTanH, (_, data: Node) => {
+            NODE_FORMAT.scaledRadius, (_, data: Node) => {
                 selectedNode = data;
                 detailsOpen = true;
             }))
