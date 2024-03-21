@@ -9,6 +9,7 @@
     ],
     "links": [
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": true,
         "source": {
@@ -17,6 +18,8 @@
         },
         "target": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 0,
           "isInput": true,
           "x": -2.5,
           "y": -1.5
@@ -24,6 +27,7 @@
         "weight": 0
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": true,
         "source": {
@@ -32,6 +36,8 @@
         },
         "target": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 1,
           "isInput": true,
           "x": -2.5,
           "y": -0.5
@@ -39,6 +45,7 @@
         "weight": 0
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": true,
         "source": {
@@ -47,6 +54,8 @@
         },
         "target": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 2,
           "isInput": true,
           "x": -2.5,
           "y": 0.5
@@ -54,6 +63,7 @@
         "weight": 0
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": true,
         "source": {
@@ -62,6 +72,8 @@
         },
         "target": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 3,
           "isInput": true,
           "x": -2.5,
           "y": 1.5
@@ -69,16 +81,21 @@
         "weight": 0
       },
       {
+        "colorIndex": 3,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 0,
           "isInput": true,
           "x": -2.5,
           "y": -1.5
         },
         "target": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
@@ -86,16 +103,21 @@
         "weight": -0.3654789328575134
       },
       {
+        "colorIndex": 2,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 1,
           "isInput": true,
           "x": -2.5,
           "y": -0.5
         },
         "target": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
@@ -103,16 +125,21 @@
         "weight": -0.29714542627334595
       },
       {
+        "colorIndex": 8,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 2,
           "isInput": true,
           "x": -2.5,
           "y": 0.5
         },
         "target": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
@@ -120,16 +147,21 @@
         "weight": 1.9343434572219849
       },
       {
+        "colorIndex": 6,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 3,
           "isInput": true,
           "x": -2.5,
           "y": 1.5
         },
         "target": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
@@ -137,16 +169,21 @@
         "weight": 0.7939656972885132
       },
       {
+        "colorIndex": 7,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 0,
           "isInput": true,
           "x": -2.5,
           "y": -1.5
         },
         "target": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
@@ -154,16 +191,21 @@
         "weight": 1.1994346380233765
       },
       {
+        "colorIndex": 6,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 1,
           "isInput": true,
           "x": -2.5,
           "y": -0.5
         },
         "target": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
@@ -171,16 +213,21 @@
         "weight": 0.9762427806854248
       },
       {
+        "colorIndex": 6,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 2,
           "isInput": true,
           "x": -2.5,
           "y": 0.5
         },
         "target": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
@@ -188,16 +235,21 @@
         "weight": -0.9538310170173645
       },
       {
+        "colorIndex": 8,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 3,
           "isInput": true,
           "x": -2.5,
           "y": 1.5
         },
         "target": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
@@ -205,16 +257,21 @@
         "weight": -1.6823691129684448
       },
       {
+        "colorIndex": 5,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 0,
           "isInput": true,
           "x": -2.5,
           "y": -1.5
         },
         "target": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
@@ -222,16 +279,21 @@
         "weight": -0.7281897664070129
       },
       {
+        "colorIndex": 1,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 1,
           "isInput": true,
           "x": -2.5,
           "y": -0.5
         },
         "target": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
@@ -239,16 +301,21 @@
         "weight": 0.07633354514837265
       },
       {
+        "colorIndex": 6,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 2,
           "isInput": true,
           "x": -2.5,
           "y": 0.5
         },
         "target": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
@@ -256,16 +323,21 @@
         "weight": 0.8575589656829834
       },
       {
+        "colorIndex": 7,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": null,
+          "colorIndex": -1,
+          "id": 3,
           "isInput": true,
           "x": -2.5,
           "y": 1.5
         },
         "target": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
@@ -273,16 +345,21 @@
         "weight": 1.3169176578521729
       },
       {
+        "colorIndex": 8,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
         },
         "target": {
           "bias": 0.4154677391052246,
+          "colorIndex": 6,
+          "id": 7,
           "isInput": false,
           "x": 2.5,
           "y": -1.0
@@ -290,16 +367,21 @@
         "weight": -1.4416940212249756
       },
       {
+        "colorIndex": 7,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
         },
         "target": {
           "bias": 0.4154677391052246,
+          "colorIndex": 6,
+          "id": 7,
           "isInput": false,
           "x": 2.5,
           "y": -1.0
@@ -307,16 +389,21 @@
         "weight": 1.1191141605377197
       },
       {
+        "colorIndex": 3,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
         },
         "target": {
           "bias": 0.4154677391052246,
+          "colorIndex": 6,
+          "id": 7,
           "isInput": false,
           "x": 2.5,
           "y": -1.0
@@ -324,16 +411,21 @@
         "weight": 0.4074937403202057
       },
       {
+        "colorIndex": 4,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
         },
         "target": {
           "bias": -0.03147289156913757,
+          "colorIndex": 1,
+          "id": 8,
           "isInput": false,
           "x": 2.5,
           "y": 0.0
@@ -341,16 +433,21 @@
         "weight": 0.5256883502006531
       },
       {
+        "colorIndex": 3,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
         },
         "target": {
           "bias": -0.03147289156913757,
+          "colorIndex": 1,
+          "id": 8,
           "isInput": false,
           "x": 2.5,
           "y": 0.0
@@ -358,16 +455,21 @@
         "weight": 0.3149278163909912
       },
       {
+        "colorIndex": 8,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
         },
         "target": {
           "bias": -0.03147289156913757,
+          "colorIndex": 1,
+          "id": 8,
           "isInput": false,
           "x": 2.5,
           "y": 0.0
@@ -375,16 +477,21 @@
         "weight": -1.404784083366394
       },
       {
+        "colorIndex": 8,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.13199810683727264,
+          "colorIndex": 3,
+          "id": 4,
           "isInput": false,
           "x": 0.0,
           "y": -1.0
         },
         "target": {
           "bias": -0.7302149534225464,
+          "colorIndex": 8,
+          "id": 9,
           "isInput": false,
           "x": 2.5,
           "y": 1.0
@@ -392,16 +499,21 @@
         "weight": 1.425222635269165
       },
       {
+        "colorIndex": 9,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": 0.6498288512229919,
+          "colorIndex": 8,
+          "id": 5,
           "isInput": false,
           "x": 0.0,
           "y": 0.0
         },
         "target": {
           "bias": -0.7302149534225464,
+          "colorIndex": 8,
+          "id": 9,
           "isInput": false,
           "x": 2.5,
           "y": 1.0
@@ -409,16 +521,21 @@
         "weight": -2.200597047805786
       },
       {
+        "colorIndex": 7,
         "hasDirection": false,
         "isInput": false,
         "source": {
           "bias": -0.9158048033714294,
+          "colorIndex": 9,
+          "id": 6,
           "isInput": false,
           "x": 0.0,
           "y": 1.0
         },
         "target": {
           "bias": -0.7302149534225464,
+          "colorIndex": 8,
+          "id": 9,
           "isInput": false,
           "x": 2.5,
           "y": 1.0
@@ -426,10 +543,13 @@
         "weight": 1.2447155714035034
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": false,
         "source": {
           "bias": 0.4154677391052246,
+          "colorIndex": 6,
+          "id": 7,
           "isInput": false,
           "x": 2.5,
           "y": -1.0
@@ -441,10 +561,13 @@
         "weight": 0
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": false,
         "source": {
           "bias": -0.03147289156913757,
+          "colorIndex": 1,
+          "id": 8,
           "isInput": false,
           "x": 2.5,
           "y": 0.0
@@ -456,10 +579,13 @@
         "weight": 0
       },
       {
+        "colorIndex": -1,
         "hasDirection": true,
         "isInput": false,
         "source": {
           "bias": -0.7302149534225464,
+          "colorIndex": 8,
+          "id": 9,
           "isInput": false,
           "x": 2.5,
           "y": 1.0
@@ -474,60 +600,80 @@
     "nodes": [
       {
         "bias": null,
+        "colorIndex": -1,
+        "id": 0,
         "isInput": true,
         "x": -2.5,
         "y": -1.5
       },
       {
         "bias": null,
+        "colorIndex": -1,
+        "id": 1,
         "isInput": true,
         "x": -2.5,
         "y": -0.5
       },
       {
         "bias": null,
+        "colorIndex": -1,
+        "id": 2,
         "isInput": true,
         "x": -2.5,
         "y": 0.5
       },
       {
         "bias": null,
+        "colorIndex": -1,
+        "id": 3,
         "isInput": true,
         "x": -2.5,
         "y": 1.5
       },
       {
         "bias": -0.13199810683727264,
+        "colorIndex": 3,
+        "id": 4,
         "isInput": false,
         "x": 0.0,
         "y": -1.0
       },
       {
         "bias": 0.6498288512229919,
+        "colorIndex": 8,
+        "id": 5,
         "isInput": false,
         "x": 0.0,
         "y": 0.0
       },
       {
         "bias": -0.9158048033714294,
+        "colorIndex": 9,
+        "id": 6,
         "isInput": false,
         "x": 0.0,
         "y": 1.0
       },
       {
         "bias": 0.4154677391052246,
+        "colorIndex": 6,
+        "id": 7,
         "isInput": false,
         "x": 2.5,
         "y": -1.0
       },
       {
         "bias": -0.03147289156913757,
+        "colorIndex": 1,
+        "id": 8,
         "isInput": false,
         "x": 2.5,
         "y": 0.0
       },
       {
         "bias": -0.7302149534225464,
+        "colorIndex": 8,
+        "id": 9,
         "isInput": false,
         "x": 2.5,
         "y": 1.0
