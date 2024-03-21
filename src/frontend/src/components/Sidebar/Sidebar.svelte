@@ -4,6 +4,7 @@
     import TikzExport from './TikzExport.svelte';
     import Key from '../Graph/Key.svelte';
     import { sendToast } from '../../utils/utils';
+    import SvgExport from './SVGExport.svelte';
 </script>
 
 <div id="sidebar" 
@@ -29,8 +30,9 @@
     <div class='sidebar-row flex-col'>
         <ModelUpload/>
     </div>
-    <div class='sidebar-row flex-col mt-4'>
+    <div class='sidebar-row flex-row justify-between mt-4'>
         <TikzExport/>
+        <SvgExport/>
     </div>
     <div class="mb-4">
         <p id="settings-label"

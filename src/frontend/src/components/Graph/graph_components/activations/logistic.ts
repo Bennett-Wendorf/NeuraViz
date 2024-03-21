@@ -11,10 +11,11 @@ export function getLogisticIcon(xPosition: number, positionScaleFactor: number,
 
     // Add icon foreground
     logisticIcon.append("path")
-        .attr("class", "fill-none stroke-[url(#primarylightgradient)] dark:stroke-[url(#primarydarkgradient)]")
+        .attr("class", "stroke-[url(#primarylightgradient)] dark:stroke-[url(#primarydarkgradient)]")
         .attr("stroke-linecap", "round")
         .attr("stroke-linejoin", "round")
         .attr("stroke-width", iconDimension * 0.07)
+        .attr("fill", "none")
         .attr("d", `M ${iconDimension * 0.11},${iconDimension * 0.75}
                     C ${iconDimension * 0.7},${iconDimension * 0.75} ${iconDimension * 0.3},${iconDimension * 0.25} ${iconDimension * 0.89},${iconDimension * 0.25}`)
 

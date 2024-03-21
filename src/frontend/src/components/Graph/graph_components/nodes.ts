@@ -23,11 +23,12 @@ function getMainNode(node: Node, strokeWidth: number,
     strokeOpacity: number, radius: number, positionScaleFactor: number,
     scaledRadius: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let mainNode = d3.create("svg:circle")
-        .attr("class", `stroke-black ${isNodeCollection(node)
+        .attr("class", `${isNodeCollection(node)
             ? getNodeColor(node.colorIndex)
             : getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
+        .attr("stroke", "black")
         .attr("r", radius)
         .attr("cx", node.x * positionScaleFactor)
         .attr("cy", node.y * positionScaleFactor)
@@ -53,25 +54,28 @@ function getMainLayer(node: NodeCollection, layerNodeOffset: number, strokeWidth
         .attr("class", "mainLayerContainer");
 
     let bottomCircle = mainLayer.append("circle")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
+        .attr("stroke", "black")
         .attr("r", radius)
         .attr("cx", node.x * positionScaleFactor - layerNodeOffset)
         .attr("cy", -layerNodeOffset);
 
     let middleCircle = mainLayer.append("circle")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
+        .attr("stroke", "black")
         .attr("r", radius)
         .attr("cx", node.x * positionScaleFactor)
         .attr("cy", 0);
 
     let topCircle = mainLayer.append("circle")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("stroke-opacity", strokeOpacity)
         .attr("stroke-width", strokeWidth)
+        .attr("stroke", "black")
         .attr("r", radius)
         .attr("cx", node.x * positionScaleFactor + layerNodeOffset)
         .attr("cy", layerNodeOffset);
@@ -119,12 +123,13 @@ function getInputNode(node: Node, radius: number,
     positionScaleFactor: number, clickCallback: (event, data: Node) => void): SVGGElement {
     let inputNode = d3.create("svg:rect")
 
-    inputNode.attr("class", () => `stroke-black ${getNodeColor(node.colorIndex)}`)
+    inputNode.attr("class", () => `${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius)
         .attr("y", node.y * positionScaleFactor - mainNodeRadius)
         .attr("width", mainNodeRadius * 2)
         .attr("height", mainNodeRadius * 2)
         .attr("rx", radius)
+        .attr("stroke", "black")
         .on("mouseover", (event) => {
             let nodeElement = d3.select(event.target);
             nodeElement.attr("x", node.x * positionScaleFactor - mainNodeScaledRadius);
@@ -153,28 +158,31 @@ function getInputLayer(node: NodeCollection, layerNodeOffset: number, radius: nu
         .attr("class", "inputLayerContainer");
 
     let bottomRect = inputLayer.append("rect")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius - layerNodeOffset)
         .attr("y", 0 - mainNodeRadius - layerNodeOffset)
         .attr("width", mainNodeRadius * 2)
         .attr("height", mainNodeRadius * 2)
-        .attr("rx", radius);
+        .attr("rx", radius)
+        .attr("stroke", "black");
 
     let middleRect = inputLayer.append("rect")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius)
         .attr("y", 0 - mainNodeRadius)
         .attr("width", mainNodeRadius * 2)
         .attr("height", mainNodeRadius * 2)
-        .attr("rx", radius);
+        .attr("rx", radius)
+        .attr("stroke", "black");
 
     let topRect = inputLayer.append("rect")
-        .attr("class", `stroke-black ${getNodeColor(node.colorIndex)}`)
+        .attr("class", `${getNodeColor(node.colorIndex)}`)
         .attr("x", node.x * positionScaleFactor - mainNodeRadius + layerNodeOffset)
         .attr("y", 0 - mainNodeRadius + layerNodeOffset)
         .attr("width", mainNodeRadius * 2)
         .attr("height", mainNodeRadius * 2)
-        .attr("rx", radius);
+        .attr("rx", radius)
+        .attr("stroke", "black");
 
     inputLayer
         .on("mouseover", (event) => {

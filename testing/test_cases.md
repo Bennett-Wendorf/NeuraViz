@@ -29,3 +29,8 @@
 - Compile the .tex file to a .pdf file and visually inspect to ensure that it's the same as the svg representation (excluding activation functions)
 - Change scale variable in tex and recompile to ensure model scales appropriately.
 - Ensure that the tikz export is disabled when no model exists
+
+### SVG Export
+- Exporting a model to SVG should download a .svg file
+- Visually inspect to ensure that it's the same as the app's representation
+- Ensure that the SVG export is disabled when no model exists

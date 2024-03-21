@@ -78,8 +78,12 @@ async def get_graph():
         logger.debug("No file selected")
         return await make_sessioned_response(session, { "message": "No file selected" }, 400)
 
+@graph_controller_blueprint.get('/tikz/dark')
+async def get_tikz_dark():
+    return await get_tikz(True)
+
 @graph_controller_blueprint.get('/tikz')
-async def get_tikz():
+async def get_tikz(is_dark_mode: bool = False):
     logger.debug("Received request to get tikz")
 
     session = find_or_create_session(request.cookies.get('session_id'))
@@ -90,7 +94,7 @@ async def get_tikz():
         return await make_sessioned_response(session, { "message": "No graph found" }, 400)
 
     graph_tikz = get_tikz_representation(graph)
-    color_includes = get_color_definitions()
+    color_includes = get_color_definitions(is_dark_mode)
     styles = get_styles()
     tikz = f"""\\documentclass{{standalone}}
 \\usepackage{{tikz}}

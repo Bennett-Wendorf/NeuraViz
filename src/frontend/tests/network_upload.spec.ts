@@ -159,12 +159,12 @@ test('Nodes are color graded', async ({ page }) => {
     await uploadIrisNetworkHelper(page);
 
     let inputNode = await page.locator('g:nth-child(4) > rect:nth-child(1)');
-    await expect(inputNode).toHaveClass(/stroke-black/);
+    await expect(inputNode).toHaveAttribute("stroke", "black");
     await expect(inputNode).toHaveClass(/fill-neutral-400/);
     await expect(inputNode).toHaveClass(/dark:fill-neutral-600/);
 
     let midNode = await page.locator('g:nth-child(1) > circle:nth-child(1)');
-    await expect(midNode).toHaveClass(/stroke-black/);
+    await expect(midNode).toHaveAttribute("stroke", "black");
     await expect(midNode).toHaveClass(/fill-nodecolorgradientlight-300/);
     await expect(midNode).toHaveClass(/dark:fill-nodecolorgradientdark-300/);
 });

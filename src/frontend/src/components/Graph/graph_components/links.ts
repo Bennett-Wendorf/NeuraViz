@@ -82,9 +82,10 @@ function getLinkHoverArea(link: Link, strokeWidth: number, hoverScaleFactor: num
         arrowName: string,
         globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>): SVGGElement {
     return d3.create("svg:line")
-        .attr("class", "stroke-transparent fill-transparent")
         .attr("stroke-width", strokeWidth * hoverScaleFactor)
         .attr("stroke-linecap", strokeLinecap)
+        .attr("stroke", "transparent")
+        .attr("fill", "transparent")
         .attr("x1", link.source.x * positionScaleFactor)
         .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
         .attr("x2", link.isInput
@@ -111,7 +112,9 @@ function getLinkHoverArea(link: Link, strokeWidth: number, hoverScaleFactor: num
         })
         .on("mouseout", (event) => {
             const linkElement = d3.select(event.target);
-            linkElement.attr("class", "stroke-transparent fill-transparent");
+            linkElement.attr("class", "");
+            linkElement.attr("stroke", "transparent");
+            linkElement.attr("fill", "transparent");
             globalTooltip.style("display", "none");
         })
         .node() as SVGGElement;
@@ -122,9 +125,10 @@ function getLinkHoverAreaCollection(link: LinkCollection, strokeWidth: number,
     nodeRadius: number, nodeStrokeWidth: number, arrowName: string,
     multiMarkerName: string, globalTooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, undefined>): SVGGElement {
     return d3.create("svg:line")
-        .attr("class", "stroke-transparent fill-transparent")
         .attr("stroke-width", strokeWidth * hoverScaleFactor)
         .attr("stroke-linecap", strokeLinecap)
+        .attr("stroke", "transparent")
+        .attr("fill", "transparent")
         .attr("x1", link.source.x * positionScaleFactor)
         .attr("y1", !isNodeCollection(link.source) ? link.source.y * positionScaleFactor : 0)
         .attr("x2", link.isInput
@@ -152,7 +156,9 @@ function getLinkHoverAreaCollection(link: LinkCollection, strokeWidth: number,
         })
         .on("mouseout", (event) => {
             const linkElement = d3.select(event.target);
-            linkElement.attr("class", "stroke-transparent fill-transparent");
+            linkElement.attr("class", "");
+            linkElement.attr("stroke", "transparent");
+            linkElement.attr("fill", "transparent");
             globalTooltip.style("display", "none");
         })
         .node() as SVGGElement;

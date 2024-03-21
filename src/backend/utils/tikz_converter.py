@@ -68,9 +68,9 @@ def _calculate_marker_location(source_x: float, source_y: float, target_x: float
     marker_bottom_y = (source_y + (link_unit_vector[1] * 1.25)) - (perpendicular_link_unit_vector[1] * 0.25)
     return marker_top_x, marker_top_y, marker_bottom_x, marker_bottom_y
 
-def get_color_definitions() -> str:
+def get_color_definitions(is_dark_mode: bool) -> str:
     res = ""
-    link_colors, node_colors = get_all_color_values()
+    link_colors, node_colors = get_all_color_values(is_dark_mode)
     for color in link_colors:
         res += f"\\definecolor{{{color[0]}}}{{HTML}}{{{color[1]}}}\n"
     for color in node_colors:
