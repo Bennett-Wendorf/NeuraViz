@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Button, Tooltip } from 'flowbite-svelte';
     import api from '../../utils/api';
+    import * as d3 from 'd3';
 
     import { sendToast, getResponseError } from '../../utils/utils';
     import type { AxiosResponse } from 'axios';
@@ -12,7 +13,9 @@
     $: exportButtonDisabled = !$modelValid;
 
     function retrieveTikz() {
-        api.get('/graph/tikz')
+        const isDarkMode = d3.select('html').classed('dark');
+
+        api.get(isDarkMode ? '/graph/tikz/dark' : '/graph/tikz')
             .then((res: AxiosResponse) => {
                 let tikz = res.data.tikz;
                 let a = document.createElement('a');
