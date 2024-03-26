@@ -67,6 +67,17 @@
 
 \lstset{style=codestyle}
 
+\lstdefinelanguage{yaml}{
+    keywords={true,false,null},
+    keywordstyle=\color{darkgray}\bfseries,
+    sensitive=false,
+    comment=[l]{\#},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{purple}\ttfamily,
+    stringstyle=\color{blue}\mdseries\ttfamily,
+    moredelim=**[il][\color{red}\mdseries{:}\color{blue}\mdseries]{:},   % switch to value style at :
+}
+
 \begin{document}
 
 \hypersetup{pageanchor=false}

@@ -80,9 +80,7 @@ However, running the the application on localhost does not make it available the
 To speed up deployment to the server, Github Actions was used to automatically build and deploy the application whenever a new commit was pushed to the main branch. The action itself works by setting up a vpn connection to the server and using SSH to run a script on the server. The action configuration is shown in Listing \ref{lst:action_config}.
 
 \begin{center}
-    \lstinputlisting{../.github/workflows/deploy.yml}
-    \captionof{lstlisting}{Github Action Configuration}
-    \label{lst:action_config}
+    \lstinputlisting[caption={Github Action Configuration}, label={lst:action_config}, float=htb, language=yaml]{../.github/workflows/deploy.yml}
 \end{center}
 
 The referenced build script begins by pulling new changes from the remote Github repository. It then cleans all old build files to ensure that everything gets rebuilt fresh. Once the environment is clean, it ensures that all project dependencies are up to date on the server, and installs any new ones if needed. It then recompiles the Svelte frontend and copies it into the necessary location in the backend. Finally, the script uses pm2 to restart the server and serve the new version of the application.
