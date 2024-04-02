@@ -5,7 +5,7 @@
 Per the scrum software design process, software verification and validation were performed continuously throughout the development process. To accommodate this and ensure that thorough testing was performed, a \textit{Testing Required} status column was added to the project board. Once projects finished development, they were moved to this column to ensure that testing was completed before the project was considered complete.
 
 \subsection{Unit Testing}
-During development, a large amount of unit testing was defined and performed to support the continuous and thorough testing process that was defined at the outset of the project. Due to the small size of the development team, test cases were both written and executed by the developer. Test processes that were used during the development of NeuraViz can be broken down into two major categories: frontend or client testing and backend or server testing.
+During development, a large amount of unit testing was defined and performed to support the continuous and thorough testing process that was defined at the outset of the project. Due to the small size of the development team, test cases were both written and executed by the developer. Test processes that were used during the development of NeuraViz can be broken down into two major categories: frontend or client testing and backend or server testing. In total, 31 automated test cases and 10 manual test cases were written and executed for the application. A one hundred percent pass rate was achieved before each project was considered complete.
 
 \subsubsection{Frontend Testing}
 The frontend of NeuraViz was tested using a combination of automated and manual unit testing. Testing a user interface is a challenge due to its primarily visual nature, but tools exist to help automate this process. For this application, the automated testing platform Playwright \cite{playwright} was used to develop test cases that could be executed on each individual project and at any time. Automated testing in this manner is especially useful to ensure that test cases are performed both consistently and repeatably, with minimal human error. 
@@ -30,6 +30,25 @@ Playwright test cases work by defining actions that should be taken in the user 
 
 \subsubsection{Backend Testing}
 % TODO: Add backend testing
+Like the frontend, NeuraViz's backend code was also tested using a mix of automated and manual unit testing. While most of the functionality could easily be tested automatically, features such as svg and tikz export need to be inspected visually, and so were included in manual testing rather than automated testing. As with the frontend, however, as much functionality as possible was tested automatically to reduce the overhead in maintaining a test suite and further enforce a continuous testing process. The backend automated test suite was developed with the Python testing framework pytest \cite{pytest}. This framework allows for the easy definition of test cases and the execution of those test cases in a repeatable and consistent manner. An example of a test case that was written for NeuraViz is shown in Listing \ref{lst:pytest-example}. This test ensures that the json representation of an uploaded model matches what is expected, specifically for the PyTorch Iris model. The test case first uploads the model with Quart's test client, then asserts that the result exactly matches the expected result.
+
+\begin{center}
+    \begin{lstlisting}[language=Python, float=*htb, caption={Pytest Test Case Example}, label={lst:pytest-example}]
+    @pytest.mark.asyncio
+    async def test_get_graph_nominal_pytorch_iris(self) -> None:
+        test_client = app.test_client()
+        file_name = "STE_Iris.pth"
+        files = {
+            'files[]': FileStorage(stream=open(f"testing/input_files/pytorch/{file_name}", 'rb'), filename=file_name)
+        }
+        response = await test_client.post('/api/graph/', files=files, headers={'Content-Type': 'multipart/form-data'})
+        assert response.status_code == 200
+        data = await response.get_json()
+        with open("src/backend/tests/expected_results/get_graph/pytorch/nominal_STE_Iris.json", 'r') as file:
+            expected_data = load(file)
+            assert data == expected_data
+    \end{lstlisting}
+\end{center}
 
 \subsection{Regression Testing}
 % TODO: Add Regression Testing
