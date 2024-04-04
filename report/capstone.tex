@@ -8,6 +8,9 @@
 \usepackage[all]{hypcap}
 \usepackage{qtree,algorithm,algorithmic}
 \usepackage{natbib}
+\usepackage[table]{xcolor}
+\usepackage{xcolor}
+\usepackage{listings}
 \pagestyle{plain}
 \fancyhf{}
 \lhead{}
@@ -38,6 +41,40 @@
 
 \renewcommand\bibsection{\section{References}}
 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=codestyle}
+
+\lstdefinelanguage{yaml}{
+    keywords={true,false,null},
+    sensitive=false,
+    comment=[l]{\#},
+    morecomment=[s]{/*}{*/},
+    moredelim=**[il][\color{red}\mdseries{:}\color{blue}\mdseries]{:},   % switch to value style at :
+}
+
 \begin{document}
 
 \hypersetup{pageanchor=false}
@@ -56,7 +93,7 @@
 
 %% ABSTRACT
 \section*{Abstract}
-\addcontentsline{toc}{section}{Abstract} % TODO: Add abstract
+\addcontentsline{toc}{section}{Abstract}
 Wendorf, Bennett, ``NeuraViz: A Web Application For Visualizing Artificial Neural Network Structures,'' Master of Software Engineering, May 2024, (Jason Sauppe, Ph.D.). \\
 
 This manuscript describes the software engineering processes and principles adhered to during the development of Neuraviz, a web application for visualizing artificial neural network structures. Users upload pre-trained machine learning models from popular frameworks including Pytorch and Keras, and Neuraviz generates a visual representation of the model's architecture. The following manuscript focuses on the design, implementation, testing, and deployment of NeuraViz in an effort to comprehensively encapsulate the entire development process.
