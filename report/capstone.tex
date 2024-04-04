@@ -8,6 +8,7 @@
 \usepackage[all]{hypcap}
 \usepackage{qtree,algorithm,algorithmic}
 \usepackage{natbib}
+\usepackage{color}
 \usepackage[table]{xcolor}
 \usepackage{xcolor}
 \usepackage{listings}
@@ -73,6 +74,20 @@
     comment=[l]{\#},
     morecomment=[s]{/*}{*/},
     moredelim=**[il][\color{red}\mdseries{:}\color{blue}\mdseries]{:},   % switch to value style at :
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, await, async},
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  showspaces=false,
 }
 
 \begin{document}
