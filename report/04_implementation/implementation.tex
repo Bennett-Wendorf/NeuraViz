@@ -61,6 +61,7 @@ NeuraViz has a relatively simple data layer as the only persistent data is sessi
 
 \subsection{Development}
 The development of NeuraViz was completed over the course of 22 one-week long sprints. The first two sprints comprised primarily of designing the application. Sprints 3-10 focused on building the main functionality of the application for models uploaded with Pytorch. The remaining sprints added Keras support and additional features.
+% TODO: Update sprint count
 
 Design work on the application began by thinking through a set of desired features. Since NeuraViz isn't built for a particular client, this primarily consisted of the developer coming up with ideas and those ideas being vetted by the project advisor to come up with a final concept for the project. Once there was a solid understanding of at least the basic functionality that the application would fulfill, a user interface mockup (see Figure \ref{fig:ui_mockup}) was created to give a visual representation of what the application would look like. This design step also served to iron out some flaws before development on the actual application began. The UI mockup was heavily referenced when creating the actual application UI, and the final product is very similar to what the mockup originally showed.
 
@@ -74,6 +75,9 @@ Once server support for parsing Pytorch models and frontend graph visualization 
 
 \subsection{Deployment}
 Being a web application, deployment of NeuraViz is a complex process that involves multiple steps. The first step is to compile the Svelte frontend into static HTML, CSS, and JavaScript files. This is done by running the command \texttt{npm run build} in the frontend directory. This command compiles the Svelte code into a set of static files that can be served by a web server. The next step is to copy these files into the server directory so the backend portion of the application can serve up these files. The final step is to start the Quart server, which listens for incoming requests on port 5000 by default. Once the server is running, the application can be accessed by navigating to \texttt{http://localhost:5000} in a web browser.
+
+% TODO: Add some detail about prelim research on frameworks
+% TODO: Add detail on how I use the frameworks to parse
 
 However, running the the application on localhost does not make it available the internet as a whole. To make the application accessible to the public, it was deployed to a private web server and routed from \href{https://neuraviz.bennettwendorf.dev}{https://neuraviz.bennettwendorf.dev}. The private server runs Ubuntu and PM2 \cite{pm2} was used to help manage the process and allow it to automatically restart when the server restarts.
 
