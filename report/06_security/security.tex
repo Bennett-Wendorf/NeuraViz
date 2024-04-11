@@ -2,13 +2,14 @@
 \label{sec:Security}
 
 \subsection{Overview} 
-% TODO: Add overview
-
-\subsection{Threat Model}
-% TODO: Add threat model
-
-\subsection{Session Management}
-% TODO: Add session management
+NeuraViz does not store user information long-term in any capacity, so security of data storage was not a major point of concern during development. However, it is feasible that users might upload proprietary models to the system, and so the security of information during transportation was important during the development. Steps taken to combat security threats are outlined in this section.
 
 \subsection{Web Application Security}
-% TODO: Add web application security
+Web applications are inherently vulnerable due to their constant communication of data across the internet and the fact that the client has access to its own source code. For NeuraViz, this is less of an issue than other applications because the user is not modifying any stored data on the server that could potentially be corrupted by malicious data. However, precautions were still taken to ensure that the application is secure.
+
+NeuraViz is hosted over HTTPS, which encrypts all data sent between the client and server via the Transport Layer Security (TLS) protocol. This ensures that data is not intercepted or tampered with during transit. In production, NeuraViz is hosted on a dot dev domain, which enforces HTTPS by default, completely disabling users from connecting over unsecure HTTP. In addition, the production application is hosted on a secure private server with a certificate provided by Let's Encrypt \cite{letsencrypt}, which is a free, automated, and open certificate authority. This certificate is used to verify that the server is who it claims to be, and is used to encrypt the data sent between the client and server, providing the user with additional piece of mind when using the application.
+
+While this project does not take any user input directly, and so the risk of cross-site scripting attacks or other similar threats related to input sanitization is minimal, there is still some risk in the retrieval and storage of uploaded models from the user. To protect the application server itself, uploaded files are never executed directly. Upon upload, the file is stored temporarily on disk and the corresponding model framework is used to parse the file contents, based on the file extension. Since all supported frameworks are open source and well tested, the security of their file parsing is very likely to be robust and secure. If the framework encounters an issue during parsing such as an invalid portion of the file, the file is deleted from disk and the user is notified of the error. Both Pytorch and Keras store their models in a binary object format which contains no executable code. Once the file is parsed by the framework, NeuraViz uses the respective framework's own Python objects to generate the representation of the model, again with minimal execution of third-party code. Throughout this process, NeuraViz is very particular about the kind of data it expects from the model, and will quickly fail if the data is not as expected. This practice of essentially white-listing valid data also helps prevent any unexpected behavior from the application that could negatively impact user experience or security.
+
+\subsection{Session Management}
+To help accommodate an elevated user experience, NeuraViz stores session data in a MongoDB database on the server. The stored session information consists of a session identifier, the full representation of the model in a similar format to what is returned to the user after uploading a file, and a timestamp. The session identifier is a randomly generated string that is unique to each session, and as such is not tied to a particular user in any way, making it nearly impossible to associate a stored model with a particular user other than by the session token itself. The session identifier is stored as a cookie by the client and can be used to retrieve the stored model for the duration of the session. To mitigate possible security risks, the database is only accessible from the server where the application is running. Furthermore, while the server is running, sessions are automatically pruned after 10 minutes of inactivity. This trade-off allows the user to continue making requests without the application needing to parse the model again, while providing a reasonable level of security for the stored model.
