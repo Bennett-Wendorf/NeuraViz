@@ -33,11 +33,11 @@ To accommodate this language choice fully, Quart \cite{quart} was selected for m
         \hline
         \rowcolor{gray!40} Endpoint & \textbf{GET /tikz}\\
         \hline
-        Description & Retrieve the session's graph as a LaTeX file using Tikz (in light mode) \\
+        Description & Retrieve the session's graph as a \LaTeX{} file using Tikz (in light mode) \\
         \hline
         Inputs & None \\
         \hline
-        Responses & 200 OK - LaTeX is returned as a string \\
+        Responses & 200 OK - \LaTeX{} is returned as a string \\
         & 400 Bad Request - No graph was found in the session \\
         \hline
         \rowcolor{gray!40} Endpoint & \textbf{GET /tikz/dark} \\
@@ -46,7 +46,7 @@ To accommodate this language choice fully, Quart \cite{quart} was selected for m
         \hline
         Inputs & None \\
         \hline
-        Responses & 200 OK - LaTeX is returned as a string \\
+        Responses & 200 OK - \LaTeX{} is returned as a string \\
         & 400 Bad Request - No graph was found in the session \\
         \hline
     \end{tabular}
@@ -71,7 +71,7 @@ After the basic structure of the application was in place, the next step was fig
 
 The next major step was getting the server to parse the uploaded model files. This was a significant challenge as the structure of the model files is complex and not well documented. Because of this complexity, it was decided to let the frameworks parse the models themselves, and to extract the necessary information from the objects that the frameworks produced. While this cut out some of the complexity of trying to parse the files the frameworks produce, it still maintained the complexity of dealing with the object-oriented representation of the objects in Python. Most machine learning frameworks expect developers to build, train, and execute models through their frameworks, but parsing those models out to alternative representations is generally not an intended use-case. Because of this, documentation on how the objects are structured and exactly where the necessary information is stored is sparse. An extensive amount of time was required to investigate the object structure in each framework and determine how that information can be converted into NeuraViz's standardized representation. To speed up this process, Pytorch alone was focused on at first, and then support for Keras models was added later.
 
-Once server support for parsing Pytorch models and frontend graph visualization were complete, additional features could be added to further enhance the application. Some of the more useful additional features included adding support for activation function representations on the graph, exporting the visualization to LaTeX or SVG, and color-coding model parts to indicate more information at a glance. These features were added toward the second half of the development process.
+Once server support for parsing Pytorch models and frontend graph visualization were complete, additional features could be added to further enhance the application. Some of the more useful additional features included adding support for activation function representations on the graph, exporting the visualization to \LaTeX{} or SVG, and color-coding model parts to indicate more information at a glance. These features were added toward the second half of the development process.
 
 \subsection{Deployment}
 Being a web application, deployment of NeuraViz is a complex process that involves multiple steps. The first step is to compile the Svelte frontend into static HTML, CSS, and JavaScript files. This is done by running the command \texttt{npm run build} in the frontend directory. This command compiles the Svelte code into a set of static files that can be served by a web server. The next step is to copy these files into the server directory so the backend portion of the application can serve up these files. The final step is to start the Quart server, which listens for incoming requests on port 5000 by default. Once the server is running, the application can be accessed by navigating to \texttt{http://localhost:5000} in a web browser.

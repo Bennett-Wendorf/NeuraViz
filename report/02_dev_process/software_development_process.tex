@@ -62,7 +62,7 @@ Since agile methodologies were chosen for the development of this project, a set
 
 NeuraViz is a relatively simple application with only one type of user. As such, the functional requirements are relatively straightforward, including the ability to upload a pre-trained machine learning model trained in either Pytorch or Keras. In addition, users should be able to see either the full graph of the uploaded model, or a collapsed version depending on the scale of the uploaded model. Additional functionality is also documented such as the ability to navigate the page via pan and zoom functionality on the graph, and clicking or hovering on various network components. 
 
-In addition to the functionality of viewing the network itself, user stories were also documented for export functionality, allowing the graph of the model to be exported both as an svg and as a LaTeX document in the format of the tikz library. 
+In addition to the functionality of viewing the network itself, user stories were also documented for export functionality, allowing the graph of the model to be exported both as an svg and as a \LaTeX{} document in the format of the tikz library. 
 
 The full set of user stories is documented in \href{https://github.com/Bennett-Wendorf/NeuraViz/blob/main/docs/user_stories.md}{the user stories document}. This document also includes user stories for functionality that was not implemented in the current version of NeuraViz, but may be implemented in future versions.
 
@@ -72,7 +72,7 @@ The full set of user stories is documented in \href{https://github.com/Bennett-W
 In addition to the functionality documented as user stories, non-functional requirements were also documented to ensure that the user experience of NeuraViz was as smooth as possible. Identified non-functional requirements are as follows:
 \begin{itemize}
     \item Large network layers are collapsed if they are too big to reasonably render.
-    \item If I am unable to view the model visually, labels exist for screen readers as much as possible.
+    \item If I am unable to view the model visually, labels exist for screen readers where possible.
     \item If the site takes a long time to load, skeletonized components are shown to indicate that the site is still loading.
     \item As a user, my data is reasonably secure, both during transmission and processing.
     \item Themes are sufficiently differentiable for colorblind users.
