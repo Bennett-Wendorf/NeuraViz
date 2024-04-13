@@ -28,4 +28,4 @@
 - If the site takes a long time to load, skeletonized components are shown to indicate that the site is still loading.
 - As a user, my data is reasonably secure, both during transmission and processing.
 - Themes are sufficiently differentiable for colorblind users.
-- Invalid models are rejected and not stored unnecessarily.
+- Invalid models are rejected and not stored on the server unnecessarily.
