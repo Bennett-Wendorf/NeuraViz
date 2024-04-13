@@ -24,7 +24,7 @@
 
 # Non-Functional
 - Large network layers are collapsed if they are too big to reasonably render.
-- If I am unable to view the model visually, labels exist for screen readers as much as possible.
+- For visually impaired users, aria labels exist for screen readers where possible.
 - If the site takes a long time to load, skeletonized components are shown to indicate that the site is still loading.
 - As a user, my data is reasonably secure, both during transmission and processing.
 - Themes are sufficiently differentiable for colorblind users.
