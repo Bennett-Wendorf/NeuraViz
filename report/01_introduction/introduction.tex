@@ -2,9 +2,14 @@
 \label{sec:Introduction}
 
 \subsection{Overview} 
-This project aims to develop a software system to visualize the architecture of artificial neural networks, or neural networks for short. Neural networks are a class of machine learning models that are inspired by the structure and function of the human brain. They are composed of a large number of interconnected processing elements, called neurons, which work together to solve complex problems. The architecture of a neural network refers to the arrangement of neurons and the connections between them. In addition to the general structure of a network, the weights and biases that control its function can provide useful insight into the inner workings of the model. The final integral parts of the neural network architecture are the activation functions that govern how data propagates through the network. Visualizing the architecture of a neural network can help students and researchers understand the structure of the model, identify potential issues, and communicate the model to others. More information on neural networks in general can be found in section \ref{sec:neural_networks}
+This project aims to develop a software system to visualize the architecture of artificial neural networks, or neural networks for short. Neural networks are a class of machine learning models that are inspired by the structure and function of the human brain. They are composed of a large number of interconnected processing elements, called neurons, which work together to solve complex problems. The architecture of a neural network refers to the arrangement of neurons and the connections between them. In addition to the general structure of a network, the weights and biases that control its function can provide useful insight into the inner workings of the model. The final integral parts of the neural network architecture are the activation functions that govern how data propagates through the network. An example of what one of these networks might look like can be found in Figure \ref{fig:neural_network}. Visualizing the architecture of a neural network can help students and researchers understand the structure of the model, identify potential issues, and communicate the model to others. More information on neural networks in general can be found in section \ref{sec:neural_networks}
 
-% TODO: Add picture (maybe labeled) of a neural network here
+\begin{figure}[!hb]
+    \centering
+    \includegraphics[width=1\textwidth]{01_introduction/res/neural_network.png}
+    \caption{Example of a Neural Network}
+    \label{fig:neural_network}
+\end{figure}
 
 This project developed a web application that allows users to upload pre-trained neural network models and generate visual representations of their architecture. The application supports models trained using popular machine learning frameworks such as PyTorch \cite{pytorch} and Keras \cite{keras}. The resulting graph structure is visualized in a pannable and zoomable Scalable Vector Graphic (SVG) format that shows the ordering of neurons, biases on those neurons, the weights of the connections between them and activation functions on each layer.
 
