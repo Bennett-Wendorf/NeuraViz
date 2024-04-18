@@ -1,6 +1,6 @@
 # Functional
 - As a user, I can select a model file of the specified formats to upload.
-- I can upload models created using Pytorch.
+- I can upload models created using PyTorch.
 - I can upload models created using Keras.
 - I can upload models created using scikit-learn.
 - I can upload models in the ONNX format.
