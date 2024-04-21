@@ -32,7 +32,7 @@
   <p align="center">
     NeuraViz is a web application for visualizing the underlying structure of artificial neural networks, primarily for teaching purposes.
     <br />
-    <a href="https://github.com/bennett-Wendorf/NeuraViz"><strong>Explore the docs »</strong></a>
+    <a href="http://neuraviz.readthedocs.io/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/bennett-Wendorf/NeuraViz/issues">Report Bug</a>
