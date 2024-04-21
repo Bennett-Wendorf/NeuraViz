@@ -23,6 +23,8 @@ schedule = "*"
 [dev-packages]
 pytest = ">=7.4.2"
 pytest-asyncio = ">=0.21.1"
+sphinx = "*"
+sphinx-rtd-theme = "*"
 
 [scripts]
 start = "python api.py"
