@@ -75,7 +75,7 @@ Neural networks are notoriously difficult to visualize for students and experien
 This project is written in Python with Quart and Typescript with Svelte and FlowBite Svelte. In addition, the following libraries are used:
 * [Python](https://www.python.org/)
 * [Quart](https://pgjones.gitlab.io/quart/)
-* [Pytorch](https://pytorch.org/)
+* [PyTorch](https://pytorch.org/)
 * [scikit-learn](https://scikit-learn.org/stable/)
 * [Pandas](https://pandas.pydata.org/)
 * [Python-dotenv](https://pypi.org/project/python-dotenv/)

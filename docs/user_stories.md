@@ -1,6 +1,6 @@
 # Functional
 - As a user, I can select a model file of the specified formats to upload.
-- I can upload models created using Pytorch.
+- I can upload models created using PyTorch.
 - I can upload models created using Keras.
 - I can upload models created using scikit-learn.
 - I can upload models in the ONNX format.
@@ -24,8 +24,8 @@
 
 # Non-Functional
 - Large network layers are collapsed if they are too big to reasonably render.
-- If I am unable to view the model visually, labels exist for screen readers as much as possible.
+- For visually impaired users, aria labels exist for screen readers where possible.
 - If the site takes a long time to load, skeletonized components are shown to indicate that the site is still loading.
 - As a user, my data is reasonably secure, both during transmission and processing.
 - Themes are sufficiently differentiable for colorblind users.
-- Invalid models are rejected and not stored unnecessarily.
+- Invalid models are rejected and not stored on the server unnecessarily.
