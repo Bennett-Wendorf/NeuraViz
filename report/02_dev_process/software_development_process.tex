@@ -44,7 +44,9 @@ Because NeuraViz only had one developer, the scrum model did not fit perfectly. 
 \end{figure}
 
 \subsection{Development Process Technologies}
-An important part of the scrum model is managing small, independent projects that can be completed in a short amount of time. To help manage these projects, Jira's \cite{jira} scrum template was used. This template allows for a main project backlog where user stories can be converted to sprint tasks. Each sprint can then be created and tasks can be scheduled into a sprint. Once each sprint begins, projects/tasks move through columns including "Backlog", "Programming", "Testing Required", and "Done". This allows for a clear view of exactly what is being worked on at any given time. The scrum board for sprint 25 (April 9th, 2024 - April 16th, 2024) can be seen in Figure \ref{fig:jira_scrum_board}. Jira provides exceptional features for managing projects in a scrum format, allowing the tracking of not only sprint tasks through the stages of development on the project board, but additional features such as time tracking on projects as well.
+An important part of the scrum model is managing small, independent sprint tasks that can be completed in a short amount of time. To help manage these sprint tasks, Jira's \cite{jira} scrum template was used. This template allows for a main project backlog where user stories can be converted to sprint tasks. Each sprint can then be created and tasks can be scheduled into a sprint. Once each sprint begins, projects/tasks move through columns including "Backlog", "Programming", "Testing Required", and "Done". This allows for a clear view of exactly what is being worked on at any given time. The scrum board for sprint 25 (April 9th, 2024 - April 16th, 2024) can be seen in Figure \ref{fig:jira_scrum_board}. Jira provides exceptional features for managing projects in a scrum format, allowing the tracking of not only sprint tasks through the stages of development on the project board, but additional features such as time tracking on sprint tasks as well.
+
+For this project, Jira's time estimation and tracking features were used to help keep development on track. Before a sprint task was scheduled into a sprint, it was estimated how long the task would take to complete. Most commonly, these estimations were in integer hour values due to the complexity of estimating development time. When a task was worked on, a time tracking action was placed on the project to record how long was spent on the task. This helped to ensure that tasks were not taking significantly longer than expected and that the project was on track to be completed on time.
 
 \begin{figure}[htb]
     \centering
@@ -62,9 +64,7 @@ NeuraViz is a relatively simple application with only one type of user. As such,
 
 In addition to the functionality of viewing the network itself, user stories were also documented for export functionality, allowing the graph of the model to be exported both as an SVG and as a \LaTeX{} document in the format of a TikZ picture. 
 
-The full set of user stories is documented in \href{https://github.com/Bennett-Wendorf/NeuraViz/blob/main/docs/user_stories.md}{the user stories document}. This document also includes user stories for functionality that was not implemented in the current version of NeuraViz but may be implemented in future versions.
-
-% TODO: Move user stories to appendix and/or include a more direct path here.
+The full set of user stories is documented in \href{https://github.com/Bennett-Wendorf/NeuraViz/blob/main/docs/user_stories.md}{the user stories document} found in the ``docs'' directory of the Github repository. This document also includes user stories for functionality that was not implemented in the current version of NeuraViz but may be implemented in future versions.
 
 \subsection{Non-Functional Requirements}
 In addition to the functionality documented as user stories, non-functional requirements were also documented to ensure that the user experience of NeuraViz was as smooth as possible. Identified non-functional requirements are as follows:
