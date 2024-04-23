@@ -41,8 +41,6 @@
   </p>
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -53,6 +51,7 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#development-report">Development Report</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -90,6 +89,9 @@ This project is written in Python with Quart and TypeScript with Svelte and Flow
 * For a full list of dependencies, see [package.json](https://github.com/Bennett-Wendorf/NeuraViz/blob/main/src/frontend/package.json) and [pyproject.toml](https://github.com/Bennett-Wendorf/NeuraViz/blob/main/src/backend/pyproject.toml)
 
 Each of their respective licenses apply to their binaries and their use in this project. Their licenses can be found at the links above.
+
+## Development Report
+To document the development over the course of about 9 months of this project, a comprehensive report was written. This report talks in depth about the software development process, design, implementation, testing, and security of NeuraViz. The full report can be found [here](https://github.com/Bennett-Wendorf/NeuraViz/blob/main/report/capstone.pdf).
 
 ## Getting Started
 To check out this project, simply navigate to the [website](https://neuraviz.bennettwendorf.dev/). You can upload your own model with PyTorch's `pth` format, or Keras' `keras` format, or check out the `testing/input_files` directory for some example models.
