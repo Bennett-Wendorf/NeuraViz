@@ -18,6 +18,7 @@
 \frame{\titlepage}
 
 % TODO: Write out presentation notes for each slide (bullet points)
+% TODO: Script out demo
 
 \begin{frame}
     \frametitle{NeuraViz}
@@ -32,11 +33,13 @@
         \end{column}
         \pause
         \begin{column}{0.5\textwidth}
-            \begin{itemize}
-                \item Breadth of supported models \pause
-                \item Ease of use \pause
-                \item Portability
-            \end{itemize}
+            \begin{block}{Goals}
+                \begin{itemize}
+                    \item Breadth of supported models \pause
+                    \item Ease of use \pause
+                    \item Portability
+                \end{itemize}
+            \end{block}
         \end{column}
     \end{columns}
 \end{frame}
@@ -57,16 +60,14 @@
         \begin{column}{0.5\textwidth}
             \begin{block}{Models}
                 \begin{itemize}
-                    \item Waterfall
-                    \item Iterative
+                    \item Waterfall \pause
+                    \item Iterative \pause
                     \item Agile (Scrum)
                 \end{itemize}
             \end{block}
         \end{column}
-        \pause
         \begin{column}{0.5\textwidth}
             \includegraphics[scale=0.34]{../02_dev_process/res/sdlc_agile_model.jpg}
-            % TODO: Add citation for this
         \end{column}
     \end{columns}
 \end{frame}
@@ -76,8 +77,7 @@
     \begin{itemize}
         \item \textbf{Sprint Length:} \pause 1 week \pause
         \item \textbf{Standups:} \pause weekly \pause
-        \item \textbf{Retrospectives:} \pause integrated into standups \pause
-        % TODO: Add note to mention that it's still a useful setup despite these changes
+        \item \textbf{Retrospectives:} \pause integrated into standups
     \end{itemize}
 \end{frame}
 
@@ -85,9 +85,6 @@
     \frametitle{Process Technologies} 
     \centering
     \includegraphics[scale=0.22]{../02_dev_process/res/jira_board_sprint_25.png}
-    % TODO: Add notes about what to actually talk about here
-    % Point out time tracking
-    % Point out item tagging and how it ties into pull requests and other Github features
 \end{frame}
 
 \begin{frame}
@@ -120,21 +117,18 @@
     \frametitle{Web Application} 
     \centering
     \includegraphics[scale=0.5]{res/client_server.png}
-    % TODO: Talk about what each part does at a high level
 \end{frame}
 
 \begin{frame}
     \frametitle{Frontend Design} 
     \centering
     \includegraphics[scale=0.25]{../../docs/diagrams/class_diagram_frontend.png}
-    % TODO: What parts of this to touch on?
 \end{frame}
 
 \begin{frame}
     \frametitle{Backend Design} 
     \centering
     \includegraphics[scale=0.25]{../../docs/diagrams/class_diagram_backend.png}
-    % TODO: What parts of this to touch on?
 \end{frame}
 
 \begin{frame}
@@ -154,7 +148,6 @@
         \end{column}
         \begin{column}{0.5\textwidth}
             \includegraphics[scale=0.125]{res/MongoDB_ForestGreen.png}
-            % TODO: Cite from Mongo's website
         \end{column}
     \end{columns}
 \end{frame}
@@ -182,15 +175,13 @@
     \end{block}
     \vspace{0.75cm}
     \centering
-    \includegraphics[scale=.25, width=.2\textwidth]{res/svelte_logo.png}\hfill % TODO: Cite https://en.wikipedia.org/wiki/File:Svelte_Logo.svg
-    \includegraphics[scale=.05, width=.2\textwidth]{res/flowbite_logo.png}\hfill % TODO: Cite flowbite.com
-    \includegraphics[scale=.25, width=.2\textwidth]{res/d3_logo.png} % TODO: Cite https://github.com/d3/d3-logo/blob/master/d3.png
-    % TODO: Add notes about graph generation
+    \includegraphics[scale=.25, width=.2\textwidth]{res/svelte_logo.png}\hfill
+    \includegraphics[scale=.05, width=.2\textwidth]{res/flowbite_logo.png}\hfill
+    \includegraphics[scale=.25, width=.2\textwidth]{res/d3_logo.png}
 \end{frame}
 
 \begin{frame}
     \frametitle{Backend Technologies \& Model Parsing}
-    % TODO: Add backend tech and model parsing
     \begin{block}{}
         \begin{itemize}
             \item Quart
@@ -200,45 +191,104 @@
     \end{block}
     \vspace{0.75cm}
     \centering
-    \includegraphics[scale=.3, width=.2\textwidth]{res/quart_logo.png}\hfill % TODO: Cite https://github.com/koddr/quart-logo/blob/master/src/png/quart_short_logo_color.png
-    \includegraphics[scale=.05, width=.2\textwidth]{res/keras_logo.png}\hfill % TODO: Cite https://en.wikipedia.org/wiki/File:Keras_logo.svg
-    \includegraphics[scale=.25, width=.2\textwidth]{res/pytorch_logo.png} % TODO: Cite pytorch.com
-    % TODO: Add notes about model parsing
+    \includegraphics[scale=.3, width=.2\textwidth]{res/quart_logo.png}\hfill
+    \includegraphics[scale=.05, width=.2\textwidth]{res/keras_logo.png}\hfill
+    \includegraphics[scale=.25, width=.2\textwidth]{res/pytorch_logo.png}
 \end{frame}
 
 \begin{frame}
     \frametitle{Development}
-    % TODO: Should I talk about dev order?
+    \centering
+    \includegraphics[scale=0.4]{res/dev_order.png}
 \end{frame}
 
 \begin{frame}
     \frametitle{Deployment}
-    % TODO: Talk about deployment
+    \begin{block}{}
+        \begin{itemize}
+            \item Ubuntu 22.04 LTS
+            \item PM2
+            \item GitHub Actions
+        \end{itemize}
+    \end{block}
+    \vspace{0.75cm}
+    \centering
+    \includegraphics[scale=0.2, width=0.2\textwidth]{res/ubuntu_logo.png} \hfill
+    \includegraphics[width=0.4\textwidth]{res/pm2_logo.png} \hfill
+    \includegraphics[width=0.2\textwidth]{res/github_actions_logo.png} \hfill
 \end{frame}
 
 \begin{frame}
     \frametitle{Testing}
-    % TODO: Talk about testing (All 3 types)
+    \begin{itemize}
+        \item Frontend Unit Testing \pause
+        \item Backend Unit Testing \pause
+        \item Regression and Integration Testing
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Security}
-    % TODO: Talk about security
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Web Application Security}
+                \begin{itemize}
+                    \item HTTPS
+                    \item White-List Parsing
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \pause
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Session Management}
+                \begin{itemize}
+                    \item Anonymous
+                    \item Data Pruning
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}
     \frametitle{Challenges}
-    % TODO: Talk about challenges
+    \begin{itemize}
+        \item Lack of framework documentation \pause
+        \item Information filtering \pause
+        \item Time management
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Future Work}
-    % TODO: Talk about future work
+    \begin{itemize}
+        \item Complex network types \pause
+        \item Additional frameworks \pause
+        \item Animations
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Thank you}
     Questions
+    \centering
+\end{frame}
+
+\begin{frame}
+    \frametitle{Sources}
+    \begin{itemize}
+        \item https://www.tutorialspoint.com/sdlc/sdlc\_agile\_model.htm
+        \item https://www.mongodb.com
+        \item https://en.wikipedia.org/wiki/File:Svelte\_Logo.svg
+        \item https://flowbite.com/
+        \item https://github.com/d3/d3-logo/blob/master/d3.png
+        \item https://github.com/koddr/quart-logo/blob/master/src/png/quart\_short\_logo\_color.png
+        \item https://en.wikipedia.org/wiki/File:Keras\_logo.svg
+        \item https://pytorch.org/
+        \item https://ubuntu.com/
+        \item https://pm2.io/
+        \item https://github.com/
+    \end{itemize}
     \centering
 \end{frame}
 
