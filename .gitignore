@@ -35,3 +35,4 @@ src/frontend/dist/
 *.blg
 *.snm
 *.nav
+*-blx.bib

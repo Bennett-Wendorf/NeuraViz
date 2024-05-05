@@ -1,17 +1,18 @@
 \documentclass[letterpaper,12pt]{report}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
-\usepackage{fancyhdr,tocloft,natbib,url,graphicx,float,listings,sidecap,wrapfig}
+\usepackage{fancyhdr,tocloft,url,graphicx,float,listings,sidecap,wrapfig}
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
 \usepackage{tabularx}
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage[all]{hypcap}
 \usepackage{qtree,algorithm,algorithmic}
-\usepackage{natbib}
+\usepackage[backend=bibtex, sorting=none]{biblatex}
 \usepackage{color}
 \usepackage[table]{xcolor}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{svg}
 \pagestyle{plain}
 \fancyhf{}
 \lhead{}
@@ -40,7 +41,8 @@
 \setlength\cftafterloftitleskip{-0.5in}
 \setlength\cftafterlottitleskip{-0.5in}
 
-\renewcommand\bibsection{\section{References}}
+% \renewcommand\bibsection{\section{References}}
+\addbibresource{bibliography.bib}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -162,8 +164,9 @@ Finally, I would like to thank my parents, family, friends, and all the teachers
 \IfFileExists{07_conclusion/conclusion}{\input{07_conclusion/conclusion}}{}\clearpage
 
 %% BIBLIOGRAPHY
-\bibliographystyle{plain}
-\bibliography{bibliography}
+% \bibliographystyle{plain}
+% \bibliography{bibliography}
+\printbibliography
 \clearpage
 
 %%% APPENDICES
