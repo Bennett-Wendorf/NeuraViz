@@ -1,0 +1,337 @@
+\documentclass{beamer}
+\usetheme{Antibes}
+\usecolortheme{whale}
+\usepackage{latexsym,fancyhdr,amsmath,amsfonts,amsthm,dsfont}
+\usepackage{tabularx}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{ {./res/} }
+\usepackage{color,latexsym,fancyhdr,amsmath,amsfonts,dsfont,amssymb, amsthm}
+%Information to be included in the title page:
+\title{NeuraViz: A Web Application For Visualizing Artificial Neural Network Structures}
+\author{Bennett Wendorf}
+\institute{University of Wisconsin - La Crosse}
+\date{April 30, 2024}
+ 
+\begin{document}
+ 
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Artificial Neural Networks}
+    \begin{block}{}
+        What is supervised learning?
+    \end{block}
+    \pause
+    \begin{block}{}
+        What is an artificial neural network?
+    \end{block}
+    \pause
+    \vspace{0.75cm}
+    \centering
+    \includegraphics[scale=0.6]{./res/pytorch_code.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Artificial Neural Networks}
+    \begin{block}{}
+        What is supervised learning?
+    \end{block}
+    \begin{block}{}
+        What is an artificial neural network?
+    \end{block}
+    \centering
+    \includegraphics[scale=0.15]{./res/black_box.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Artificial Neural Networks}
+    \begin{block}{}
+        What is supervised learning?
+    \end{block}
+    \begin{block}{}
+        What is an artificial neural network?
+    \end{block}
+    \centering
+    \includegraphics[scale=0.15]{../01_introduction/res/neural_network.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{NeuraViz}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{The Project}
+                \begin{itemize}
+                    \item What is it? \pause
+                    \item Why use it?
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \pause
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Goals}
+                \begin{itemize}
+                    \item Breadth of supported models \pause
+                    \item Ease of use \pause
+                    \item Portability
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+    
+\begin{frame}
+    \frametitle{Life Cycle Model}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Models}
+                \begin{itemize}
+                    \item Waterfall \pause
+                    \item Iterative \pause
+                    \item Agile (Scrum)
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[scale=0.34]{../02_dev_process/res/sdlc_agile_model.jpg}
+                \caption{Agile Model (TutorialsPoint)}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+ 
+\begin{frame}
+    \frametitle{Scrum Tweaks} 
+    \begin{itemize}
+        \item \textbf{Sprint Length:} \pause 1 week \pause
+        \item \textbf{Standups:} \pause weekly \pause
+        \item \textbf{Retrospectives:} \pause integrated into standups
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Process Technologies} 
+    \centering
+    \includegraphics[scale=0.22]{../02_dev_process/res/jira_board_sprint_25.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Requirements} 
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Functional Requirements}
+                \begin{itemize}
+                    \item As a user, I can see the full graph of a valid uploaded model once it finishes processing.
+                    \item As a user, I can pan and zoom the model visualization.
+                    \item As a user, I can export the graph to \LaTeX{} TikZ syntax.
+                    \item Etc.
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \pause
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Non-Functional Requirements}
+                \begin{itemize}
+                    \item Large network layers are collapsed if they are too big to reasonably render.
+                    \item Invalid models are rejected and not stored on the server unnecessarily.
+                    \item Etc.
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Web Application} 
+    \centering
+    \includegraphics[scale=0.5]{res/client_server.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{User Interface}
+    \centering
+    \includegraphics[scale=0.15]{../../docs/mockups/Main.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Frontend Design} 
+    \centering
+    \includegraphics[scale=0.25]{../../docs/diagrams/class_diagram_frontend.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Backend Design} 
+    \centering
+    \includegraphics[scale=0.25]{../../docs/diagrams/class_diagram_backend.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Database \& Sessions}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item \_id
+                \item graphs
+                \begin{itemize}
+                    \item nodes
+                    \item edges
+                    \item activations
+                \end{itemize}
+                \item last\_used
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[scale=0.125]{res/MongoDB_ForestGreen.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Frontend Technologies \& Graph Generation}
+    \begin{block}{}
+        \begin{itemize}
+            \item Svelte
+            \item Flowbite
+            \item D3.js
+        \end{itemize}
+    \end{block}
+    \vspace{0.75cm}
+    \centering
+    \includegraphics[scale=.25, width=.2\textwidth]{res/svelte_logo.png}\hfill
+    \includegraphics[scale=.05, width=.2\textwidth]{res/flowbite_logo.png}\hfill
+    \includegraphics[scale=.25, width=.2\textwidth]{res/d3_logo.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Backend Technologies \& Model Parsing}
+    \begin{block}{}
+        \begin{itemize}
+            \item Quart
+            \item Keras
+            \item PyTorch
+        \end{itemize}
+    \end{block}
+    \vspace{0.75cm}
+    \centering
+    \includegraphics[scale=.3, width=.2\textwidth]{res/quart_logo.png}\hfill
+    \includegraphics[scale=.05, width=.2\textwidth]{res/keras_logo.png}\hfill
+    \includegraphics[scale=.25, width=.2\textwidth]{res/pytorch_logo.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Development}
+    \centering
+    \includegraphics[scale=0.4]{res/dev_order.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{User Interface}
+    \centering
+    \includegraphics[scale=0.15]{../03_design/res/final_interface.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Deployment}
+    \begin{block}{}
+        \begin{itemize}
+            \item Ubuntu 22.04 LTS
+            \item PM2
+            \item GitHub Actions
+        \end{itemize}
+    \end{block}
+    \vspace{0.75cm}
+    \centering
+    \includegraphics[scale=0.2, width=0.2\textwidth]{res/ubuntu_logo.png} \hfill
+    \includegraphics[width=0.4\textwidth]{res/pm2_logo.png} \hfill
+    \includegraphics[width=0.2\textwidth]{res/github_actions_logo.png} \hfill
+\end{frame}
+
+\begin{frame}
+    \frametitle{Testing}
+    \begin{itemize}
+        \item Frontend Unit Testing 
+            \begin{itemize}
+                \item Playwright
+                \item 27 automated tests
+                \item 20 manual tests
+            \end{itemize} \pause
+        \item Backend Unit Testing 
+            \begin{itemize}
+                \item Pytest
+                \item 4 automated tests
+            \end{itemize} \pause
+        \item Regression and Integration Testing
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Security}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Web Application Security}
+                \begin{itemize}
+                    \item HTTPS
+                    \item White-List Parsing
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \pause
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Session Management}
+                \begin{itemize}
+                    \item Anonymous
+                    \item Data Pruning
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Challenges}
+    \begin{itemize}
+        \item Lack of framework documentation \pause
+        \item Information filtering \pause
+        \item Time management
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Future Work}
+    \begin{itemize}
+        \item Complex network types 
+            \begin{itemize}
+                \item CNN
+                \item RNN
+            \end{itemize} \pause
+        \item Additional frameworks \pause
+        \item Animations
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Thank you}
+    Demo
+    \centering
+\end{frame}
+
+\begin{frame}
+    \frametitle{Sources}
+    \begin{itemize}
+        \item https://www.tutorialspoint.com/sdlc/sdlc\_agile\_model.htm
+        \item https://www.mongodb.com
+        \item https://en.wikipedia.org/wiki/File:Svelte\_Logo.svg
+        \item https://flowbite.com/
+        \item https://github.com/d3/d3-logo/blob/master/d3.png
+        \item https://github.com/koddr/quart-logo/blob/master/src/png/quart\_short\_logo\_color.png
+        \item https://en.wikipedia.org/wiki/File:Keras\_logo.svg
+        \item https://pytorch.org/
+        \item https://ubuntu.com/
+        \item https://pm2.io/
+        \item https://github.com/
+    \end{itemize}
+    \centering
+\end{frame}
+
+\end{document}

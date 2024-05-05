@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" modified="2024-04-27T18:03:48.824Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0" etag="g4H0DqfCsyDbdQUhH-cl" version="24.2.5" type="device">
+  <diagram name="Page-1" id="8A7zr2OSOYg6jmtrhSlC">
+    <mxGraphModel dx="1154" dy="772" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cghlPoO2WUGQl0YTenx6-1" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Personal_Computer.svg;" vertex="1" parent="1">
+          <mxGeometry x="120" y="140" width="45.6" height="61.800000000000004" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-2" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Personal_Computer.svg;" vertex="1" parent="1">
+          <mxGeometry x="121" y="270" width="45.6" height="61.800000000000004" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-3" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Personal_Computer.svg;" vertex="1" parent="1">
+          <mxGeometry x="122" y="390" width="45.6" height="61.800000000000004" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-4" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/storage/Datacenter_Server_Rack_EoR.svg;" vertex="1" parent="1">
+          <mxGeometry x="330" y="201.8" width="85.8" height="173.4" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-5" value="Client" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="113" y="202" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-6" value="Client" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="114.8" y="331.8" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-7" value="Client" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="114.8" y="460" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-8" value="Server" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="343" y="375" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-9" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=-0.047;entryY=0.768;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="cghlPoO2WUGQl0YTenx6-3" target="cghlPoO2WUGQl0YTenx6-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-10" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.965;exitY=0.696;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="cghlPoO2WUGQl0YTenx6-2" target="cghlPoO2WUGQl0YTenx6-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="178" y="420" as="sourcePoint" />
+            <mxPoint x="336" y="345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cghlPoO2WUGQl0YTenx6-11" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="cghlPoO2WUGQl0YTenx6-1" target="cghlPoO2WUGQl0YTenx6-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="175" y="323" as="sourcePoint" />
+            <mxPoint x="340" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

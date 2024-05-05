@@ -33,3 +33,5 @@ src/frontend/dist/
 *.run.xml
 *.bbl
 *.blg
+*.snm
+*.nav
