@@ -36,3 +36,4 @@ src/frontend/dist/
 *.snm
 *.nav
 *-blx.bib
+svg-inkscape/
